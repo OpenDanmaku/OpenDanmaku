@@ -1,4 +1,4 @@
-OpenDanmaku
+#OpenDanmaku
 ===========
 
 A project of danmaku storage service.
@@ -7,7 +7,7 @@ http://h.acfun.tv/t/3235974
 
 http://h.acfun.tv/t/4628811
 
-#	ReadMe
+#	ReadMe - Magnet Danmaku Project
 
 ##	数据存储格式
 
@@ -31,29 +31,29 @@ http://h.acfun.tv/t/4628811
 		PRIMARY KEY (`btih`)				// BTIH作为主键
 		) ENGINE = MyIASM  DEFAULT CHARSET = utf8
 
-##	数据库接口
+##	数据库接口 /src/php/
 
-	./init.php			//√私有，调试用，POST方法，参数key
-	./delDummy.php		//√私有，调试用，POST方法，参数key,time
+	init.php			//√私有，调试用，POST方法，参数key
+	delDummy.php		//√私有，调试用，POST方法，参数key,time
 	
-	./getVcode.php		//√获取验证图片，GET 方法，参数rand
-	./getCookie.php		//？获取新Cookie，GET 方法，参数vcode
+	getVcode.php		//√获取验证图片，GET 方法，参数rand
+	getCookie.php		//？获取新Cookie，GET 方法，参数vcode
 	
-	./setVideo.php		// 创建视频信息，POST方法，参数btih
-	./getVideo.php		// 获取视频信息，GET 方法，参数btih
+	setVideo.php		// 创建视频信息，POST方法，参数btih
+	getVideo.php		// 获取视频信息，GET 方法，参数btih
 
-	./setLink.php		// 创建链接信息，POST方法，参数btih1,btih2
-	./getLink.pho		// 获取链接数据，GET 方法，参数btih
+	setLink.php		// 创建链接信息，POST方法，参数btih1,btih2
+	getLink.pho		// 获取链接数据，GET 方法，参数btih
 
-	./setAbhor.php		// 创建投诉信息，POST方法，参数btih,danmaku_id
-	./getAbhor.php		// 获取投诉数据，GET 方法，参数btih
+	setAbhor.php		// 创建投诉信息，POST方法，参数btih,danmaku_id
+	getAbhor.php		// 获取投诉数据，GET 方法，参数btih
 
-	./setPool.php		// 创建弹幕信息，POST方法，参数btih,danmaku
-	./getPool.php		// 获取弹幕数据，GET 方法，参数btih
+	setPool.php		// 创建弹幕信息，POST方法，参数btih,danmaku
+	getPool.php		// 获取弹幕数据，GET 方法，参数btih
 	
 	// 数据指多条信息
 
-##	客户端接口
+##	客户端接口 /src/html/
 
 	index.htm			// 主页，操作Cookie，Video，Link
 	css/style.css		// 主页样式

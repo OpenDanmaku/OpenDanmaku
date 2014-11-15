@@ -14,7 +14,10 @@
 	
 	//接下来找到最大uid，加一产生新账号。所以反复刷Cookie的只会得到同一个账号。
 	$sql = "SELECT CASE WHEN MAX(uid) IS NULL THEN 1 ELSE MAX(uid) + 1 END FROM `user`";
-	$uid = $mysql->getLine($sql);//???????????????????????????????????????????????????????????????????
+	$uid = $mysql->getLine($sql);
+
+//getLine()返回的是数据还是数组，getData()返回的是数组还是多维数组???????????????????????????????????????????????????????????????????
+
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	
 	//其他信息
@@ -33,12 +36,14 @@
 	echo "New Cookie Begotten!"；
 	$mysql->closeDb();
 
-//insert into aa (id,name) values((select case when max(id) is null then 1 else max(id)+1 end from aa),'a');
-//INSERT INTO `user` VALUES ((SELECT CASE WHEN MAX(uid) IS NULL THEN 1 ELSE MAX(uid) + 1 END FROM `user`),$session, $score, $datetime)
-//$vcode = $_REQUEST['vcode'];
-//session_start();
-//if($_SESSION['vcode'] != $vcode)
-//$name = strip_tags( $_REQUEST['name'] );
-//$age = intval( $_REQUEST['age'] );
-//$sql = "INSERT  INTO `user` ( `name`, `age`, `regtime`) VALUES ('"  . $mysql->escape( $name ) . "' , '" . intval( $age ) . "' , NOW() ) ";
+/*
+	insert into aa (id,name) values((select case when max(id) is null then 1 else max(id)+1 end from aa),'a');
+	INSERT INTO `user` VALUES ((SELECT CASE WHEN MAX(uid) IS NULL THEN 1 ELSE MAX(uid) + 1 END FROM `user`),$session, $score, $datetime)
+	$vcode = $_REQUEST['vcode'];
+	session_start();
+	if($_SESSION['vcode'] != $vcode)
+	$name = strip_tags( $_REQUEST['name'] );
+	$age = intval( $_REQUEST['age'] );
+	$sql = "INSERT  INTO `user` ( `name`, `age`, `regtime`) VALUES ('"  . $mysql->escape( $name ) . "' , '" . intval( $age ) . "' , NOW() ) ";
+*/
 ?>

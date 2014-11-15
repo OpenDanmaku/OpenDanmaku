@@ -33,11 +33,11 @@ http://h.acfun.tv/t/4628811
 
 ##	数据库接口
 
-√	./init.php			// 私有，调试用，POST方法，参数key
-√	./delDummy.php		// 私有，调试用，POST方法，参数key,time
+	./init.php		//√私有，调试用，POST方法，参数key
+	./delDummy.php		//√私有，调试用，POST方法，参数key,time
 	
-√	./getVcode.php		// 获取验证图片，GET 方法，参数rand
-？	./getCookie.php		// 获取新Cookie，GET 方法，参数vcode
+	./getVcode.php		//√获取验证图片，GET 方法，参数rand
+	./getCookie.php		//？获取新Cookie，GET 方法，参数vcode
 	
 	./setVideo.php		// 创建视频信息，POST方法，参数btih
 	./getVideo.php		// 获取视频信息，GET 方法，参数btih
@@ -55,17 +55,17 @@ http://h.acfun.tv/t/4628811
 
 ##	客户端接口
 
-	./index.htm			// 主页，操作Cookie，Video，Link
-	./css/style.css		// 主页样式
-	./img/logo.png		// 站点Logo
-	./img/sae.png		// SAE Logo
+	index.htm		// 主页，操作Cookie，Video，Link
+	css/style.css		// 主页样式
+	img/logo.png		// 站点Logo
+	img/sae.png		// SAE Logo
 	
-	./player.htm		// 播放页面，同时操作Abhor，Pool
-	./css/style.css		// （同上）主页样式
-	./img/logo.png		// （同上）站点Logo
-	./img/sae.png		// （同上）SAE Logo
-	./js/player.js			// 播放器脚本
-	./js/CommonCoreLibrary.js	// 弹幕函数库
-	./js/jQuery-1.11.1.js		// jQuery库
+	player.htm		// 播放页面，同时操作Abhor，Pool
+	css/style.css		// （同上）主页样式
+	img/logo.png		// （同上）站点Logo
+	img/sae.png		// （同上）SAE Logo
+	js/player.js		// 播放器脚本
+	js/CommonCoreLibrary.js	// 弹幕函数库
+	js/jQuery-1.11.1.js	// jQuery库
 	
 #

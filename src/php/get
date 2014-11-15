@@ -42,3 +42,4 @@
 //$age = intval( $_REQUEST['age'] );
 //$sql = "INSERT  INTO `user` ( `name`, `age`, `regtime`) VALUES ('"  . $mysql->escape( $name ) . "' , '" . intval( $age ) . "' , NOW() ) ";
 ?>
+

@@ -1,7 +1,7 @@
 <?php
 //$_GET和$_REQUEST已经urldecode()了！
 //	检查权限，打开数据库
-if ($_REQUEST['name'] != xxxyyyzzz) die("Not Authenticated.");
+if ($_REQUEST['key'] != xxxyyyzzz) die("Not Authenticated.");
 $mysql = new SaeMysql();
 //	创建表user
 $sql = "CREATE TABLE IF NOT EXISTS `user` (

@@ -1,0 +1,95 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Use Relative Directory=1
+Relative to Project File=1
+Include Sub Directories=1
+Project Tagfile=
+Project Wordfile=
+Project TpFile=
+Filter=
+Create Tagfile=0
+[Group]
+0=1.docs
+1=2.php
+2=3.html
+3=1.docs - 1.MySQL
+4=1.docs - 2.KVDB
+5=1.docs - 3.VCode
+6=1.docs - 4.Storage
+7=1.docs - 5.MemCache
+8=2.php - 1.init
+9=2.php - 2.cookie
+10=2.php - 3.video
+11=2.php - 4.pool
+12=2.php - 5.link
+13=2.php - 6.abhor
+14=3.html - 1.index
+15=3.html - 1.index - img
+16=3.html - 2.player
+17=3.html - 2.player - js
+18=3.html - 2.player - css
+[Files]
+0=README.md
+[Files - 1.docs - 1.MySQL]
+0=docs\MySQL.md
+1=docs\MySQL_API.md
+2=docs\MySQL_Footprints.md
+[Files - 1.docs - 2.KVDB]
+0=docs\KVDB.md
+1=docs\KVDB_API.md
+2=docs\KVDB_Footprints.md
+[Files - 1.docs - 3.VCode]
+0=docs\VCode_API.md
+1=docs\VCode_Footprint.md
+[Files - 1.docs - 4.Storage]
+0=docs\Storage.md
+1=docs\Storage_API.md
+2=docs\Storage_Footprints.md
+3=docs\Storage_PHP-SaeStorage.md
+[Files - 1.docs - 5.MemCache]
+0=docs\MemCache.md
+1=docs\MemCache_Footprints.md
+[Files - 2.php - 1.init]
+0=php\delDummy.php
+1=php\init.php
+[Files - 2.php - 2.cookie]
+0=php\getCookie.php
+1=php\getVcode.php
+[Files - 2.php - 3.video]
+0=php\getVideo.php
+1=php\setVideo.php
+[Files - 2.php - 4.pool]
+0=php\getPool.php
+1=php\setPool.php
+[Files - 2.php - 5.link]
+0=php\getLink.php
+1=php\setLink.php
+[Files - 2.php - 6.abhor]
+0=php\getAbhor.php
+1=php\setAbhor.php
+[Files - 3.html - 1.index]
+0=html\index.htm
+1=html\img\style.css
+[Files - 3.html - 1.index - img]
+0=html\img\logo.png
+1=html\img\sae.png
+[Files - 3.html - 2.player]
+0=html\player.htm
+[Files - 3.html - 2.player - js]
+0=html\js\jquery-1.11.1.min.js
+1=html\js\ABPlayer.js
+2=html\js\jquery-1.11.1.js
+3=html\js\CommentCoreLibrary.min.js
+4=html\js\CommentCoreLibrary.js
+5=html\js\ABPMobile.js
+6=html\js\ABPLibxml.js
+7=html\js\ABPlayer.min.js
+[Files - 3.html - 2.player - css]
+0=html\css\play.png
+1=html\css\base.css
+2=html\css\pause.png
+3=html\css\fullscreen.png
+4=html\css\danmaku.png
+5=html\css\base.min.css
+6=html\css\ext\styles.css

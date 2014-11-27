@@ -1,18 +1,21 @@
 #	ReadMe
 ##	数据存储格式
 	CREATE TABLE IF NOT EXISTS `user` (		// db.user
-		`uid`	INT(1) UNSIGNED	NOT NULL	// UID
+		`uid`	INT(1) UNSIGNED	NOT NULL	// User Serial
 		`key`	INT(1) UNSIGNED	NOT NULL	// 秘钥
-		`score`	INT(1) UNSIGNED	NOT NULL	// 积分，可负。
-		`time`	DATETIME NOT NULL 			// 解禁时间
+		`score`	INT(1) NOT NULL				// 积分，可负。
+		`time`	INT(1) NOT NULL 			// 解禁时间
 		PRIMARY KEY (`uid`)					// UID作为主键
 		) ENGINE = MyIASM  DEFAULT CHARSET = utf8
 	CREATE TABLE IF NOT EXISTS `video` (	// db.video
-		`btih`	CHAR(40) NOT NULL			// UID
-		`time`	DATETIME NOT NULL 			// 视频创建时间
+		`vid`	INT(1) UNSIGNED	NOT NULL	// Video Serial
+		`uid`	INT(1) UNSIGNED	NOT NULL	// 视频创建者ID
+		`time`	INT(1) NOT NULL 			// 视频创建时间
 		`visit	INT(1) UNSIGNED	NOT NULL	// 浏览次数统计
 		`reply`	INT(1) UNSIGNED	NOT NULL	// 弹幕数量统计
-		PRIMARY KEY (`btih`)				// BTIH作为主键
+		`btih`	BINARY(10) NOT NULL			// 磁链唯一标志
+		PRIMARY KEY (`btih`)				// VID 作为主键
+		UNIQUE KEY `btih` (`btih`)			// BTIH唯一索引
 		) ENGINE = MyIASM  DEFAULT CHARSET = utf8
 	//kvdb.pool:	储存弹幕行,每行以"{"开头,以"},"结尾,注意最后的多余逗号会被引擎忽略
 		[{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","no":serial},...,]
@@ -20,10 +23,10 @@
 	//kvdb.link:	视频交叉链接,key="btih_millisec",value=[uid,uid,...]
 	//kvdb.abhor:	视频举报储存,key=No.,value=[md5(uid),md5(uid),...]
 ##	服务器接口
-√	./init.php			// 私有，调试用，POST方法，参数key
-√	./delDummy.php		// 私有，调试用，POST方法，参数key,time
-√	./getVcode.php		// 获取验证图片，GET 方法，参数rand
-√	./getCookie.php		// 获取新Cookie，GET 方法，参数vcode
+	./init.php			// 私有，调试用，POST方法，参数key
+	./delDummy.php		// 私有，调试用，POST方法，参数key
+	./getVcode.php		// 获取验证图片，GET 方法，参数rand(伪)
+	./getCookie.php		// 获取新Cookie，GET 方法，参数vcode
 	./setVideo.php		// 创建视频信息，POST方法，参数btih
 	./setLink.php		// 创建链接信息，POST方法，参数btih1,btih2,time
 	./setAbhor.php		// 创建投诉信息，POST方法，参数btih,cid

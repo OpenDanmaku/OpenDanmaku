@@ -1,71 +1,51 @@
-#OpenDanmaku
-===========
-
-A project of danmaku storage service.
-
-http://h.acfun.tv/t/3235974
-
-http://h.acfun.tv/t/4628811
-
-#	ReadMe - Magnet Danmaku Project
-
-##	æ•°æ®å­˜å‚¨æ ¼å¼
-
-	//user
-	CREATE TABLE IF NOT EXISTS `user` (
+#	ReadMe
+##	Êı¾İ´æ´¢¸ñÊ½
+	CREATE TABLE IF NOT EXISTS `user` (		// db.user
 		`uid`	INT(1) UNSIGNED	NOT NULL	// UID
-		`key`	INT(1) UNSIGNED	NOT NULL	// ç§˜é’¥
-		`score`	INT(1) UNSIGNED	NOT NULL	// ç§¯åˆ†ï¼Œå¯è´Ÿã€‚
-		`time`	DATETIME NOT NULL 			// è§£ç¦æ—¶é—´
-		PRIMARY KEY (`uid`)					// UIDä½œä¸ºä¸»é”®
+		`key`	INT(1) UNSIGNED	NOT NULL	// ÃØÔ¿
+		`score`	INT(1) UNSIGNED	NOT NULL	// »ı·Ö£¬¿É¸º¡£
+		`time`	DATETIME NOT NULL 			// ½â½ûÊ±¼ä
+		PRIMARY KEY (`uid`)					// UID×÷ÎªÖ÷¼ü
 		) ENGINE = MyIASM  DEFAULT CHARSET = utf8
-	//video
-	CREATE TABLE IF NOT EXISTS `video` (
+	CREATE TABLE IF NOT EXISTS `video` (	// db.video
 		`btih`	CHAR(40) NOT NULL			// UID
-		`time`	DATETIME NOT NULL 			// è§†é¢‘åˆ›å»ºæ—¶é—´
-		`visit	INT(1) UNSIGNED	NOT NULL	// æµè§ˆæ¬¡æ•°ç»Ÿè®¡
-		`reply`	INT(1) UNSIGNED	NOT NULL	// å¼¹å¹•æ•°é‡ç»Ÿè®¡
-		`link`	TEXT NOT NULL				// è§†é¢‘äº¤å‰é“¾æ¥
-		`abhor`	TEXT NOT NULL				// è§†é¢‘ä¸¾æŠ¥å‚¨å­˜
-		`pool`	TEXT NOT NULL				// è§†é¢‘å¼¹å¹•ç´¢å¼•
-		PRIMARY KEY (`btih`)				// BTIHä½œä¸ºä¸»é”®
+		`time`	DATETIME NOT NULL 			// ÊÓÆµ´´½¨Ê±¼ä
+		`visit	INT(1) UNSIGNED	NOT NULL	// ä¯ÀÀ´ÎÊıÍ³¼Æ
+		`reply`	INT(1) UNSIGNED	NOT NULL	// µ¯Ä»ÊıÁ¿Í³¼Æ
+		PRIMARY KEY (`btih`)				// BTIH×÷ÎªÖ÷¼ü
 		) ENGINE = MyIASM  DEFAULT CHARSET = utf8
-
-##	æ•°æ®åº“æ¥å£ /src/php/
-
-	init.php			//âˆšç§æœ‰ï¼Œè°ƒè¯•ç”¨ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°key
-	delDummy.php		//âˆšç§æœ‰ï¼Œè°ƒè¯•ç”¨ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°key,time
-	
-	getVcode.php		//âˆšè·å–éªŒè¯å›¾ç‰‡ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°rand
-	getCookie.php		//ï¼Ÿè·å–æ–°Cookieï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°vcode
-	
-	setVideo.php		// åˆ›å»ºè§†é¢‘ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih
-	getVideo.php		// è·å–è§†é¢‘ä¿¡æ¯ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
-
-	setLink.php		// åˆ›å»ºé“¾æ¥ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih1,btih2
-	getLink.pho		// è·å–é“¾æ¥æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
-
-	setAbhor.php		// åˆ›å»ºæŠ•è¯‰ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih,danmaku_id
-	getAbhor.php		// è·å–æŠ•è¯‰æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
-
-	setPool.php		// åˆ›å»ºå¼¹å¹•ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih,danmaku
-	getPool.php		// è·å–å¼¹å¹•æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
-	
-	// æ•°æ®æŒ‡å¤šæ¡ä¿¡æ¯
-
-##	å®¢æˆ·ç«¯æ¥å£ /src/html/
-
-	index.htm			// ä¸»é¡µï¼Œæ“ä½œCookieï¼ŒVideoï¼ŒLink
-	css/style.css		// ä¸»é¡µæ ·å¼
-	img/logo.png		// ç«™ç‚¹Logo
-	img/sae.png			// SAE Logo
-	
-	player.htm			// æ’­æ”¾é¡µé¢ï¼ŒåŒæ—¶æ“ä½œAbhorï¼ŒPool
-	css/style.css		// ï¼ˆåŒä¸Šï¼‰ä¸»é¡µæ ·å¼
-	img/logo.png		// ï¼ˆåŒä¸Šï¼‰ç«™ç‚¹Logo
-	img/sae.png			// ï¼ˆåŒä¸Šï¼‰SAE Logo
-	js/player.js		// æ’­æ”¾å™¨è„šæœ¬
-	js/CommonCoreLibrary.js	// å¼¹å¹•å‡½æ•°åº“
-	js/jQuery-1.11.1.js	// jQueryåº“
-	
-#
+	//kvdb.pool:	´¢´æµ¯Ä»ĞĞ,Ã¿ĞĞÒÔ"{"¿ªÍ·,ÒÔ"},"½áÎ²,×¢Òâ×îºóµÄ¶àÓà¶ººÅ»á±»ÒıÇæºöÂÔ
+		[{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","no":serial},...,]
+	//kvdb.index:	ÊÓÆµµ¯Ä»Ë÷Òı,Êı×é[0,reply-1],ÔªËØÎª[uid(ÓÃ»§Ãû),time(·¢±íÊ±¼ä),goto(×Ö·û´®Î»ÖÃ)],ÔÚ×·¼ÓpoolÊ±Éú³É
+	//kvdb.link:	ÊÓÆµ½»²æÁ´½Ó,key="btih_millisec",value=[uid,uid,...]
+	//kvdb.abhor:	ÊÓÆµ¾Ù±¨´¢´æ,key=No.,value=[md5(uid),md5(uid),...]
+##	·şÎñÆ÷½Ó¿Ú
+¡Ì	./init.php			// Ë½ÓĞ£¬µ÷ÊÔÓÃ£¬POST·½·¨£¬²ÎÊıkey
+¡Ì	./delDummy.php		// Ë½ÓĞ£¬µ÷ÊÔÓÃ£¬POST·½·¨£¬²ÎÊıkey,time
+¡Ì	./getVcode.php		// »ñÈ¡ÑéÖ¤Í¼Æ¬£¬GET ·½·¨£¬²ÎÊırand
+¡Ì	./getCookie.php		// »ñÈ¡ĞÂCookie£¬GET ·½·¨£¬²ÎÊıvcode
+	./setVideo.php		// ´´½¨ÊÓÆµĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih
+	./setLink.php		// ´´½¨Á´½ÓĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih1,btih2,time
+	./setAbhor.php		// ´´½¨Í¶ËßĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih,cid
+	./setPool.php		// ´´½¨µ¯Ä»ĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih,danmaku
+	./getVideo.php		// »ñÈ¡ÊÓÆµĞÅÏ¢£¬GET ·½·¨£¬²ÎÊıbtih
+	./getLink.pho		// »ñÈ¡Á´½ÓÊı¾İ£¬GET ·½·¨£¬²ÎÊıbtih
+	./getAbhor.php		// »ñÈ¡Í¶ËßÊı¾İ£¬GET ·½·¨£¬²ÎÊıbtih
+	./getPool.php		// »ñÈ¡µ¯Ä»Êı¾İ£¬GET ·½·¨£¬²ÎÊıbtih,[type,start,end]
+##	¿Í»§¶ËÍøÒ³
+	./index.htm			// Ö÷Ò³£¬²Ù×÷Cookie£¬Video£¬Link
+	./css/style.css		// Ö÷Ò³ÑùÊ½
+	./img/logo.png		// Õ¾µãLogo
+	./img/sae.png		// SAE Logo
+	./player.htm					// ²¥·ÅÒ³Ãæ£¬Í¬Ê±²Ù×÷Abhor£¬Pool
+	./js/CommentCoreLibrary.min.js	// µ¯Ä»º¯Êı¿â
+	./js/ABPlayer.min.js			// ²¥·ÅÆ÷½Å±¾
+	./js/ABPLibxml.js				// Usage Unknown
+	./js/ABPMobile.js				// Usage Unknown
+	./css/ext/styles.css			// normalize.css,¾ÓÓÚbase.min.cssÖ®Ç°
+	./css/base.min.css?1			// ²¥·ÅÆ÷ÑùÊ½
+	./css/danmaku.png				// ²¥·ÅÆ÷°´Å¥
+	./css/fullscreen.png			// ²¥·ÅÆ÷°´Å¥
+	./css/pause.png					// ²¥·ÅÆ÷°´Å¥
+	./css/play.png					// ²¥·ÅÆ÷°´Å¥
+# 

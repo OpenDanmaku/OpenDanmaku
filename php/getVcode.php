@@ -1,5 +1,5 @@
-<?php
-	header("Access-Control-Allow-Origin: *");
+﻿<?php
+	header("Access-Control-Allow-Origin: *");//无限制
 	session_start();
 	$vcode = new SaeVCode();
 	if ($vcode === false) var_dump($vcode->errno(), $vcode->errmsg());

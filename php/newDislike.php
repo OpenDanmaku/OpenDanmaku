@@ -1,58 +1,58 @@
-<?php
-//³õÊ¼»¯Êý¾Ý¿â
-´ò¿ªÊý¾Ý¿â
-Èç¹û´íÎóvar_dumpÍË³ö
-´ò¿ªkvdb
-Èç¹û´íÎóvar_dumpÍË³ö
-//ÑéÖ¤ÓÃ»§
+ï»¿<?php
+//åˆå§‹åŒ–æ•°æ®åº“
+æ‰“å¼€æ•°æ®åº“
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+æ‰“å¼€kvdb
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//éªŒè¯ç”¨æˆ·
 sql="SELECT * FROM user WHERE uid= " . cookie.uid
 user=run_sql
-¶ÁÈ¡cookie
-Èç¹û´íÎóvar_dumpÍË³ö
-//ÑéÖ¤ÓÃ»§
-¶ÁÈ¡cookie
-Èç¹ûuser£¨key£©!=cookie.key±¨´íÖÕÖ¹
-//¶ÁÈ¡²ÎÊý
-¶ÁÈ¡$_request£¬²ÎÊýÎªbtih1,cid,uid
-//²éÑ¯btihÊÇ·ñ»¹²»´æÔÚ,Null²»ÊÇ¿Õ
-Èç¹ûkvdb(btih_abhor)ÎªNull var_dumpÍË³ö
+è¯»å–cookie
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//éªŒè¯ç”¨æˆ·
+è¯»å–cookie
+å¦‚æžœuserï¼ˆkeyï¼‰!=cookie.keyæŠ¥é”™ç»ˆæ­¢
+//è¯»å–å‚æ•°
+è¯»å–$_requestï¼Œå‚æ•°ä¸ºbtih1,cid,uid
+//æŸ¥è¯¢btihæ˜¯å¦è¿˜ä¸å­˜åœ¨,Nullä¸æ˜¯ç©º
+å¦‚æžœkvdb(btih_abhor)ä¸ºNull var_dumpé€€å‡º
 
 //===============================
-//¶ÁÈ¡abhor
+//è¯»å–abhor
 abhor=json_decode(kvdb("btih_abhor"))
-//¼ìÑéÊÇ·ñ´æÔÚmd5(uid)
-Èç¹ûabhor(pid)²»´æÔÚÔö¼Óabhor(pid)[]
-Èç¹ûarray_search(abhor(pid),md5(uid))·µ»ØÒÑ¾Ù±¨ÖÕÖ¹
-//Ð´Èëabhor
+//æ£€éªŒæ˜¯å¦å­˜åœ¨md5(uid)
+å¦‚æžœabhor(pid)ä¸å­˜åœ¨å¢žåŠ abhor(pid)[]
+å¦‚æžœarray_search(abhor(pid),md5(uid))è¿”å›žå·²ä¸¾æŠ¥ç»ˆæ­¢
+//å†™å…¥abhor
 abhor(pid)+=md5(uid)
 kvdb("btih_abhor")=json_encode(abhor)
-//Ð´Èëhated
+//å†™å…¥hated
 sql="SELECT * FROM user WHERE uid= " . uid
 hated=run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
-hated.score+=constScoreNewPool(¸ºµÄ)
-Èç¹ûhated.score<0
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+hated.score+=constScoreNewPool(è´Ÿçš„)
+å¦‚æžœhated.score<0
 	delay=ceil((-hated.score)/constRate)
 hated.time+=delay
 hated.score=delay*constRate
 sql="UPDATE"
 run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
 //===============================
-//¼õÉÙ»ý·Ö²¢ÔÝÊ±½ûÑÔ
-user.score+=constScoreNewPool(¸ºµÄ)
+//å‡å°‘ç§¯åˆ†å¹¶æš‚æ—¶ç¦è¨€
+user.score+=constScoreNewPool(è´Ÿçš„)
 user.time+=constdelayNewPool
-Èç¹ûuser.score<0
+å¦‚æžœuser.score<0
 	delay=ceil((-user.score)/constRate)
 user.time+=delay
 user.score=delay*constRate
 sql="UPDATE"
 run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
-//·µ»Ø³É¹¦Ò³Ãæ
-echo³É¹¦Ò³Ãæ
-¹Ø±ÕÊý¾Ý¿â
-¹Ø±Õkvdb
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//è¿”å›žæˆåŠŸé¡µé¢
+echoæˆåŠŸé¡µé¢
+å…³é—­æ•°æ®åº“
+å…³é—­kvdb
 ?>
 $mysql = new SaeMysql();
 

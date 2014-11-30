@@ -21,9 +21,9 @@ Create Tagfile=0
 8=2.php - 1.init
 9=2.php - 2.cookie
 10=2.php - 3.video
-11=2.php - 4.pool
-12=2.php - 5.link
-13=2.php - 6.abhor
+11=2.php - 4.link
+12=2.php - 5.comment
+13=2.php - 6.dislike
 14=3.html - 1.index
 15=3.html - 1.index - img
 16=3.html - 2.player
@@ -35,18 +35,22 @@ Create Tagfile=0
 0=docs\MySQL.md
 1=docs\MySQL_API.md
 2=docs\MySQL_Footprints.md
+3=docs\MySQL_saemysql.class.php
 [Files - 1.docs - 2.KVDB]
 0=docs\KVDB.md
 1=docs\KVDB_API.md
 2=docs\KVDB_Footprints.md
+3=docs\KVDB_saekv.class.php
 [Files - 1.docs - 3.VCode]
 0=docs\VCode_API.md
 1=docs\VCode_Footprint.md
+2=docs\Vcode_saevcode.class.php
 [Files - 1.docs - 4.Storage]
 0=docs\Storage.md
 1=docs\Storage_API.md
 2=docs\Storage_Footprints.md
 3=docs\Storage_PHP-SaeStorage.md
+4=docs\Storage_saestorage.class.php
 [Files - 1.docs - 5.MemCache]
 0=docs\MemCache.md
 1=docs\MemCache_Footprints.md
@@ -54,20 +58,20 @@ Create Tagfile=0
 0=php\delDummy.php
 1=php\init.php
 [Files - 2.php - 2.cookie]
-0=php\getCookie.php
-1=php\getVcode.php
+0=php\getVcode.php
+1=php\newCookie.php
 [Files - 2.php - 3.video]
 0=php\getVideo.php
-1=php\setVideo.php
-[Files - 2.php - 4.pool]
-0=php\getPool.php
-1=php\setPool.php
-[Files - 2.php - 5.link]
+1=php\newVideo.php
+[Files - 2.php - 4.link]
 0=php\getLink.php
-1=php\setLink.php
-[Files - 2.php - 6.abhor]
-0=php\getAbhor.php
-1=php\setAbhor.php
+1=php\newLink.php
+[Files - 2.php - 5.comment]
+0=php\getComment.php
+1=php\newComment.php
+[Files - 2.php - 6.dislike]
+0=php\getDislike.php
+1=php\newDislike.php
 [Files - 3.html - 1.index]
 0=html\index.htm
 1=html\img\style.css

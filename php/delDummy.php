@@ -1,16 +1,16 @@
-<?php
-	header("Access-Control-Allow-Origin: *");
-	//$_GETºÍ$_REQUESTÒÑ¾­urldecode()ÁË£¡
+ï»¿<?php
+	header("Access-Control-Allow-Origin: *");//æ— é™åˆ¶
+	//$_GETå’Œ$_REQUESTå·²ç»urldecode()äº†ï¼
 	
-	// ¼ì²éÈ¨ÏÞ£¬´ò¿ªÊý¾Ý¿â
-	if ($_REQUEST['name'] != xxxyyyzzz) die("Not Authenticated.");
+	// æ£€æŸ¥æƒé™ï¼Œæ‰“å¼€æ•°æ®åº“
+	if ((string)$_REQUEST['name'] != "xxxyyyzzz") die("Not Authenticated.");//å¯†é’¥å¾…è®¾å®š
 	$mysql = new SaeMysql();
 	
-	//É¾³ý×î½üÒ»¸öÔÂÃ»ÓÐ»î¶¯µÄÓÃ»§
-	$sql = "UPDATE `user` SET `state` = 0 WHERE `time` <" . time()-90*24*60*60;
+	//åˆ é™¤æœ€è¿‘ä¸€ä¸ªæœˆæ²¡æœ‰æ´»åŠ¨çš„ç”¨æˆ·
+	$sql = "UPDATE `user` SET `status` = 0 WHERE `time` <" . time()-90*24*60*60 . ";";
 	$mysql->runSql( $sql );
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	
-	// ¹Ø±ÕÊý¾Ý¿â
+	// å…³é—­æ•°æ®åº“
 	$mysql->closeDb();
 ?>

@@ -1,50 +1,50 @@
-<?php
-//³õÊ¼»¯Êý¾Ý¿â
-´ò¿ªÊý¾Ý¿â
-Èç¹û´íÎóvar_dumpÍË³ö
-´ò¿ªkvdb
-Èç¹û´íÎóvar_dumpÍË³ö
-//¶ÁÈ¡userÐÅÏ¢
+ï»¿<?php
+//åˆå§‹åŒ–æ•°æ®åº“
+æ‰“å¼€æ•°æ®åº“
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+æ‰“å¼€kvdb
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//è¯»å–userä¿¡æ¯
 sql="SELECT * FROM user WHERE uid= " . cookie.uid
 user=run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
-//ÑéÖ¤ÓÃ»§
-¶ÁÈ¡cookie
-Èç¹ûuser£¨key£©!=cookie.key±¨´íÖÕÖ¹
-//¶ÁÈ¡²ÎÊý
-¶ÁÈ¡$_request£¬²ÎÊýÎªbtih,danmaku
-//²éÑ¯btihÊÇ·ñ»¹²»´æÔÚ,Null²»ÊÇ¿Õ
-Èç¹ûkvdb(btih_pool)ÎªNull var_dumpÍË³ö
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//éªŒè¯ç”¨æˆ·
+è¯»å–cookie
+å¦‚æžœuserï¼ˆkeyï¼‰!=cookie.keyæŠ¥é”™ç»ˆæ­¢
+//è¯»å–å‚æ•°
+è¯»å–$_requestï¼Œå‚æ•°ä¸ºbtih,danmaku
+//æŸ¥è¯¢btihæ˜¯å¦è¿˜ä¸å­˜åœ¨,Nullä¸æ˜¯ç©º
+å¦‚æžœkvdb(btih_pool)ä¸ºNull var_dumpé€€å‡º
 
 
 //===============================
-//ÐÞ¸Ädanmaku
+//ä¿®æ”¹danmaku
 danmaku=json_decode(danmaku)
 danmaku(c)[4]=user.uid
 danmaku(c)[5]=time()
 danmaku(c)[6]=????????
 danmaku(score)=????????
 danmaku=json_encode(danmaku)
-//Ìí¼Ódanmaku
+//æ·»åŠ danmaku
 kvdb(btih_pool)+=danmaku
-Èç¹û´íÎóvar_dumpÍË³ö
-//Ôö¼Óreply¼ÆÊý
-ÉèÖÃsqlÓï¾ä,video.reply×Ô¼ÓÒ»
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//å¢žåŠ replyè®¡æ•°
+è®¾ç½®sqlè¯­å¥,video.replyè‡ªåŠ ä¸€
 run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
 
 
 //===============================
-//Ìá¸ß»ý·Ö²¢ÔÝÊ±½ûÑÔ
-user.score+=constScoreNewPool(ÕýµÄ)
+//æé«˜ç§¯åˆ†å¹¶æš‚æ—¶ç¦è¨€
+user.score+=constScoreNewPool(æ­£çš„)
 user.time+=constdelayNewPool
-ÉèÖÃsqlÓï¾ä£¬Ð´Èëuser
+è®¾ç½®sqlè¯­å¥ï¼Œå†™å…¥user
 run_sql
-Èç¹û´íÎóvar_dumpÍË³ö
-//·µ»Ø³É¹¦Ò³Ãæ
-echo³É¹¦Ò³Ãæ
-¹Ø±ÕÊý¾Ý¿â
-¹Ø±Õkvdb
+å¦‚æžœé”™è¯¯var_dumpé€€å‡º
+//è¿”å›žæˆåŠŸé¡µé¢
+echoæˆåŠŸé¡µé¢
+å…³é—­æ•°æ®åº“
+å…³é—­kvdb
 ?>
 $mysql = new SaeMysql();
 

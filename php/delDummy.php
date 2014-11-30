@@ -7,7 +7,7 @@
 	$mysql = new SaeMysql();
 	
 	//删除最近一个月没有活动的用户
-	$sql = "DELETE FROM user WHERE time < '" .time()-90*24*60*60 ."'";
+	$sql = "UPDATE `user` SET `state` = 0 WHERE `time` <" . time()-90*24*60*60;
 	$mysql->runSql( $sql );
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	

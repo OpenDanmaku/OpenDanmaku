@@ -1,36 +1,68 @@
-<?php
+ï»¿<?php
 	header("Access-Control-Allow-Origin: *");
-	//$_GETºÍ$_REQUESTÒÑ¾­urldecode()ÁË£¡
+	//$_GETå’Œ$_REQUESTå·²ç»urldecode()äº†ï¼
 	
-	// ¼ì²éÈ¨ÏÞ£¬´ò¿ªÊý¾Ý¿â
+	// æ£€æŸ¥æƒé™ï¼Œæ‰“å¼€æ•°æ®åº“
 	if ($_REQUEST['name'] != xxxyyyzzz) die("Not Authenticated.");
 	$mysql = new SaeMysql();
 	
-	// ´´½¨±íuser
+	// åˆ›å»ºè¡¨user
 	$sql = "CREATE TABLE IF NOT EXISTS `user` (
-	  `uid`    INT(1) UNSIGNED NOT NULL
-	  `key`    INT(1) UNSIGNED NOT NULL
-	  `score`  INT(1) NOT NULL
-	  `time`   INT(1) NOT NULL
-	   PRIMARY KEY (`uid`)
-	 ) ENGINE = MyIASM  DEFAULT CHARSET = utf8";
+        `uid`   INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+        `key`   INT(10) UNSIGNED ZEROFILL NOT NULL,
+        `time`  INT(1)  NOT NULL,
+        `point` INT(1)  NOT NULL,
+        `state` INT(1)  NOT NULL,
+        PRIMARY KEY (`uid`))
+    ENGINE=MyISAM
+    DEFAULT CHARSET=utf8
+    COLLATE=utf8_unicode_ci;";
 	$mysql->runSql( $sql );
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	
-	// ´´½¨±ívideo
+	//æ·»åŠ åˆå§‹å…ƒç´ 
+	$sql = "INSERT INTO `user` VALUES (0,FLOOR(4294967295*RAND()),0,0,0)";
+	$mysql->runSql( $sql );
+	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
+	
+	// åˆ›å»ºè¡¨video
 	$sql = "CREATE TABLE IF NOT EXISTS `video` (
-	   `vid`   INT(1) UNSIGNED NOT NULL
-	   `uid`   INT(1) UNSIGNED NOT NULL
-	   `time`  INT(1) NOT NULL
-	   `visit  INT(1) UNSIGNED NOT NULL
-	   `reply` INT(1) UNSIGNED NOT NULL
-	   `btih`  BINARY(10) NOT NULL
-	   PRIMARY KEY (`btih`)
-	   UNIQUE  KEY `btih` (`btih`)
-	 ) ENGINE = MyIASM  DEFAULT CHARSET = utf8";
+        `vid`   INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+        `uid`   INT(10) UNSIGNED ZEROFILL NOT NULL,
+        `time`  INT(1)  NOT NULL,
+        `view`  INT(1)  NOT NULL,
+        `reply` INT(1)  NOT NULL,
+        `btih`  BINARY(20) NOT NULL,
+        PRIMARY KEY (`vid`),
+        UNIQUE  KEY `btih` (`btih`))
+    ENGINE=MyISAM
+    DEFAULT CHARSET=utf8
+    COLLATE=utf8_unicode_ci;";
+	$mysql->runSql( $sql );
+	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
+
+	//æ·»åŠ åˆå§‹å…ƒç´ 
+	$sql = "INSERT INTO `video` VALUES (0,0,0,0,0,x'0000000000000000000000000000000000000000')";
 	$mysql->runSql( $sql );
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	
-	// ¹Ø±ÕÊý¾Ý¿â
+	// å…³é—­æ•°æ®åº“
 	$mysql->closeDb();
+	
+	//æ‰“å¼€KVDB
+	$kv = new SaeKV();
+	if (!$kv->init()) die("Error:" . $kv->errno());
+
+	//æ·»åŠ åˆå§‹å…ƒç´ 
+	$btih="0000000000000000000000000000000000000000";
+	$danmaku="{"c":"0,FFFFFF,1,25,0,0","m":"Testæµ‹è¯•","cid":1},";
+	if (!$kv->set($btih . ",pool",  $danmaku))
+		die("Error:" . $kv->errno());
+	if (!$kv->set($btih . ",index", "[[0,0,". strlen($danmaku) . "]]")
+		die("Error:" . $kv->errno());
+	if (!$kv->set($btih . ",link",  "[]"))
+		die("Error:" . $kv->errno());
+	if (!$kv->set($btih . ",abhor", "[1:[0]]"))
+		die("Error:" . $kv->errno());
+	
 ?>

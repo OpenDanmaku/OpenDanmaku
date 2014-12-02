@@ -23,7 +23,9 @@
 			die("Error: Cookie Not Exists"); //返回空
 		if ($userC['key']!=$_COOKIE['key'])
 			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-	
+		if ($userC['status']!=$_COOKIE['key'])
+			die("Error: Deleted Cookie");    //key不符合,!=代表作为数字比较
+
 	//否则获取最新用户数据,如果uid重复,退出
 		$sql = "SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;";
 		//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);

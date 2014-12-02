@@ -57,19 +57,19 @@
 	$btih="0000000000000000000000000000000000000000";
 	$danmaku="{\"c\":\"0,FFFFFF,1,25,0,0\",\"m\":\"Test测试\",\"cid\":1},";
 	//Comment
-	if (!$kv->set($btih . ",c",  $danmaku))
+	if (!$kv->set($btih . ",c",  $danmaku))//string
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",ci", "[[0,0,". strlen($danmaku) . "]]")
+	if (!$kv->set($btih . ",ci", "[[0,0,". strlen($danmaku) . "]]")//json
 		die("Error:" . $kv->errno());
 	//Link
-	if (!$kv->set($btih . ",l",  "{}"))
+	if (!$kv->set($btih . ",l",  array(NULL)))//array
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",li",  "{}"))
+	if (!$kv->set($btih . ",li",  "{}"))//json
 		die("Error:" . $kv->errno());
 	//Dislike	
-	if (!$kv->set($btih . ",d", "{"1":[0]}"))
+	if (!$kv->set($btih . ",d",  array(1=>array(0))))//array
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",di", "{"1":1}"))
+	if (!$kv->set($btih . ",di", "{"1":1}"))//json
 		die("Error:" . $kv->errno());
 	
 ?>

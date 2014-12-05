@@ -42,7 +42,7 @@
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 
 	//添加初始元素
-	$sql = "INSERT INTO `video` VALUES (0,0,0,0,0,x'0000000000000000000000000000000000000000');";
+	$sql = "INSERT INTO `video` VALUES (0,0,0,0,1,x'0000000000000000000000000000000000000000');";//reply=1
 	$mysql->runSql( $sql );
 	if ($mysql->errno() != 0) die("Error:" . $mysql->errmsg());
 	
@@ -59,17 +59,16 @@
 	//Comment
 	if (!$kv->set($btih . ",c",  $danmaku))//string
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",ci", "[[0,0,". strlen($danmaku) . "]]")//json
+	if (!$kv->set($btih . ",ci", array(array(0,0,strlen($danmaku)))))//json
 		die("Error:" . $kv->errno());
 	//Link
-	if (!$kv->set($btih . ",l",  array(NULL)))//array
+	if (!$kv->set($btih . ",l",  array()))//array
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",li",  "{}"))//json
+	if (!$kv->set($btih . ",li", json_encode(array())))//json
 		die("Error:" . $kv->errno());
 	//Dislike	
 	if (!$kv->set($btih . ",d",  array(1=>array(0))))//array
 		die("Error:" . $kv->errno());
-	if (!$kv->set($btih . ",di", "{"1":1}"))//json
+	if (!$kv->set($btih . ",di", json_encode(array("0"=>1))))//json
 		die("Error:" . $kv->errno());
-	
 ?>

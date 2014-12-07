@@ -1,5 +1,5 @@
-# ReadMe
-##	Êı¾İ¿â´æ´¢¸ñÊ½
+ï»¿# ReadMe
+##	æ•°æ®åº“å­˜å‚¨æ ¼å¼
 ### TABLE USER
     CREATE TABLE IF NOT EXISTS `user` (
         `uid`    INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
@@ -24,23 +24,23 @@
     ENGINE=MyISAM
     DEFAULT CHARSET=utf8
     COLLATE=utf8_unicode_ci;
-    //MySQLÒªÇóSQLÓï¾äÒÔ·ÖºÅ½áÎ²
-##	KVDB´¢´æ¸ñÊ½
-### ÊÓÆµµ¯Ä»
-####	STRING kvdb.comment: ÏÂ±ê[0,reply-1],
-	//×¢Òâ×îºóµÄ¶àÓà¶ººÅ»á±»ä¯ÀÀÆ÷ÒıÇæºöÂÔ,µ«php»á±¨´í,²»´¢´æ"[]"
+    //MySQLè¦æ±‚SQLè¯­å¥ä»¥åˆ†å·ç»“å°¾
+##	KVDBå‚¨å­˜æ ¼å¼
+### è§†é¢‘å¼¹å¹•
+####	STRING kvdb.comment: ä¸‹æ ‡[0,reply-1],
+	//æ³¨æ„æœ€åçš„å¤šä½™é€—å·ä¼šè¢«æµè§ˆå™¨å¼•æ“å¿½ç•¥,ä½†phpä¼šæŠ¥é”™,ä¸å‚¨å­˜"[]"
 	"{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":1},
 	{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":2},
 	...
 	{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":cid},"
-####	JSON kvdb.comment.index: ÏÂ±ê[0,reply-1],timeÎª·¢±íÊ±¼ä£¬sizeÎªµ¯Ä»³ØÈ«³¤
+####	JSON kvdb.comment.index: ä¸‹æ ‡[0,reply-1],timeä¸ºå‘è¡¨æ—¶é—´ï¼Œsizeä¸ºå¼¹å¹•æ± å…¨é•¿
 	[
 	[uid,time,size],
 	[uid,time,size],
 	...
 	[uid,time,size]
 	]
-### ÊÓÆµÁ´½Ó,×¢ÒâÌá·À×ÔÎÒÒıÓÃºÍÒıÓÃ²»´æÔÚ,×¢Òâbtih±ØĞëĞ¡Ğ´(jsonµÄkeyÒªÒÔĞ¡Ğ´¿ªÍ·)
+### è§†é¢‘é“¾æ¥,æ³¨æ„æé˜²è‡ªæˆ‘å¼•ç”¨å’Œå¼•ç”¨ä¸å­˜åœ¨,æ³¨æ„btihå¿…é¡»å°å†™(jsonçš„keyè¦ä»¥å°å†™å¼€å¤´)
 ####	ARRAY kvdb.link
 	{
 	"btih,ms":[uid,uid,...],
@@ -55,7 +55,7 @@
 	...
 	"btih,ms":count
 	}
-### ÊÓÆµ¾Ù±¨,²»ÒªÎªcid×öJSON_FORCE_OBJECT,Òª×÷Îª×Ö·û´®¶ÁĞ´
+### è§†é¢‘ä¸¾æŠ¥,ä¸è¦ä¸ºcidåšJSON_FORCE_OBJECT,è¦ä½œä¸ºå­—ç¬¦ä¸²è¯»å†™
 ####	ARRAY kvdb.dislike
 	{
 	"cid":[uid,uid,...],
@@ -71,49 +71,49 @@
 	"cid":count
 	}
 	
-##  ·şÎñÆ÷½Ó¿Ú
-###	³õÊ¼»¯
-*   ./init.php      //¡ÌË½ÓĞ£¬µ÷ÊÔÓÃ£¬POST·½·¨£¬²ÎÊıkey
-*   ./delDummy.php  //¡ÌË½ÓĞ£¬µ÷ÊÔÓÃ£¬POST·½·¨£¬²ÎÊıkey
-*   ./newCookie.php //¡Ì»ñÈ¡ĞÂCookie£¬GET ·½·¨£¬²ÎÊıvcode
-*   ./getVcode.php  //¡Ì»ñÈ¡ÑéÖ¤Í¼Æ¬£¬GET ·½·¨£¬²ÎÊırand(Î±)
+##  æœåŠ¡å™¨æ¥å£
+###	åˆå§‹åŒ–
+*   ./init.php      //âˆšç§æœ‰ï¼Œè°ƒè¯•ç”¨ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°key
+*   ./delDummy.php  //âˆšç§æœ‰ï¼Œè°ƒè¯•ç”¨ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°key
+*   ./newCookie.php //âˆšè·å–æ–°Cookieï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°vcode
+*   ./getVcode.php  //âˆšè·å–éªŒè¯å›¾ç‰‡ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°rand(ä¼ª)
 
-###	½¨Á¢
-*   ./newVideo.php  //  ´´½¨ÊÓÆµĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih
-*   ./newLink.php   //  ´´½¨Á´½ÓĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih1,btih2,time
-*   ./newComment.php//  ´´½¨µ¯Ä»ĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih,danmaku
-*   ./newDislike.php//  ´´½¨Í¶ËßĞÅÏ¢£¬POST·½·¨£¬²ÎÊıbtih,cid
+###	å»ºç«‹
+*   ./newVideo.php  //  åˆ›å»ºè§†é¢‘ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih
+*   ./newLink.php   //  åˆ›å»ºé“¾æ¥ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih1,btih2,time
+*   ./newComment.php//  åˆ›å»ºå¼¹å¹•ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih,danmaku
+*   ./newDislike.php//  åˆ›å»ºæŠ•è¯‰ä¿¡æ¯ï¼ŒPOSTæ–¹æ³•ï¼Œå‚æ•°btih,cid
 
-###	»ñÈ¡
-*   ./getVideo.php  //  »ñÈ¡ÊÓÆµĞÅÏ¢£¬GET ·½·¨£¬²ÎÊıbtih,action
-*   ./getLink.pho   //  »ñÈ¡Á´½ÓÊı¾İ£¬GET ·½·¨£¬²ÎÊıbtih
-*   ./getComment.php//  »ñÈ¡µ¯Ä»Êı¾İ£¬GET ·½·¨£¬²ÎÊıbtih,action,start,end,count
-*   ./getDislike.php//  »ñÈ¡Í¶ËßÊı¾İ£¬GET ·½·¨£¬²ÎÊıbtih
+###	è·å–
+*   ./getVideo.php  //  è·å–è§†é¢‘ä¿¡æ¯ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih,action
+*   ./getLink.pho   //  è·å–é“¾æ¥æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
+*   ./getComment.php//  è·å–å¼¹å¹•æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih,action,start,end,count
+*   ./getDislike.php//  è·å–æŠ•è¯‰æ•°æ®ï¼ŒGET æ–¹æ³•ï¼Œå‚æ•°btih
 
-###	¹ØÓÚgetComment
-*	°´ĞòºÅ»ñÈ¡: bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end
-*	°´Ê±¼ä»ñÈ¡: bith=0000000000000000000000000000000000000000&action=timed&start=time_start&end=time_end
-*	Ä³ºÅ¼°ÒÔºó: bith=0000000000000000000000000000000000000000&action=recent&start=cid_start
-*	×îºó¶àÉÙÌõ: bith=0000000000000000000000000000000000000000&action=timed&count=count
-*	»ñÈ¡È«µ¯Ä»: bith=0000000000000000000000000000000000000000&action=all
+###	å…³äºgetComment
+*	æŒ‰åºå·è·å–: bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end
+*	æŒ‰æ—¶é—´è·å–: bith=0000000000000000000000000000000000000000&action=timed&start=time_start&end=time_end
+*	æŸå·åŠä»¥å: bith=0000000000000000000000000000000000000000&action=recent&start=cid_start
+*	æœ€åå¤šå°‘æ¡: bith=0000000000000000000000000000000000000000&action=timed&count=count
+*	è·å–å…¨å¼¹å¹•: bith=0000000000000000000000000000000000000000&action=all
 		
-##  ¿Í»§¶ËÍøÒ³
-###	Ö÷Ò³
-*   ./index.htm     // Ö÷Ò³£¬²Ù×÷Cookie£¬Video£¬Link
-*   ./css/style.css // Ö÷Ò³ÑùÊ½
-*   ./img/logo.png  // Õ¾µãLogo
+##  å®¢æˆ·ç«¯ç½‘é¡µ
+###	ä¸»é¡µ
+*   ./index.htm     // ä¸»é¡µï¼Œæ“ä½œCookieï¼ŒVideoï¼ŒLink
+*   ./css/style.css // ä¸»é¡µæ ·å¼
+*   ./img/logo.png  // ç«™ç‚¹Logo
 *   ./img/sae.png   // SAE Logo
 
-###	²¥·ÅÒ³
-*   ./player.htm    // ²¥·ÅÒ³Ãæ£¬Í¬Ê±²Ù×÷Abhor£¬Pool
-*   ./js/CommentCoreLibrary.min.js  // µ¯Ä»º¯Êı¿â
-*   ./js/ABPlayer.min.js // ²¥·ÅÆ÷½Å±¾
+###	æ’­æ”¾é¡µ
+*   ./player.htm    // æ’­æ”¾é¡µé¢ï¼ŒåŒæ—¶æ“ä½œAbhorï¼ŒPool
+*   ./js/CommentCoreLibrary.min.js  // å¼¹å¹•å‡½æ•°åº“
+*   ./js/ABPlayer.min.js // æ’­æ”¾å™¨è„šæœ¬
 *   ./js/ABPLibxml.js    // Usage Unknown
 *   ./js/ABPMobile.js    // Usage Unknown
-*   ./css/ext/styles.css // normalize.css,¾ÓÓÚbase.min.cssÖ®Ç°
-*   ./css/base.min.css?1 // ²¥·ÅÆ÷ÑùÊ½
-*   ./css/danmaku.png    // ²¥·ÅÆ÷°´Å¥
-*   ./css/fullscreen.png // ²¥·ÅÆ÷°´Å¥
-*   ./css/pause.png      // ²¥·ÅÆ÷°´Å¥
-*   ./css/play.png       // ²¥·ÅÆ÷°´Å¥
+*   ./css/ext/styles.css // normalize.css,å±…äºbase.min.cssä¹‹å‰
+*   ./css/base.min.css?1 // æ’­æ”¾å™¨æ ·å¼
+*   ./css/danmaku.png    // æ’­æ”¾å™¨æŒ‰é’®
+*   ./css/fullscreen.png // æ’­æ”¾å™¨æŒ‰é’®
+*   ./css/pause.png      // æ’­æ”¾å™¨æŒ‰é’®
+*   ./css/play.png       // æ’­æ”¾å™¨æŒ‰é’®
 # 

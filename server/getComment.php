@@ -3,7 +3,7 @@
 	header("Access-Control-Allow-Origin: *");
 	//打开KVDB
 	$kv = new SaeKV();
-	if (!$kv->init()) die("Error:" . $kv->errno());//出错
+	if(!$kv->init()) die("Error:" . $kv->errno());//出错
 
 //数据获取
 	//检验BTIH有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
@@ -11,7 +11,7 @@
 	$btih=(string)$_REQUEST['btih'];//字符串
 	if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)
 		$btih=substr($btih,20,40);
-	if(strlen($btih)!==40 or !ctype_xdigit($btih)))//防注入
+	if(strlen($btih)!==40 or !ctype_xdigit($btih))//防注入
 		die("Error: Link Not Valid.");
 	$btih= strtolower($btih);
 	//获取弹幕和定位表
@@ -23,19 +23,19 @@
 
 
 //获取任务
-if (isset($_REQUEST['action'])){
+if(isset($_REQUEST['action'])){
 	switch (strtolower($_REQUEST['action'])){
 	    case "cid":			//********按弹幕号[start,end]获取,计入view,参数为start,end
 	    	{
 			//获取cid起终点参数,cid范围[0,count-1]
 				//获取起点
 				$cid_start = 0;												//假设起点为0
-				if(isset($_REQUEST['start']) $temp=(int)$_REQUEST['start'];	//如果提交起点
-				if($temp>=0 and $temp<=$count-1) $cid_start = $temp;		//且居于[0,count-1]则重设起点
+				if(isset($_REQUEST['start'])) $temp=(int)$_REQUEST['start'];	//如果提交起点
+				if($temp >= 0 and $temp <= $count-1) $cid_start = $temp;		//且居于[0,count-1]则重设起点
 				//获取终点
 				$cid_end = $count-1;										//假设终点为$count-1
-				if(isset($_REQUEST['end'])   $temp=(int)$_REQUEST['end'];  	//如果提交终点
-				if($temp>=0 and $temp<=$count-1) $cid_end   = $temp;		//且居于[0,count-1]则重设起点
+				if(isset($_REQUEST['end']))   $temp=(int)$_REQUEST['end'];  	//如果提交终点
+				if($temp >= 0 and $temp <= $count-1) $cid_end   = $temp;		//且居于[0,count-1]则重设起点
 				//如果start/end错位交换顺序,当然start/end任意一个为空不会有此问题
 				if($cid_end < $cid_start) {$temp=$cid_start;$cid_start=$cid_end;$cid_end=$temp;}
 				//以上三个步骤$temp因为先被赋值所以不会串味
@@ -56,12 +56,12 @@ if (isset($_REQUEST['action'])){
 			//获取time起终点参数
 				//获取起点
 				$time_start = 0;												//假设起点为0
-				if(isset($_REQUEST['start']) $temp=(int)$_REQUEST['start'];	//如果提交起点
-				if($temp>=0 and $temp<=$count-1) $time_start = $temp;		//且居于[0,count-1]则重设起点
+				if(isset($_REQUEST['start'])) $temp=(int)$_REQUEST['start'];	//如果提交起点
+				if($temp >= 0 and $temp <= $count-1) $time_start = $temp;		//且居于[0,count-1]则重设起点
 				//获取终点
 				$time_end = $count-1;										//假设终点为$count-1
-				if(isset($_REQUEST['end'])   $temp=(int)$_REQUEST['end'];  	//如果提交终点
-				if($temp>=0 and $temp<=$count-1) $time_end   = $temp;		//且居于[0,count-1]则重设起点
+				if(isset($_REQUEST['end']))   $temp=(int)$_REQUEST['end'];  	//如果提交终点
+				if($temp >= 0 and $temp <= $count-1) $time_end   = $temp;		//且居于[0,count-1]则重设起点
 				//如果start/end错位交换顺序,当然start/end任意一个为空不会有此问题
 				if($time_end < $time_start) {$temp=$time_start;$time_start=$time_end;$time_end=$temp;}
 				//以上三个步骤$temp因为先被赋值所以不会串味
@@ -101,7 +101,7 @@ if (isset($_REQUEST['action'])){
 				}
 			//我必须承认上面这一段代码八成是错的......坐等善人解答stackoverflow.com/questions/27322112
 			//输出弹幕
-				if  ($cid_start == 0) $str_start=0;//$c_index[-1][2]=0
+				if($cid_start == 0) $str_start=0;//$c_index[-1][2]=0
 				else $str_start=$c_index[$cid_start-1][2];//省去的开头部分的长度,即剩余串第一个字符的下标
 						$str_end  =$c_index[$count-1][2];//count=last+1
 				echo "[" . substr($comment,$str_start,$str_end-$str_start-1) . "]";//结尾逗号要去掉	

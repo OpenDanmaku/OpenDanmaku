@@ -10,22 +10,22 @@
 	//打开MySQL。打开KVDB
 	$mysql = new SaeMysql();
 	$kv = new SaeKV();
-	if (!$kv->init()) die("Error:" . $kv->errno());//出错
+	if(!$kv->init()) die("Error:" . $kv->errno());//出错
 
 	//如果有旧Cookie
-	if (isset($_COOKIE['uid'])){//获取Cookie对应用户数据,如果key不符合,退出
+	if(isset($_COOKIE['uid'])){//获取Cookie对应用户数据,如果key不符合,退出
 		$sql = "SELECT * FROM `user` WHERE `uid` = ";
 		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
 		$userC= $mysql->getLine($sql);
-		if ($mysql->errno()!= 0)
+		if($mysql->errno()!= 0)
 			die("Error:" . $mysql->errmsg());//SQL出错
-		if ($mysql->affectedRows()!=1)
+		if($mysql->affectedRows()!=1)
 			die("Error: Cookie Not Exists"); //uid不存在
-		if ($userC['key']!=$_COOKIE['key'])
+		if($userC['key']!=$_COOKIE['key'])
 			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-		if ($userC['status']==0)
+		if($userC['status']==0)
 			die("Error: Deleted Cookie");    //status不活跃,==代表作为数字比较
-		if ($userC['time']>time())
+		if($userC['time']>time())
 			die("Error: Not Yet ");          //time还在硬直中
 	} else die("No Cookie");
 	
@@ -35,19 +35,19 @@
 	$btih=(string)$_REQUEST['btih'];//字符串
 	if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
 		$btih=substr($btih,20,40);										//截取btih
-	if(strlen($btih)!==40 or !ctype_xdigit($btih)))//防注入
+	if(strlen($btih)!==40 or !ctype_xdigit($btih))//防注入
 		die("Error: Link Not Valid.");
 	$btih= strtolower($btih);
 	//cid
 	$cid=(int)$_REQUEST['cid'];//数字
-	$uid=intval($_COOKIE['uid']
+	$uid=intval($_COOKIE['uid']);
 //查询btih是否还不存在
 	//查询视频是否已经存在,如BTIH不存在,退出
 	$sql = "SELECT * FROM `video` WHERE `btih` = x'" . $btih . "';";
 	$check = $mysql->getLine($sql);
-	if ($mysql->errno()!= 0)
+	if($mysql->errno()!= 0)
 		die("Error:" . $mysql->errmsg());//出错
-	if ($mysql->affectedRows()!=1)
+	if($mysql->affectedRows()!=1)
 		die("Error: Video Not Yet Exists, Do You Want to Create It?"); //返回空
 
 //KV读取
@@ -59,7 +59,7 @@
 	if(!isset($dislike[(string)$cid])) 
 		$dislike[(string)$cid]=array();//强制储存为一个数组,防止作为一个值储存
 	$this_dislike=$dislike[(string)$cid];
-	if(in_array($uid),$this_dislike)) die("Error: You Have Already Submitted a Dislike!");
+	if(in_array($uid,$this_dislike)) die("Error: You Have Already Submitted a Dislike!");
 	$this_dislike[]=$uid;
 	$dislike[(string)$cid]=$this_dislike;
 	$d_index[(string)$cid]=count($this_dislike);//这个自然是一个值,所以无所谓
@@ -75,40 +75,40 @@
 	$sql = "SELECT * FROM `user` WHERE `uid` = ";
 	$sql.= $d_uid . ";";//防注入
 	$userD= $mysql->getLine($sql);
-	if ($mysql->errno()!= 0)
+	if($mysql->errno()!= 0)
 		die("Error:" . $mysql->errmsg());//SQL出错
-	if ($mysql->affectedRows()!=1)
+	if($mysql->affectedRows()!=1)
 		die("Error: Cookie Not Exists"); //uid不存在
 
 	$userD['score'] = (int)$userD['score']+$const_ScoreNewDislike;//增加负积分
 	//$userD['time']  = time() +$const_DelayNewDislike;//不需要
 	if($userD['score']<0) {
-		$delay=ceil(($userD['score']*$const_DelayRate);
+		$delay=ceil($userD['score']*$const_DelayRate);
 		$userC['time']=$userD['time']+$delay;
 		$userD['score']=1;//不给安全期,只象征性给1分作为剩余积分
 	}
 	
-	$sql = "UPDATE `user` SET `score` = " . (int)$userD['score'] 
-	$sql.= ", `time` = " . $userD['time']
+	$sql = "UPDATE `user` SET `score` = " . (int)$userD['score'];
+	$sql.= ", `time` = " . $userD['time'];
 	$sql.= " WHERE `uid` = " . (string)$d_uid . ";";
 	$mysql->runSql( $sql );
-	if ($mysql->errno() != 0) 
+	if($mysql->errno() != 0) 
 		die("Error:" . $mysql->errmsg());	//出错
 
 //减少我方积分并暂时硬直
 	$userC['score'] = (int)$userC['score']+$const_ScoreNewDislike;//增加负积分
 	$userC['time']  = time() +$const_DelayNewDislike;
 	if($userC['score']<0) {
-		$delay=ceil(($userC['score']*$const_DelayRate);
+		$delay=ceil($userC['score']*$const_DelayRate);
 		$userC['time']=$userC['time']+$delay;
 		$userC['score']=1;//不给安全期,只象征性给1分作为剩余积分
 	}
 	
-	$sql = "UPDATE `user` SET `score` = " . (int)$userC['score'] 
-	$sql.= ", `time` = " . $userC['time']
+	$sql = "UPDATE `user` SET `score` = " . (int)$userC['score'];
+	$sql.= ", `time` = " . $userC['time'];
 	$sql.= " WHERE `uid` = " . $_COOKIE['uid'] . ";";
 	$mysql->runSql( $sql );
-	if ($mysql->errno() != 0) 
+	if($mysql->errno() != 0) 
 		die("Error:" . $mysql->errmsg());	//出错
 
 //返回成功页面

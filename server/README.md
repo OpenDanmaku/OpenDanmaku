@@ -1,6 +1,7 @@
 ﻿# ReadMe
 ##	数据库存储格式
 ### TABLE USER
+```
     CREATE TABLE IF NOT EXISTS `user` (
         `uid`    INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
         `key`    INT(10) UNSIGNED ZEROFILL NOT NULL,
@@ -11,7 +12,9 @@
     ENGINE=InnoDB
     DEFAULT CHARSET=utf8
     COLLATE=utf8_unicode_ci;
+```
 ### TABLE VIDEO
+```
 CREATE TABLE IF NOT EXISTS `video` (
         `vid`    INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
         `uid`    INT(10) UNSIGNED ZEROFILL NOT NULL,
@@ -30,8 +33,26 @@ CREATE TABLE IF NOT EXISTS `video` (
     ENGINE=InnoDB
     DEFAULT CHARSET=utf8
     COLLATE=utf8_unicode_ci;
+```
 ### Reset Auto Increment
 ALTER TABLE `video` AUTO_INCREMENT=1;
+### New
+```
+INSERT INTO `video` VALUES (
+0,
+0,
+x'0000000000000000000000000000000000000000',
+0,
+0,
+1,
+'{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},',
+'[[0,0,45]]',
+'{}',
+'{}',
+'{"0":[0]}',
+'{"0":1}')
+```
+
     //MySQL要求SQL语句以分号结尾
 ##	KVDB储存格式
 ### 视频弹幕

@@ -8,22 +8,30 @@
         `point`  INT(1)  NOT NULL,
         `status` INT(1)  NOT NULL,
         PRIMARY KEY (`uid`))
-    ENGINE=MyISAM
+    ENGINE=InnoDB
     DEFAULT CHARSET=utf8
     COLLATE=utf8_unicode_ci;
 ### TABLE VIDEO
-    CREATE TABLE IF NOT EXISTS `video` (
+CREATE TABLE IF NOT EXISTS `video` (
         `vid`    INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
         `uid`    INT(10) UNSIGNED ZEROFILL NOT NULL,
+        `btih`   BINARY(20) NOT NULL,
         `time`   INT(1)  NOT NULL,
         `view`   INT(1)  NOT NULL,
         `reply`  INT(1)  NOT NULL,
-        `btih`   BINARY(10) NOT NULL,
+	`comment`	LONGTEXT  NOT NULL,
+	`c_index`	LONGTEXT  NOT NULL,
+	`linkage`	LONGTEXT  NOT NULL,
+	`l_index`	LONGTEXT  NOT NULL,
+	`dislike`	LONGTEXT  NOT NULL,
+	`d_index`	LONGTEXT  NOT NULL,
         PRIMARY KEY (`vid`),
         UNIQUE  KEY `btih` (`btih`))
-    ENGINE=MyISAM
+    ENGINE=InnoDB
     DEFAULT CHARSET=utf8
     COLLATE=utf8_unicode_ci;
+### Reset Auto Increment
+ALTER TABLE `video` AUTO_INCREMENT=1;
     //MySQL要求SQL语句以分号结尾
 ##	KVDB储存格式
 ### 视频弹幕

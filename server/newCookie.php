@@ -1,15 +1,20 @@
 ﻿<?php
 	header("Access-Control-Allow-Origin: *");//无限制
-	
 	//$_GET和$_REQUEST已经urldecode()了！
-	
 	//检查验证码,解释器会视必要性决定是否转换为数字
 	session_start();
-	if($_SESSION['vcode'] != $_REQUEST['vcode']) die('Vcode error');
+	if($_SESSION['vcode'] != $_REQUEST['vcode']) {
+		$_SESSION['vcode']=rand(0,2147483647);//清除vcode
+		die('Vcode error');
 	
 	//打开MySQL。
-	$mysql = new SaeMysql();
-	
+	$db_host="localhost";	//连接的服务器地址
+	$db_user="UserName";	//连接数据库的用户
+	$db_pswd="PassWord";	//连接数据库的密码
+	$db_name="NameOfDB";	//连接的数据库名称
+	$db_port=3306;			//连接的数据库端口
+	$mysqli=new mysqli($db_host,$db_user,$db_pswd,$db_name,$db_port);
+
 	//如果有旧Cookie
 	if(isset($_COOKIE['uid'])){
 	

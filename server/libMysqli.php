@@ -115,8 +115,8 @@ function safe_query($query, &$result, $bind_params=NULL){
 	$bind_results = array();
 	$row = array();
 	while($field = $meta->fetch_field())
-		$bind_results[] = $row[$field->name];// pass by reference ????????????????
-
+		$bind_results[] = &$row[$field->name];// pass by reference!!!
+	//http://php.net/manual/zh/class.mysqli-result.php#115009
 
 	/* bind_result */
 	$rc = call_user_func_array(array(&$stmt, 'bind_result'), $bind_results);
@@ -130,13 +130,14 @@ function safe_query($query, &$result, $bind_params=NULL){
 	}
 
 	/* fetch */
-	while ($stmt->fetch()) {
-		foreach($row as $key => $val){
-			$c[$key] = $val;
-		}
-	$result[] = $c;
+	$i=0;
+	while($stmt->fetch()){
+		$result[$i] = array();
+		foreach($row as $k=>$v)
+			$result[$i][$k] = $v;
+		$i++;
 	}
-		
+
 	/* exit */
 	$count_rows = $stmt->num_rows;
 	$stmt->free_result();

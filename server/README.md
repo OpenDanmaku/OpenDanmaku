@@ -120,6 +120,7 @@ ReadMe
 ```
 INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 (0000000000, FLOOR(2147483647*RAND()), 0, 0, 0);
+ALTER TABLE `user` AUTO_INCREMENT=1;
 ```
 
 --------
@@ -136,9 +137,9 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 ###	表属性
 --------
 
- | ENGINE | CHARSET |         COLLATE | NOT NULL | ZEROFILL | PRIMARY | AUTO_INCREMENT | UNIQUE | 
- | -----: | ------: | --------------: | -------: | -------: | ------: | -------------: | -----: | 
- | InnoDB |    utf8 | utf8_unicode_ci |      all | all uint |     uid |            uid |   btih | 
+| ENGINE | CHARSET |         COLLATE | NOT NULL | ZEROFILL | PRIMARY | AUTO_INCREMENT | UNIQUE | 
+| -----: | ------: | --------------: | -------: | -------: | ------: | -------------: | -----: | 
+| InnoDB |    utf8 | utf8_unicode_ci |      all | all uint |     uid |            uid |   btih | 
 
 --------
 ###	初始化
@@ -146,6 +147,7 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 ```
 INSERT INTO `video` (`vid`, `uid`, `btih`, `time`, `view`, `reply`, `comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) VALUES
 (0000000000, 0000000000, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 0, 0, 1, '{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},', '[[0,0,45]]', '{}', '{}', '{"0":[0]}', '{"0":1}');
+ALTER TABLE `video` AUTO_INCREMENT=1;
 ```
 
 --------
@@ -209,17 +211,17 @@ JSON格式,视频交叉链接,注意提防自我引用和引用不存在,注意b
 key被分号分隔开,再被逗号分隔开,uid为数组,除btih外所有元素都是无符号整数
 ```
 {
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
@@ -236,10 +238,10 @@ key的第一段是引用对象:btih1属于本视频,btih2为引用视频
 JSON格式,与`linkage`相似,但对用户只计数
 ```
 {
-    "btih,ms": count,
-    "btih,ms": count,
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count,
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count,
     ...,
-    "btih,ms": count
+    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count
 }
 ```
 
@@ -259,7 +261,8 @@ JSON格式,不要为cid做JSON_FORCE_OBJECT,要作为字符串读写
         uid,
         ...
     ],
-    ..."cid": [
+    ...,
+    "cid": [
         uid,
         uid,
         ...

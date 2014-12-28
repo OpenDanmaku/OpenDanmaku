@@ -129,9 +129,13 @@ ALTER TABLE `user` AUTO_INCREMENT=1;
 ###	列名
 --------
 
-|  vid |  uid |       btih | time | view | reply |  comment |  c_index |  linkage |  l_index |  dislike |  d_index | 
-| ---: | ---: | ---------: | ---: | ---: | ----: | -------: | -------: | -------: | -------: | -------: | -------: | 
-| uint | uint | binary(20) | sint | sint |  sint | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | 
+|  vid |  uid |       btih | time | view | reply | --> |
+| ---: | ---: | ---------: | ---: | ---: | ----: | :-: |
+| uint | uint | binary(20) | sint | sint |  sint | --> |
+
+| <-- |  comment |  c_index |  linkage |  l_index |  dislike |  d_index |
+| :-: | -------: | -------: | -------: | -------: | -------: | -------: | 
+| <-- | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | 
 
 --------
 ###	表属性
@@ -211,17 +215,17 @@ JSON格式,视频交叉链接,注意提防自我引用和引用不存在,注意b
 key被分号分隔开,再被逗号分隔开,uid为数组,除btih外所有元素都是无符号整数
 ```
 {
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
@@ -238,10 +242,10 @@ key的第一段是引用对象:btih1属于本视频,btih2为引用视频
 JSON格式,与`linkage`相似,但对用户只计数
 ```
 {
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count,
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count,
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count,
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count,
     ...,
-    "btih1,btih2,count;start_1,start_2,duration;start_1,start_2,duration;":: count
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count
 }
 ```
 

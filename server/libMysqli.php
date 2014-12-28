@@ -1,46 +1,35 @@
 <?php
-class BindParam{
-	private $values = array(), $types = '';
-	public function add( $type, &$value ){
-		$this->values[] = $value;
-		$this->types .= $type;
-    }
-    public function get(){
-    	//will get array($types = string "idsb...", &$var_1 = integer, &$var_2 = double, &$var_3 = string, &$var_4 = blob, ...);
-		return array_merge(array($this->types), $this->values); 
-	}
-}
+include 'libConfig.php';
+/* configuration, common classes and functions
+
+	database consts;
+	class BindParam: bind parameters for mysqli_stmt::bind_param;
+	json_err(): organize error infomation;
+
+*/
+
+/* function safe_query() 
+
+	Parameters:
+		$query NOT NULL = string "INSERT INTO CountryLanguage VALUES (?, ?, ?, ?);";
+		&$result        = reference of $result;
+		$bind_params    = class BindParam;
+	Return:
+		num_rows
+		&$result        = return NULL or array();
+	Procedure:	
+		connect -> prepare -> bind_param -> execute -> store_result -> bind_result-> fetch	
+	
+	WARNING: 
+		results of SQL like "select max(id) from table" might err
+		
+*/
 
 function safe_query($query, &$result, $bind_params=NULL){
-	/* 
-	safe_query() 
-	connect -> prepare -> bind_param -> execute -> store_result -> bind_result-> fetch
-	
-	$query        = NOT NULL string "INSERT INTO CountryLanguage VALUES (?, ?, ?, ?);";
-	&$result      = return NULL or array();
-	$bind_params  = class BindParam.get()
-	
-	RETURN = num_rows
-	
-	WARNING: results of SQL like "select max(id) from table" might err
-	*/
 
-	/* die and pass error infomation */
-	function json_err($err_type, $err_num, $err_msg){
-		return json_encode(array(
-			"err_type"=>$err_type, 
-			"err_num"=>$err_num, 
-			"err_msg"=>$err_msg
-		));
-	}
-	
-	/* database const */
-	$DB_HOST="localhost";	//database address
-	$DB_USER="UserName";	//database username
-	$DB_PSWD="PassWord";	//database password
-	$DB_NAME="NameOfDB";	//databese name
-	$DB_PORT=      3306;	//database port
-	/* be aware 'const' works ONLY INSIDE of a class definition */
+	/* database consts */
+	global $DB_HOST,$DB_USER,$DB_PSWD,$DB_NAME,$DB_PORT;	
+	/* be aware 'const' works ONLY INSIDE of a class definition */	
 	
 	/* connection */
 	$mysqli=new mysqli($DB_HOST,$DB_USER,$DB_PSWD,$DB_NAME,$DB_PORT); //instantiate mysqli
@@ -54,7 +43,7 @@ function safe_query($query, &$result, $bind_params=NULL){
 	$stmt = $mysqli->prepare($query);//prepare statement, $query must exist
 	/* check preparation */
 	if (false===$stmt) {//prepare() will return a FALSE on error
-		$err_info = json_err("db_prepare", $mysqli->errno, $mysqli->error);//FALSE has no errno() or error() method
+		$err_info = json_err("db_prepare", $mysqli->errno, $mysqli->error);//a BOOLEAN $stmt has no errno or error property
 		$mysqli->close();
 		die($err_info);
 	}
@@ -70,7 +59,7 @@ function safe_query($query, &$result, $bind_params=NULL){
 		/* check binding */
 		if (false===$rc) {//bool mysqli_stmt::bind_param
 			$err_info = json_err("db_bind_param", $stmt->errno, $stmt->error);
-			//$stmt->close();???????????????????
+			$stmt->close();
 			$mysqli->close();
 			die($err_info);
 		}
@@ -91,7 +80,7 @@ function safe_query($query, &$result, $bind_params=NULL){
 	}
 
 	/* field_count */
-	$rc = $stmt->field_count();//int $mysqli_stmt->field_count;
+	$rc = $stmt->field_count;//int $mysqli_stmt->field_count;
 	/* check field_count */
 	if ($rc<1) //no columns bounded
 		return $stmt->num_rows;
@@ -118,8 +107,7 @@ function safe_query($query, &$result, $bind_params=NULL){
 	$meta = $stmt->result_metadata();//it would be a mysqli_result object
 	if (false===$meta) {//result_metadata() will return a FALSE on error though
 		$err_info = json_err("db_result_metadata", $stmt->errno, $stmt->error);
-		//FALSE has no errno() or error() method, neither has object mysqli_result
-		$stmt->free_result();
+		//a BOOLEAN $meta has no errno or error property, neither has object mysqli_result
 		$stmt->close();
 		$mysqli->close();
 		die($err_info);
@@ -129,13 +117,13 @@ function safe_query($query, &$result, $bind_params=NULL){
 	while($field = $meta->fetch_field())
 		$bind_results[] = $row[$field->name];// pass by reference ????????????????
 
+
 	/* bind_result */
 	$rc = call_user_func_array(array(&$stmt, 'bind_result'), $bind_results);
 	//call_user_func_array() binds parameters either byRef or byVal, whilst $stmt->bind_result() needs all parameters by Ref.
 	/* check binding */
 	if (false===$rc) {//bool mysqli_stmt::bind_result
 		$err_info = json_err("db_bind_result", $stmt->errno, $stmt->error);
-		$stmt->free_result();
 		$stmt->close();
 		$mysqli->close();
 		die($err_info);

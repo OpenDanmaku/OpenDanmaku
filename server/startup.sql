@@ -18,10 +18,6 @@ SET time_zone = "+00:00";
 
 --
 -- 数据库: `/*此处省略*/`
-<<<<<<< HEAD
-=======
--- 注意导入后要把AUTO_INCREAMENT重置为1
->>>>>>> origin/master
 --
 
 -- --------------------------------------------------------
@@ -37,18 +33,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `point` int(1) NOT NULL,
   `status` int(1) NOT NULL,
   PRIMARY KEY (`uid`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-=======
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
->>>>>>> origin/master
 
 --
 -- 转存表中的数据 `user`
 --
 
 INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
-<<<<<<< HEAD
 (0000000000, FLOOR(2147483647*RAND()), 0, 0, 0);
 
 --
@@ -56,10 +47,6 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 --
 
 ALTER TABLE `user` AUTO_INCREMENT=1;
-=======
-(0000000000, 0613391816, 0, 0, 0);
-
->>>>>>> origin/master
 -- --------------------------------------------------------
 
 --
@@ -81,18 +68,13 @@ CREATE TABLE IF NOT EXISTS `video` (
   `d_index` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`vid`),
   UNIQUE KEY `btih` (`btih`)
-<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-=======
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
->>>>>>> origin/master
 
 --
 -- 转存表中的数据 `video`
 --
 
 INSERT INTO `video` (`vid`, `uid`, `btih`, `time`, `view`, `reply`, `comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) VALUES
-<<<<<<< HEAD
 (0000000000, 0000000000, x'0000000000000000000000000000000000000000', 0, 0, 1, '{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},', '[[0,0,45]]', '{}', '{}', '{"0":[0]}', '{"0":1}');
 
 --
@@ -100,10 +82,6 @@ INSERT INTO `video` (`vid`, `uid`, `btih`, `time`, `view`, `reply`, `comment`, `
 --
 
 ALTER TABLE `video` AUTO_INCREMENT=1;
-=======
-(0000000000, 0000000000, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 0, 0, 1, '{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},', '[[0,0,45]]', '{}', '{}', '{"0":[0]}', '{"0":1}');
-
->>>>>>> origin/master
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

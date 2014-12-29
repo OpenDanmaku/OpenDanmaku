@@ -3,10 +3,19 @@ include 'libConfig.php';
 /* configuration, common classes and functions
 
 	database consts;
-	class BindParam: bind parameters for mysqli_stmt::bind_param;
-	json_err(): organize error infomation;
+	//class BindParam: bind parameters for mysqli_stmt::bind_param;
+	//json_err(): organize error infomation;
 
 */
+
+/* json_err(): organize error infomation */
+function json_err($err_type, $err_num, $err_msg){
+	return json_encode(array(
+		"err_type"=>$err_type, 
+		"err_num"=>$err_num, 
+		"err_msg"=>$err_msg
+	));
+}
 
 /* function safe_query() 
 

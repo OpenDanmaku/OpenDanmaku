@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 getCode(100, 24);
 function getCode($w, $h) {//helloweba的算数验证码

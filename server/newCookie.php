@@ -6,27 +6,15 @@
 	if($_SESSION['vcode'] != $_REQUEST['vcode']) {
 		$_SESSION['vcode']=rand(0,2147483647);//清除vcode
 		die('Vcode error');
-	
-	//打开MySQL。
-	$db_host="localhost";	//连接的服务器地址
-	$db_user="UserName";	//连接数据库的用户
-	$db_pswd="PassWord";	//连接数据库的密码
-	$db_name="NameOfDB";	//连接的数据库名称
-	$db_port=3306;			//连接的数据库端口
-	$mysqli=new mysqli($db_host,$db_user,$db_pswd,$db_name,$db_port);
-
 	//如果有旧Cookie
 	if(isset($_COOKIE['uid'])){
 	
 	//获取Cookie对应用户数据,如果key不符合,退出
-		$sql = "SELECT * FROM `user` WHERE `uid` = ";
-		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
-		$userC= $mysql->getLine($sql);
-		if($mysql->errno()!= 0)
-			die("Error:" . $mysql->errmsg());//出错
-		if($mysql->affectedRows()!=1)
-			die("Error: Cookie Not Exists"); //返回空
-		if($userC['key']!=$_COOKIE['key'])
+	$result=NULL;
+	$rc=safe_query("SELECT * FROM `user` WHERE `uid` = ?;", &$result, array('i',intval($_COOKIE['uid'])));
+	if($rc!=1)
+		die("Error: Cookie Not Exists"); //返回空
+	if($userC['key']!=$_COOKIE['key'])
 			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
 		if($userC['status']!=$_COOKIE['key'])
 			die("Error: Deleted Cookie");    //key不符合,!=代表作为数字比较

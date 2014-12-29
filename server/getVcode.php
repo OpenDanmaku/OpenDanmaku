@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 getCode(100, 24);
 

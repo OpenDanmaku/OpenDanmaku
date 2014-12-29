@@ -31,7 +31,7 @@ function getCode($w, $h) {//helloweba的算数验证码
 	imagestring($im, 5, 80, 2, "?", $white);
 
 	header("Content-type: image/png");
-    header("Access-Control-Allow-Origin: *");//本地化修改,不限制跨域
+	header("Access-Control-Allow-Origin: *");//本地化修改,不限制跨域
 	imagepng($im);
 	imagedestroy($im);
 

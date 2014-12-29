@@ -13,7 +13,7 @@ include 'libConfig.php';
 	Parameters:
 		$query NOT NULL = string "INSERT INTO CountryLanguage VALUES (?, ?, ?, ?);";
 		&$result        = reference of $result;
-		$bind_params    = class BindParam;
+		$bind_params    = array('idsb', $i, $d, $s, $b);
 	Return:
 		num_rows
 		&$result        = return NULL or array();
@@ -54,7 +54,7 @@ function safe_query($query, &$result, $bind_params=NULL){
 	
 	/* binding parameters */
 	if (false===is_null($bind_params)){//need binding parameters? yes! bool is-null()
-		$rc=call_user_func_array(array(&$stmt, 'bind_param'), $bind_params->get());
+		$rc=call_user_func_array(array(&$stmt, 'bind_param'), $bind_params);
 		//call_user_func_array() binds parameters either byRef or byVal, whilst $stmt->bind_param() needs first parameter byVal and others by Ref.
 		/* check binding */
 		if (false===$rc) {//bool mysqli_stmt::bind_param

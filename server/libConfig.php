@@ -7,7 +7,7 @@
 	$DB_PORT=      3306;	//database port
 	/* be aware 'const' works ONLY INSIDE of a class definition */
 	
-	/* class BindParam: bind parameters for mysqli_stmt::bind_param */
+	/* class BindParam: bind parameters for mysqli_stmt::bind_param 
 	class BindParam {
 		private $values = array(), $types = '';
 		public function add( $type, &$value ) {
@@ -19,13 +19,5 @@
 			return array_merge(array($this->types), $this->values); 
 		}
 	}
-
-	/* json_err(): organize error infomation */
-	function json_err($err_type, $err_num, $err_msg){
-		return json_encode(array(
-			"err_type"=>$err_type, 
-			"err_num"=>$err_num, 
-			"err_msg"=>$err_msg
-		));
-	}
+	*/
 ?>

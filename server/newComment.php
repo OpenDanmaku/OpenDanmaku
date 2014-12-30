@@ -36,47 +36,69 @@ if($result[0]['time']>=0){
 //读取参数btih
 	//检验btih有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
 	//即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex
-	$btih=(string)$_REQUEST['btih'];					//字符串
-	if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
-		$btih=substr($btih,20,40);					//截取btih
-	if(strlen($btih)!==40 or !ctype_xdigit($btih)){				//防注入
-		$error_info=json_err('btih_invalid',-1,'Error: Link Not Valid');
-		die($error_info);						//time还在硬直中,>=代表作为数字比较
-	}
+$btih=(string)$_REQUEST['btih'];					//字符串
+if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
+	$btih=substr($btih,20,40);					//截取btih
+if(strlen($btih)!==40 or !ctype_xdigit($btih)){				//防注入
+	$error_info=json_err('btih_incorrect',-1,'Error: Link Not Correct');
+	die($error_info);						//time还在硬直中,>=代表作为数字比较
+}
 $btih= strtolower($btih);
 //读取参数comment
 $new_comment=trim((string)$_REQUEST['comment']);//字符串
+//设置插入时间
+$the_time_now=time();
 
 //查询视频是否已经存在,如btih不存在,退出
 $result=NULL;
-$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
-	$sql = "SELECT * FROM `video` WHERE `btih` = x'" . $btih . "';";
-	$video = $mysql->getLine($sql);
-	if($mysql->errno()!= 0)
-		die("Error:" . $mysql->errmsg());//出错
-	if($mysql->affectedRows()!=1)
-		die("Error: Video Not Yet Exists, Do You Want to Create It?"); //返回空
+$count=safe_query("SELECT `reply`, `c_index` LEN(`comment`) FROM `video` WHERE `btih` = x'?';", &$result, array('s',$btih));
+//???????作为string处理是否可行?待验证
+if($count!=1){
+	$error_info=json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?');
+	die($error_info);//返回空
+}
 
-//KV读取
-	if(!$comment = $kv->get($btih . ",c" )) die("Error:" . $kv->errno());//赋值运算表达式的值也就是所赋的值
-	if(!$c_index = $kv->get($btih . ",ci")) die("Error:" . $kv->errno());//赋值运算表达式的值也就是所赋的值
-	
+
+//编辑弹幕
+//"{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":1},
+$new_comment = json_decode($new_comment);	//json->array
+$array_comment = explode(",",$new_comment['c']);
+$array_comment[4]=strval($_COOKIE['uid'])	//strval是因为要合并字符串
+$array_comment[5]=strval($the_time_now);	//strval是因为要合并字符串
+$new_comment['c']=implode(",",$array_comment);
+$new_comment['cid']=intval($result['reply']);	//reply为弹幕总数,即最大下标+1
+$new_comment = json_encode($new_comment);	//array->json
+$new_comment.= ',';
+
 //编辑键值
-	$c_index = json_decode($c_index);//json->array
-	$danmaku = json_decode($danmaku);//json->array
-	if(count($c_index)!=$video["reply"]) die("Fatal Error! Please Report to Admin!");
-	//"{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":1},
-	$array_c = explode(",",$danmaku['c']);
-	$array_c[4]=(string)$_COOKIE['uid'];
-	$the_time_now=time();
-	$array_c[5]=strval($the_time_now);
-	$danmaku['c']=implode(",",$array_c);
-	$danmaku['cid']=(int)$video["reply"];//reply为弹幕总数,即最大下标+1
-	$danmaku=json_encode($danmaku);
-	$comment.=$danmaku;
-	//[uid,time,size]
-	$c_index[]=array((string)$_COOKIE['uid'],$the_time_now,strlen($comment));
-	
+//[uid,time,size]
+$c_index = json_decode($c_index);	//json->array
+if(count($c_index)!=$result['reply']){
+	$error_info=json_err('reply_countnotmatch',-1,'Error: Fatal Error! Counting Does not Match. Please Report to Admin!');
+	die($error_info);//返回空
+}
+if($c_index[count($c_index)-1]['size']!=$result['LEN(`comment`)']){
+	$error_info=json_err('reply_lengthnotmatch',-1,'Error: Fatal Error! Length Does not Match. Please Report to Admin!');
+	die($error_info);//返回空
+}
+$c_index[]=array(
+		intval($_COOKIE['uid']),
+		$the_time_now,
+		$result['LEN(`comment`)']+strlen($new_comment);
+		);
+$c_index = json_encode($c_index);	//array->json	
+
+
+
+$result=NULL;
+$count=safe_query("UPDATE `video` SET `reply` =
+
+
+
+
+
+`reply`, `c_index` LEN(`comment`) FROM `video` WHERE `btih` = x'?';", &$result, array('s',$btih));
+
 //KV赋值
 	if(!$kv->set($btih . ",c", $comment)) die("Error:" . $kv->errno());
 	if(!$kv->set($btih . ",ci",$c_index)) die("Error:" . $kv->errno());

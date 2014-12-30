@@ -9,7 +9,7 @@ include 'libConfig.php';
 */
 
 /* json_err(): organize error infomation */
-function json_err($err_type, $err_num, $err_msg){
+function json_err($err_type=0, $err_num=0, $err_msg=0){
 	return json_encode(array(
 		"err_type"=>$err_type, 
 		"err_num"=>$err_num, 

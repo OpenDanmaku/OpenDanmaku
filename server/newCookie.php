@@ -1,4 +1,5 @@
 <?php
+//必须先导入startup.sql
 require('libMysqli.php');
 header("Access-Control-Allow-Origin: *");//无限制
 
@@ -34,7 +35,7 @@ if(isset($_COOKIE['uid'])){
 	$count=safe_query('SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;', &$result);
 	//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
 	if($count!=1){
-		$error_info=json_err('user_notexist',-1,'Error: No Users at All');
+		$error_info=json_err('user_notexist',-1,'Error: No Users in Database at All');//必须先导入startup.sql
 		die($error_info);//返回空
 	}
 	if(($result[0]['uid']==$_COOKIE['uid']){
@@ -43,34 +44,41 @@ if(isset($_COOKIE['uid'])){
 	}
 
 //以上通过,则关闭当前Cookie对应用户数据
+	$blackhole=NULL;
+	$count=safe_query('UPDATE `user` SET `status` = 0 WHERE `uid` = ?;', &$blackhole, array('i',intval($_COOKIE['uid'])));
+	if($count!=1){
+		$error_info=json_err('user_notclosed',-1,'Error: Failed to Close Cookie');
+		die($error_info);//返回空
+	}
+}else{//不论有没有Cookie都要获取最近Cookie数据
 	$result=NULL;
-	$count=safe_query('UPDATE `user` SET `status` = 0 WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
-		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
-		$mysql->runSql($sql);
-		if($mysql->errno()!= 0)
-			die("Error:" . $mysql->errmsg());//出错
+	$count=safe_query('SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;', &$result);
+	//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
+	if($count!=1){
+		$error_info=json_err('user_notexist',-1,'Error: No Users in Database at All');//必须先导入startup.sql
+		die($error_info);//返回空
+	}
 }
-	
-	//然后获取下一个Cookie
-	$uid   = $userN['uid']+1;
-	$key   = rand(0, 4294967295);
-	$time  = time()+ 0;//观察期,暂定为新Cookie立刻可以发言
-	$point = 100; 
-	$status= 1;
-	
-	//保存新账号到数据库
-	$sql = "INSERT INTO `user` VALUES (";
-	$sql.= $uid . ", " . $key . ", " . $time . ", " . $point . ", " . $status . ");";
-	$mysql->runSql($sql);
-	if($mysql->errno()!= 0)
-		die("Error:" . $mysql->errmsg());//出错
-	
-	//设置Cookie
-	setcookie("uid", $uid, 2147483647);//Cookie永不过期
-	setcookie("key", $key, 2147483647);//Cookie永不过期
-	echo "New Cookie Begotten!";
 
-	//关闭MySQL
-	$mysql->closeDb();
+//然后获取下一个Cookie
+$uid   = $result[0]['uid']+1;
+$key   = rand(0, 4294967295);
+$time  = time()+ 0;//观察期,暂定为新Cookie立刻可以发言
+$point = 100; 
+$status= 1;
+	
+//保存新账号到数据库
+$blackhole=NULL;
+$count=safe_query('INSERT INTO `user` VALUES (?, ?, ?, ?, ?);', &$blackhole, array('iiiii',$uid,$key,$time,$point,$status);
+if($count!=1){
+	$error_info=json_err('user_notcreated',-1,'Error: Failed to Create New Cookie');
+	die($error_info);//返回空
+}
 
+//设置Cookie
+setcookie("uid", $uid, 2147483647);//Cookie永不过期
+setcookie("key", $key, 2147483647);//Cookie永不过期
+echo "New Cookie Begotten!";
+exit;
+// 用不着关闭MySQL
 ?>

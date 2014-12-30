@@ -10,35 +10,46 @@ if($_SESSION['vcode'] != $_REQUEST['vcode']) {
 	$error_info=json_err('session_vcode',-1,'Vcode error');
 	die($error_info);
 }
-	//如果有旧Cookie
-	if(isset($_COOKIE['uid'])){
-		//获取Cookie对应用户数据,如果key不符合,退出
-		$result=NULL;
-		$rc=safe_query("SELECT * FROM `user` WHERE `uid` = ?;", &$result, array('i',intval($_COOKIE['uid'])));
-		if($rc!=1)
-			die("Error: Cookie Not Exists"); //返回空
-		if($result[0]['key']!=$_COOKIE['key'])
-			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-		if($result[0]['status']=0)
-			die("Error: Deleted Cookie");    //status禁用
 
-	//否则获取最新用户数据,如果uid重复,退出
-	
-		$sql = "SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;";
-		//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
-		$userN= $mysql->getLine($sql);//肯定存在,至少是uid=0那一行
-		if($mysql->errno()!= 0)
-			die("Error:" . $mysql->errmsg());//出错
-		if($userN['uid']==$_COOKIE['uid'])
-			die("Error: You Already Have the Last Cookie");//已经最新
-	
-	//否则关闭Cookie对应用户数据
-		$sql = "UPDATE `user` SET `status` = 0 WHERE `uid` = ";
+//如果有旧Cookie
+if(isset($_COOKIE['uid'])){
+//获取Cookie对应用户数据,如果key不符合,退出
+	$result=NULL;
+	$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
+	if($count!=1){
+		$error_info=json_err('cookie_invalid',-1,'Error: Invalid Cookie');
+		die($error_info);//返回空
+	}
+	if($result[0]['key']!=$_COOKIE['key']){
+		$error_info=json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key');
+		die($error_info);//key不符合,!=代表作为数字比较
+	}
+	if($result[0]['status']==0){
+		$error_info=json_err('cookie_deleted',-1,'Error: Deleted Cookie');
+		die($error_info);//status禁用,==代表作为数字比较
+	}
+
+//以上通过,则取最新用户数据,如果uid重复,退出
+	$result=NULL;
+	$count=safe_query('SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;', &$result);
+	//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
+	if($count!=1){
+		$error_info=json_err('user_notexist',-1,'Error: No Users at All');
+		die($error_info);//返回空
+	}
+	if(($result[0]['uid']==$_COOKIE['uid']){
+		$error_info=json_err('cookie_lastuser',-1,'Error: You Already Have the Latest Cookie');
+		die($error_info);//已经最新
+	}
+
+//以上通过,则关闭当前Cookie对应用户数据
+	$result=NULL;
+	$count=safe_query('UPDATE `user` SET `status` = 0 WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
 		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
 		$mysql->runSql($sql);
 		if($mysql->errno()!= 0)
 			die("Error:" . $mysql->errmsg());//出错
-	}
+}
 	
 	//然后获取下一个Cookie
 	$uid   = $userN['uid']+1;

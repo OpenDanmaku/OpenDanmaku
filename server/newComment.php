@@ -102,26 +102,11 @@ $count=safe_query("UPDATE `video` SET `reply` = ?, `comment` = CONCAT(`comment`,
 //提高积分并暂时硬直
 //uid	key	time	point	status
 $blackhole=NULL;
-$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ?"
-
-
-
-
-	$userC['score'] = (int)$userC['score']+$const_ScoreNewLink;
-	$userC['time']  = time() +$const_DelayNewLink;
-	$sql = "UPDATE `user` SET `score` = " . (int)$userC['score'];
-	$sql.= ", `time` = " . $userC['time'];
-	$sql.= " WHERE `uid` = " . $_COOKIE['uid'] . ";";
-	$mysql->runSql( $sql );
-	if($mysql->errno() != 0) 
-		die("Error:" . $mysql->errmsg());	//出错
+$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", $blackhole, 
+		array('iii', $const_ScoreNewComment, $const_DelayNewComment, $uid));
+//我没办法检查成功，但失败lib_Mysqli必然报错退出
 
 //返回成功页面
 	echo "Video Created Successfully!";
-
-// 关闭数据库
-	$mysql->closeDb();
-
-//关闭kvdb无语句
 	exit;
 ?>

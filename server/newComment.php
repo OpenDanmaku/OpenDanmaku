@@ -12,10 +12,10 @@ if(!isset($_COOKIE['uid'])){
 	$error_info=json_err('cookie_empty',-1,'Error: No Cookie Submitted');
 	die($error_info);//返回空
 }
-
+$uid=intval($_COOKIE['uid']);
 //获取Cookie对应用户数据,如果key不符合,退出
 $result=NULL;
-$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
+$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',$uid));
 if($count!=1){
 	$error_info=json_err('cookie_invalid',-1,'Error: Invalid Cookie');
 	die($error_info);//返回空
@@ -51,7 +51,7 @@ $the_time_now=time();
 
 //查询视频是否已经存在,如btih不存在,退出
 $result=NULL;
-$count=safe_query("SELECT `reply`, `c_index` LEN(`comment`) FROM `video` WHERE `btih` = x'?';", &$result, array('s',$btih));
+$count=safe_query("SELECT `reply`, `c_index` LEN(`comment`) FROM `video` WHERE `btih` = x?;", &$result, array('s',$btih));
 //???????作为string处理是否可行?待验证
 if($count!=1){
 	$error_info=json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?');
@@ -63,7 +63,7 @@ if($count!=1){
 //"{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":1},
 $new_comment = json_decode($new_comment);	//json->array
 $array_comment = explode(",",$new_comment['c']);
-$array_comment[4]=strval($_COOKIE['uid'])	//strval是因为要合并字符串
+$array_comment[4]=strval($uid)	//strval是因为要合并字符串
 $array_comment[5]=strval($the_time_now);	//strval是因为要合并字符串
 $new_comment['c']=implode(",",$array_comment);
 $new_comment['cid']=intval($result['reply']);	//reply为弹幕总数,即最大下标+1
@@ -73,43 +73,31 @@ $new_comment.= ',';
 //编辑键值
 //[uid,time,size]
 $c_index = json_decode($c_index);	//json->array
-if(count($c_index)!=$result['reply']){
+$c_count = count($c_index)
+if($result['reply']         !=$c_count                    ){
 	$error_info=json_err('reply_countnotmatch',-1,'Error: Fatal Error! Counting Does not Match. Please Report to Admin!');
 	die($error_info);//返回空
 }
-if($c_index[count($c_index)-1]['size']!=$result['LEN(`comment`)']){
+if($result['LEN(`comment`)']!=$c_index[$c_count-1]['size']){
 	$error_info=json_err('reply_lengthnotmatch',-1,'Error: Fatal Error! Length Does not Match. Please Report to Admin!');
 	die($error_info);//返回空
 }
 $c_index[]=array(
-		intval($_COOKIE['uid']),
+		$uid,
 		$the_time_now,
 		$result['LEN(`comment`)']+strlen($new_comment);
 		);
 $c_index = json_encode($c_index);	//array->json	
+++$c_count;
 
+//修改表`video`
+//vid uid btih time view reply comment c_index linkage l_index dislike d_index
 
-
-$result=NULL;
-$count=safe_query("UPDATE `video` SET `reply` =
-
-
-
-
-
-`reply`, `c_index` LEN(`comment`) FROM `video` WHERE `btih` = x'?';", &$result, array('s',$btih));
-
-//KV赋值
-	if(!$kv->set($btih . ",c", $comment)) die("Error:" . $kv->errno());
-	if(!$kv->set($btih . ",ci",$c_index)) die("Error:" . $kv->errno());
-
-
-//增加reply计数
-	$sql = "UPDATE `video` SET `reply` = " . ((int)$video["reply"]+1); //不用自增,虽然应该自增就可以
-	$sql.= " WHERE `btih` = x'" . $btih . "';";
-	$mysql->runSql( $sql );
-	if($mysql->errno() != 0) 
-		die("Error:" . $mysql->errmsg());	//出错
+//Update `video`
+$blackhole=NULL;
+$count=safe_query("UPDATE `video` SET `reply` = ?, `comment` = CONCAT(`comment`, ?), `c_index` = ? WHERE `btih` = x?;",
+		$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
+//我没办法检查成功，但失败lib_Mysqli必然报错退出
 
 //提高积分并暂时硬直
 	$userC['score'] = (int)$userC['score']+$const_ScoreNewLink;

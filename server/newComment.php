@@ -100,6 +100,13 @@ $count=safe_query("UPDATE `video` SET `reply` = ?, `comment` = CONCAT(`comment`,
 //我没办法检查成功，但失败lib_Mysqli必然报错退出
 
 //提高积分并暂时硬直
+//uid	key	time	point	status
+$blackhole=NULL;
+$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ?"
+
+
+
+
 	$userC['score'] = (int)$userC['score']+$const_ScoreNewLink;
 	$userC['time']  = time() +$const_DelayNewLink;
 	$sql = "UPDATE `user` SET `score` = " . (int)$userC['score'];

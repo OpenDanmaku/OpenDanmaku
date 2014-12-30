@@ -1,25 +1,29 @@
-﻿<?php
-	header("Access-Control-Allow-Origin: *");//无限制
-	//$_GET和$_REQUEST已经urldecode()了！
-	//检查验证码,解释器会视必要性决定是否转换为数字
-	session_start();
-	if($_SESSION['vcode'] != $_REQUEST['vcode']) {
-		$_SESSION['vcode']=rand(0,2147483647);//清除vcode
-		die('Vcode error');
+<?php
+require('libMysqli.php');
+header("Access-Control-Allow-Origin: *");//无限制
+
+//$_GET和$_REQUEST已经urldecode()了！
+//检查验证码,解释器会视必要性决定是否转换为数字
+session_start();
+if($_SESSION['vcode'] != $_REQUEST['vcode']) {
+	$_SESSION['vcode']=rand(0,2147483647);//清除vcode
+	$error_info=json_err('session_vcode',-1,'Vcode error');
+	die($error_info);
+}
 	//如果有旧Cookie
 	if(isset($_COOKIE['uid'])){
-	
-	//获取Cookie对应用户数据,如果key不符合,退出
-	$result=NULL;
-	$rc=safe_query("SELECT * FROM `user` WHERE `uid` = ?;", &$result, array('i',intval($_COOKIE['uid'])));
-	if($rc!=1)
-		die("Error: Cookie Not Exists"); //返回空
-	if($userC['key']!=$_COOKIE['key'])
+		//获取Cookie对应用户数据,如果key不符合,退出
+		$result=NULL;
+		$rc=safe_query("SELECT * FROM `user` WHERE `uid` = ?;", &$result, array('i',intval($_COOKIE['uid'])));
+		if($rc!=1)
+			die("Error: Cookie Not Exists"); //返回空
+		if($result[0]['key']!=$_COOKIE['key'])
 			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-		if($userC['status']!=$_COOKIE['key'])
-			die("Error: Deleted Cookie");    //key不符合,!=代表作为数字比较
+		if($result[0]['status']=0)
+			die("Error: Deleted Cookie");    //status禁用
 
 	//否则获取最新用户数据,如果uid重复,退出
+	
 		$sql = "SELECT * FROM `user` ORDER BY `uid` DESC LIMIT 1;";
 		//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
 		$userN= $mysql->getLine($sql);//肯定存在,至少是uid=0那一行

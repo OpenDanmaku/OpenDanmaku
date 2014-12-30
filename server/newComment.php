@@ -1,46 +1,55 @@
-﻿<?php
-	header("Access-Control-Allow-Origin: *");//无限制
+<?php
+require('libMysqli.php');
+header("Access-Control-Allow-Origin: *");//无限制
 	
-	//硬直与禁言设定
-	$const_ScoreNewComment = 1;//加1分
-	$const_DelayNewComment = 3;//3秒硬直
-	//$_GET和$_REQUEST已经urldecode()了！
+//硬直与禁言设定
+$const_ScoreNewComment = 1;//加1分
+$const_DelayNewComment = 3;//3秒硬直
+//$_GET和$_REQUEST已经urldecode()了！
 
-	//打开MySQL。打开KVDB
-	$mysql = new SaeMysql();
-	$kv = new SaeKV();
-	if(!$kv->init()) die("Error:" . $kv->errno());//出错
+//如果没有Cookie
+if(!isset($_COOKIE['uid'])){
+	$error_info=json_err('cookie_empty',-1,'Error: No Cookie Submitted');
+	die($error_info);//返回空
+}
 
-	//如果有旧Cookie
-	if(isset($_COOKIE['uid'])){//获取Cookie对应用户数据,如果key不符合,退出
-		$sql = "SELECT * FROM `user` WHERE `uid` = ";
-		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
-		$userC= $mysql->getLine($sql);
-		if($mysql->errno()!= 0)
-			die("Error:" . $mysql->errmsg());//SQL出错
-		if($mysql->affectedRows()!=1)
-			die("Error: Cookie Not Exists"); //uid不存在
-		if($userC['key']!=$_COOKIE['key'])
-			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-		if($userC['status']==0)
-			die("Error: Deleted Cookie");    //status不活跃,==代表作为数字比较
-		if($userC['time']>time())
-			die("Error: Not Yet ");          //time还在硬直中
-	} else die("No Cookie");
-	
-//读取参数BTIH
-	//检验BTIH有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
+//获取Cookie对应用户数据,如果key不符合,退出
+$result=NULL;
+$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
+if($count!=1){
+	$error_info=json_err('cookie_invalid',-1,'Error: Invalid Cookie');
+	die($error_info);//返回空
+}
+if($result[0]['key']!=$_COOKIE['key']){
+	$error_info=json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key');
+	die($error_info);//key不符合,!=代表作为数字比较
+}
+if($result[0]['status']==0){
+	$error_info=json_err('cookie_deleted',-1,'Error: Deleted Cookie');
+	die($error_info);//status禁用,==代表作为数字比较
+}
+if($result[0]['time']>=0){
+	$error_info=json_err('cookie_inactive',-1,'Error: Not Yet Active');
+	die($error_info);//time还在硬直中,>=代表作为数字比较
+}
+
+//读取参数btih
+	//检验btih有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
 	//即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex
-	$btih=(string)$_REQUEST['btih'];//字符串
+	$btih=(string)$_REQUEST['btih'];					//字符串
 	if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
-		$btih=substr($btih,20,40);										//截取btih
-	if(strlen($btih)!==40 or !ctype_xdigit($btih))//防注入
-		die("Error: Link Not Valid.");
-	$btih= strtolower($btih);
-	//danmaku
-	$danmaku=trim((string)$_REQUEST['danmaku']);//字符串
+		$btih=substr($btih,20,40);					//截取btih
+	if(strlen($btih)!==40 or !ctype_xdigit($btih)){				//防注入
+		$error_info=json_err('btih_invalid',-1,'Error: Link Not Valid');
+		die($error_info);						//time还在硬直中,>=代表作为数字比较
+	}
+$btih= strtolower($btih);
+//读取参数comment
+$new_comment=trim((string)$_REQUEST['comment']);//字符串
 
-//查询视频是否已经存在,如BTIH不存在,退出
+//查询视频是否已经存在,如btih不存在,退出
+$result=NULL;
+$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',intval($_COOKIE['uid'])));
 	$sql = "SELECT * FROM `video` WHERE `btih` = x'" . $btih . "';";
 	$video = $mysql->getLine($sql);
 	if($mysql->errno()!= 0)

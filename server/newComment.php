@@ -1,49 +1,30 @@
 <?php
 require('libMysqli.php');
 header("Access-Control-Allow-Origin: *");//无限制
-	
 //硬直与禁言设定
 $const_ScoreNewComment = 1;//加1分
 $const_DelayNewComment = 3;//3秒硬直
-//$_GET和$_REQUEST已经urldecode()了！
 
+//$_GET和$_REQUEST已经urldecode()了！
 //如果没有Cookie
-if(!isset($_COOKIE['uid'])){
-	$error_info=json_err('cookie_empty',-1,'Error: No Cookie Submitted');
-	die($error_info);//返回空
-}
+if(!isset($_COOKIE['uid'])) die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空
 $uid=intval($_COOKIE['uid']);
 //获取Cookie对应用户数据,如果key不符合,退出
 $result=NULL;
 $count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',$uid));
-if($count!=1){
-	$error_info=json_err('cookie_invalid',-1,'Error: Invalid Cookie');
-	die($error_info);//返回空
-}
-if($result[0]['key']!=$_COOKIE['key']){
-	$error_info=json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key');
-	die($error_info);//key不符合,!=代表作为数字比较
-}
-if($result[0]['status']==0){
-	$error_info=json_err('cookie_deleted',-1,'Error: Deleted Cookie');
-	die($error_info);//status禁用,==代表作为数字比较
-}
-if($result[0]['time']>=0){
-	$error_info=json_err('cookie_inactive',-1,'Error: Not Yet Active');
-	die($error_info);//time还在硬直中,>=代表作为数字比较
-}
+if($count!=1) die(json_err('cookie_invalid',-1,'Error: Invalid Cookie'));//返回空
+//!= == >= 代表作为数字比较
+if($result[0]['key']!=$_COOKIE['key']) die(json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key'));//key不符合
+if($result[0]['status']==0) die(json_err('cookie_deleted',-1,'Error: Deleted Cookie'));//status禁用
+if($result[0]['time']>=0) die(json_err('cookie_inactive',-1,'Error: Not Yet Active'));//time还在硬直中
 
-//读取参数btih
-	//检验btih有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
-	//即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex
-$btih=(string)$_REQUEST['btih'];					//字符串
-if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
-	$btih=substr($btih,20,40);					//截取btih
-if(strlen($btih)!==40 or !ctype_xdigit($btih)){				//防注入
-	$error_info=json_err('btih_incorrect',-1,'Error: Link Not Correct');
-	die($error_info);						//time还在硬直中,>=代表作为数字比较
-}
-$btih= strtolower($btih);
+//读取参数btih,并字符串化,小写化
+$btih=trim(strtolower(strval($_REQUEST['btih'])));//读取参数btih
+//如果是完整磁链,截取btih,"magnet:?xt=urn:btih:"长度为20,btih长度为40
+if(strlen($btih)>=60 and strpos($btih,"magnet:?xt=urn:btih:")===0) $btih=substr($btih,20,40);
+//检验btih有效性,即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex
+if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
+
 //读取参数comment
 $new_comment=trim((string)$_REQUEST['comment']);//字符串
 //设置插入时间

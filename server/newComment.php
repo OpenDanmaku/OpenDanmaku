@@ -58,23 +58,15 @@ $c_index[]=array($uid,$the_time_now,$result['LENGTH(`comment`)']+strlen($new_com
 $c_index = json_encode($c_index);	//array->json	
 ++$c_count;
 
-//修改表`video`
-//vid uid btih time view reply comment c_index linkage l_index dislike d_index
-
-//Update `video`
+//我没办法在这里检查update成功，但失败lib_Mysqli必然报错退出
+//修改表`video`[vid,uid,btih,time,view,reply,comment,c_index,linkage,l_index,dislike,d_index]
 $blackhole=NULL;
 $count=safe_query("UPDATE `video` SET `reply` = ?, `comment` = CONCAT(`comment`, ?), `c_index` = ? WHERE `btih` = x?;",
 		$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
-//我没办法检查成功，但失败lib_Mysqli必然报错退出
-
-//提高积分并暂时硬直
-//uid	key	time	point	status
+//提高积分并暂时硬直[uid,key,time,point,status]
 $blackhole=NULL;
 $count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", $blackhole, 
 		array('iii', $const_ScoreNewComment, $const_DelayNewComment, $uid));
-//我没办法检查成功，但失败lib_Mysqli必然报错退出
-
 //返回成功页面
-	echo "Video Created Successfully!";
-	exit;
+	exit("Video Created Successfully!");
 ?>

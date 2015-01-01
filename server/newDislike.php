@@ -8,12 +8,12 @@ $const_DelayNewDislike = 30;//30秒硬直
 $const_DelayRate = 60*60/5;//扣光积分后,每个人的10点仇恨后折合双方禁言4小时
 
 //cid
-$cid=intval(trim($_REQUEST['cid']));//数字
+$cid=intval(trim($_REQUEST['cid']));//注意cid始终是字符串
 //$_GET和$_REQUEST已经urldecode()了！
 
 //如果没有Cookie
 if(!isset($_COOKIE['uid'])) die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空
-$uid=intval($_COOKIE['uid']);
+$uid=strval(intval($_COOKIE['uid']));
 
 //获取Cookie对应用户数据,如果key不符合,退出
 $result=NULL;
@@ -29,20 +29,21 @@ $btih=trim(strtolower(strval($_REQUEST['btih'])));//读取参数btih
 //如果是完整磁链,截取btih,btih长度为40
 $pos=strpos($btih,"btih:");//len('btih:')===5
 $btih=($pos===FALSE)?substr($btih,$pos+5,40):substr($btih,0,40);//注意$pos会自动转换,而$pos=0和$pos=FALSE截取时有区别
-//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,参见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
+//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
 if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
 	
 //查询视频是否已经存在,如btih不存在,退出
 $result=NULL;
-$count=safe_query("SELECT `dislike` FROM `video` WHERE `btih` = UNHEX(?);",//d_index出错不会有严重影响，只要更新就好了
+$count=safe_query("SELECT `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",//d_index出错不会有严重影响,只要更新就好
 		&$result, array('s',$btih));//http://stackoverflow.com/questions/1747894/
 if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//返回空
 
-//编辑键值
-	$d_index = json_decode($d_index);//json->array
-	if(!isset($dislike[(string)$cid])) 
-		$dislike[(string)$cid]=array();//强制储存为一个数组,防止作为一个值储存
-	$this_dislike=$dislike[(string)$cid];
+//编辑键值{"cid": count, "cid": count, ..., "cid": count},
+$dislike = json_decode($result['dislike']);//json->array
+$d_index = json_decode($result['d_index']);//json->array
+if(!isset($dislike[strval($cid)])) $dislike[(string)$cid]=array();//强制储存为一个数组,防止作为一个值储存
+//取键值
+$this_dislike=$dislike[strval($cid)];
 	if(in_array($uid,$this_dislike)) die("Error: You Have Already Submitted a Dislike!");
 	$this_dislike[]=$uid;
 	$dislike[(string)$cid]=$this_dislike;

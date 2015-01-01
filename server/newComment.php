@@ -5,7 +5,12 @@ header("Access-Control-Allow-Origin: *");//无限制
 $const_ScoreNewComment = 1;//加1分
 $const_DelayNewComment = 3;//3秒硬直
 
+//设置插入时间
+$the_time_now=time();
+//读取参数comment,并字符串化
+$new_comment=trim((string)$_REQUEST['comment']);
 //$_GET和$_REQUEST已经urldecode()了！
+
 //如果没有Cookie
 if(!isset($_COOKIE['uid'])) die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空
 $uid=intval($_COOKIE['uid']);
@@ -18,10 +23,6 @@ if($result[0]['key']!=$_COOKIE['key']) die(json_err('cookie_wrongkey',-1,'Error:
 if($result[0]['status']==0) die(json_err('cookie_deleted',-1,'Error: Deleted Cookie'));//status禁用
 if($result[0]['time']>=0) die(json_err('cookie_inactive',-1,'Error: Not Yet Active'));//time还在硬直中
 
-//设置插入时间
-$the_time_now=time();
-//读取参数comment,并字符串化
-$new_comment=trim((string)$_REQUEST['comment']);
 //读取参数btih,并字符串化,小写化
 $btih=trim(strtolower(strval($_REQUEST['btih'])));//读取参数btih
 //如果是完整磁链,截取btih,btih长度为40

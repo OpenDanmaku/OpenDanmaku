@@ -50,7 +50,11 @@ $dislike[$cid] = $this_dislike;
 $d_index[$cid] = count($this_dislike);	//这个自然是一个值,所以无所谓
 $d_index       = json_encode($d_index);	//array->json
 
-//KV赋值
+//我没办法在这里检查update成功，但失败lib_Mysqli必然报错退出
+//修改表`video`[vid,uid,btih,time,view,reply,comment,c_index,linkage,l_index,dislike,d_index]
+$blackhole=NULL;
+$count=safe_query("UPDATE `video` SET `dislike` = ?, `d_index` = ? WHERE `btih` = UNHEX(?);",
+		$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
 	if(!$kv->set($btih . ",c", $dislike)) die("Error:" . $kv->errno());
 	if(!$kv->set($btih . ",ci",$d_index)) die("Error:" . $kv->errno());
 

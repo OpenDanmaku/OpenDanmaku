@@ -41,14 +41,14 @@ if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, D
 //编辑键值{"cid": count, "cid": count, ..., "cid": count},
 $dislike = json_decode($result['dislike']);//json->array
 $d_index = json_decode($result['d_index']);//json->array
-if(!isset($dislike[strval($cid)])) $dislike[(string)$cid]=array();//强制储存为一个数组,防止作为一个值储存
+if(!isset($dislike[$cid])) $dislike[$cid]=array();//强制储存为一个数组,防止作为一个值储存,$cid始终是字符串
 //取键值
-$this_dislike=$dislike[strval($cid)];
-	if(in_array($uid,$this_dislike)) die("Error: You Have Already Submitted a Dislike!");
-	$this_dislike[]=$uid;
-	$dislike[(string)$cid]=$this_dislike;
-	$d_index[(string)$cid]=count($this_dislike);//这个自然是一个值,所以无所谓
-	$d_index = json_encode($d_index);//array->json
+$this_dislike=$dislike[$cid];		//$cid始终是字符串
+if(in_array($uid,$this_dislike)) die(json_err('dislike_resubmit',-1,'Error: You Have Already Submitted a Dislike!');
+$this_dislike[]= $uid;			//$cid始终是字符串
+$dislike[$cid] = $this_dislike;
+$d_index[$cid] = count($this_dislike);	//这个自然是一个值,所以无所谓
+$d_index       = json_encode($d_index);	//array->json
 
 //KV赋值
 	if(!$kv->set($btih . ",c", $dislike)) die("Error:" . $kv->errno());

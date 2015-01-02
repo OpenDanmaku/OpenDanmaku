@@ -9,28 +9,35 @@ $const_DelayNewLink = 60;//60秒硬直
 $linkage=trim((string)$_REQUEST['linkage']);
 //$_GET和$_REQUEST已经urldecode()了！
 
-	//打开MySQL。打开KVDB
-	$mysql = new SaeMysql();
-	$kv = new SaeKV();
-	if(!$kv->init()) die("Error:" . $kv->errno());//出错
+//如果没有Cookie
+if(!isset($_COOKIE['uid'])) die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空
+$uid=intval($_COOKIE['uid']);
+//获取Cookie对应用户数据,如果key不符合,退出
+$result=NULL;
+$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',$uid));
+if($count!=1) die(json_err('cookie_invalid',-1,'Error: Invalid Cookie'));//返回空
+//!= == >= 代表作为数字比较
+if($result[0]['key']!=$_COOKIE['key']) die(json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key'));//key不符合
+if($result[0]['status']==0) die(json_err('cookie_deleted',-1,'Error: Deleted Cookie'));//status禁用
+if($result[0]['time']>=0) die(json_err('cookie_inactive',-1,'Error: Not Yet Active'));//time还在硬直中
 
-	//如果有旧Cookie
-	if(isset($_COOKIE['uid'])){//获取Cookie对应用户数据,如果key不符合,退出
-		$sql = "SELECT * FROM `user` WHERE `uid` = ";
-		$sql.= (string)intval($_COOKIE['uid']) . ";";//防注入
-		$userC= $mysql->getLine($sql);
-		if($mysql->errno()!= 0)
-			die("Error:" . $mysql->errmsg());//SQL出错
-		if($mysql->affectedRows()!=1)
-			die("Error: Cookie Not Exists"); //uid不存在
-		if($userC['key']!=$_COOKIE['key'])
-			die("Error: Invalid Cookie");    //key不符合,!=代表作为数字比较
-		if($userC['status']==0)
-			die("Error: Deleted Cookie");    //status不活跃,==代表作为数字比较
-		if($userC['time']>time())
-			die("Error: Not Yet ");          //time还在硬直中
-	} else die("No Cookie");
-	
+//读取参数btih,并字符串化,小写化
+$btih=trim(strtolower(strval($_REQUEST['btih'])));//读取参数btih
+//如果是完整磁链,截取btih,btih长度为40
+$pos=strpos($btih,"btih:");//len('btih:')===5
+$btih=($pos===FALSE)?substr($btih,$pos+5,40):substr($btih,0,40);//注意$pos会自动转换,而$pos=0和$pos=FALSE截取时有区别
+//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,参见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
+if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
+
+//读取参数btih,并字符串化,小写化
+$btih=trim(strtolower(strval($_REQUEST['btih'])));//读取参数btih
+//如果是完整磁链,截取btih,btih长度为40
+$pos=strpos($btih,"btih:");//len('btih:')===5
+$btih=($pos===FALSE)?substr($btih,$pos+5,40):substr($btih,0,40);//注意$pos会自动转换,而$pos=0和$pos=FALSE截取时有区别
+//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,参见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
+if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
+
+
 //读取参数: BTIH1,BTIH2,time
 	//检验BTIH有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
 	//即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex

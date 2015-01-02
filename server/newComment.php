@@ -70,5 +70,5 @@ $blackhole=NULL;
 $count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", &$blackhole, 
 		array('iii', $const_ScoreNewComment, $const_DelayNewComment, $uid));
 //返回成功页面
-exit("Video Created Successfully!");
+exit(json_err('newComment',0,"Video Created Successfully!"));
 ?>

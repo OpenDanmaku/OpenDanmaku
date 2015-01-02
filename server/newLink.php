@@ -1,10 +1,13 @@
-﻿<?php
-	header("Access-Control-Allow-Origin: *");//无限制
+<?php
+require('libMysqli.php');
+header("Access-Control-Allow-Origin: *");//无限制
 
-	//硬直与禁言设定
-	$const_ScoreNewLink = 10;//加10分
-	$const_DelayNewLink = 60;//60秒硬直
-	//$_GET和$_REQUEST已经urldecode()了！
+//硬直与禁言设定
+$const_ScoreNewLink = 10;//加10分
+$const_DelayNewLink = 60;//60秒硬直
+
+$linkage=trim((string)$_REQUEST['linkage']);
+//$_GET和$_REQUEST已经urldecode()了！
 
 	//打开MySQL。打开KVDB
 	$mysql = new SaeMysql();

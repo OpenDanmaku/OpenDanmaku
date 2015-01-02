@@ -3,9 +3,9 @@ require('libMysqli.php');
 header("Access-Control-Allow-Origin: *");//无限制
 
 //硬直与禁言设定
-$const_ScoreNewDislike = -20;//减20分
-$const_DelayNewDislike = 30;//30秒硬直
-$const_DelayRate = 60*60*4;//扣光积分后,每个人的10点仇恨后折合双方禁言4小时
+$const_ScoreNewDislike = -20;	//减20分
+$const_DelayNewDislike = 30;	//30秒硬直
+$const_DelayRate = 60*60*4;	//扣光积分后,每个人的10点仇恨后折合双方禁言4小时
 
 //cid
 $cid=intval(trim($_REQUEST['cid']));//注意cid始终是字符串
@@ -33,8 +33,8 @@ $btih=($pos===FALSE)?substr($btih,$pos+5,40):substr($btih,0,40);//注意$pos会�
 if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
 	
 //查询视频是否已经存在,如btih不存在,退出
-$result=NULL;
-$count=safe_query("SELECT `c_index` `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",//d_index出错不会有严重影响,只要更新就好
+$result=NULL;//d_index出错不会有严重影响,只要更新就好
+$count=safe_query("SELECT `c_index` `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",
 		&$result, array('s',$btih));//http://stackoverflow.com/questions/1747894/
 if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//返回空
 
@@ -60,62 +60,21 @@ $blackhole=NULL;
 $count=safe_query("UPDATE `video` SET `dislike` = ?, `d_index` = ? WHERE `btih` = UNHEX(?);",
 		&$blackhole, array('sss', $dislike, $d_index, $bith));
 
+$now=time();
 //差评对方$this_uid,对方uid必然存在，是由newComment.php保证的
-$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN score + ? ELSE '0' END) 
-`time`  = (CASE WHEN `score` + ? > 0 THEN `time` ELSE (CASE WHEN `time` <= ? THEN ? ELSE ?) END) 
-WHERE `uid` = ?;",
-&$blackhole,
-array('',$const_ScoreNewDislike,$const_ScoreNewDislike,
-	$const_ScoreNewDislike,time(),time+,$const_DelayNewDislike
-	
-	
-	if(!$c_index = $kv->get($btih . ",ci")) die("Error:" . $kv->errno());//赋值运算表达式的值也就是所赋的值
-	$d_uid = intval($c_index[$cid][0]);
-	$sql = "SELECT * FROM `user` WHERE `uid` = ";
-	$sql.= $d_uid . ";";//防注入
-	$userD= $mysql->getLine($sql);
-	if($mysql->errno()!= 0)
-		die("Error:" . $mysql->errmsg());//SQL出错
-	if($mysql->affectedRows()!=1)
-		die("Error: Cookie Not Exists"); //uid不存在
+$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END) 
+`time`  = (CASE WHEN `score` + ? > 0 THEN `time` ELSE (CASE WHEN `time` > ? THEN `time` ELSE ? END) + ? END) 
+WHERE `uid` = ?;",//只有积分扣光才会禁言,不硬直,`time`与当前时间孰大者
+&$blackhole,array('iiiiiii',$const_ScoreNewDislike,$const_ScoreNewDislike,
+$const_ScoreNewDislike,$now,$now,$const_DelayRate,$this_uid));
 
-	$userD['score'] = (int)$userD['score']+$const_ScoreNewDislike;//增加负积分
-	//$userD['time']  = time() +$const_DelayNewDislike;//不需要
-	if($userD['score']<0) {
-		$delay=ceil($userD['score']*$const_DelayRate);
-		$userC['time']=$userD['time']+$delay;
-		$userD['score']=1;//不给安全期,只象征性给1分作为剩余积分
-	}
-	
-	$sql = "UPDATE `user` SET `score` = " . (int)$userD['score'];
-	$sql.= ", `time` = " . $userD['time'];
-	$sql.= " WHERE `uid` = " . (string)$d_uid . ";";
-	$mysql->runSql( $sql );
-	if($mysql->errno() != 0) 
-		die("Error:" . $mysql->errmsg());	//出错
-
-//减少我方积分并暂时硬直
-	$userC['score'] = (int)$userC['score']+$const_ScoreNewDislike;//增加负积分
-	$userC['time']  = time() +$const_DelayNewDislike;
-	if($userC['score']<0) {
-		$delay=ceil($userC['score']*$const_DelayRate);
-		$userC['time']=$userC['time']+$delay;
-		$userC['score']=1;//不给安全期,只象征性给1分作为剩余积分
-	}
-	
-	$sql = "UPDATE `user` SET `score` = " . (int)$userC['score'];
-	$sql.= ", `time` = " . $userC['time'];
-	$sql.= " WHERE `uid` = " . $_COOKIE['uid'] . ";";
-	$mysql->runSql( $sql );
-	if($mysql->errno() != 0) 
-		die("Error:" . $mysql->errmsg());	//出错
+//减少我方$uid并暂时硬直	
+$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END) 
+`time`  = (CASE WHEN `score` + ? > 0 THEN `time` + ? ELSE (CASE WHEN `time` > ? THEN `time` ELSE ? END) + ? END) 
+WHERE `uid` = ?;",//只有积分扣光才会禁言,要硬直,`time`与当前时间孰大者
+&$blackhole,array('iiiiiiii',$const_ScoreNewDislike,$const_ScoreNewDislike,
+$const_ScoreNewDislike,$const_DelayNewDislike,$now,$now,$const_DelayRate,$uid));
 
 //返回成功页面
-	echo "Video Created Successfully!";
-
-// 关闭数据库
-	$mysql->closeDb();
-
-//关闭kvdb无语句
-	exit;
+exit(json_err('newDislike',0,"Dislike Created Successfully!"));
 ?>

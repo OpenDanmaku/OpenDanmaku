@@ -5,7 +5,7 @@ header("Access-Control-Allow-Origin: *");//无限制
 //硬直与禁言设定
 $const_ScoreNewDislike = -20;//减20分
 $const_DelayNewDislike = 30;//30秒硬直
-$const_DelayRate = 60*60/5;//扣光积分后,每个人的10点仇恨后折合双方禁言4小时
+$const_DelayRate = 60*60*4;//扣光积分后,每个人的10点仇恨后折合双方禁言4小时
 
 //cid
 $cid=intval(trim($_REQUEST['cid']));//注意cid始终是字符串
@@ -34,31 +34,41 @@ if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,
 	
 //查询视频是否已经存在,如btih不存在,退出
 $result=NULL;
-$count=safe_query("SELECT `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",//d_index出错不会有严重影响,只要更新就好
+$count=safe_query("SELECT `c_index` `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",//d_index出错不会有严重影响,只要更新就好
 		&$result, array('s',$btih));//http://stackoverflow.com/questions/1747894/
 if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//返回空
 
 //编辑键值{"cid": count, "cid": count, ..., "cid": count},
-$dislike = json_decode($result['dislike']);//json->array
-$d_index = json_decode($result['d_index']);//json->array
+$c_index = json_decode($result[0]['c_index']);//json->array
+$dislike = json_decode($result[0]['dislike']);//json->array
+$d_index = json_decode($result[0]['d_index']);//json->array
+if(!isset($c_index[$cid])) die(json_err('cid_unavailable',-1,'Error: Comment Item Not Yet Exists');//那条弹幕不存在
 if(!isset($dislike[$cid])) $dislike[$cid]=array();//强制储存为一个数组,防止作为一个值储存,$cid始终是字符串
 //取键值
+$this_uid=$c_index[$cid][0];
 $this_dislike=$dislike[$cid];		//$cid始终是字符串
 if(in_array($uid,$this_dislike)) die(json_err('dislike_resubmit',-1,'Error: You Have Already Submitted a Dislike!');
 $this_dislike[]= $uid;			//$cid始终是字符串
 $dislike[$cid] = $this_dislike;
 $d_index[$cid] = count($this_dislike);	//这个自然是一个值,所以无所谓
+$dislike       = json_encode($dislike);	//array->json
 $d_index       = json_encode($d_index);	//array->json
 
 //我没办法在这里检查update成功，但失败lib_Mysqli必然报错退出
 //修改表`video`[vid,uid,btih,time,view,reply,comment,c_index,linkage,l_index,dislike,d_index]
 $blackhole=NULL;
 $count=safe_query("UPDATE `video` SET `dislike` = ?, `d_index` = ? WHERE `btih` = UNHEX(?);",
-		$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
-	if(!$kv->set($btih . ",c", $dislike)) die("Error:" . $kv->errno());
-	if(!$kv->set($btih . ",ci",$d_index)) die("Error:" . $kv->errno());
+		&$blackhole, array('sss', $dislike, $d_index, $bith));
 
-//获取差评对象并差评
+//差评对方$this_uid,对方uid必然存在，是由newComment.php保证的
+$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN score + ? ELSE '0' END) 
+`time`  = (CASE WHEN `score` + ? > 0 THEN `time` ELSE (CASE WHEN `time` <= ? THEN ? ELSE ?) END) 
+WHERE `uid` = ?;",
+&$blackhole,
+array('',$const_ScoreNewDislike,$const_ScoreNewDislike,
+	$const_ScoreNewDislike,time(),time+,$const_DelayNewDislike
+	
+	
 	if(!$c_index = $kv->get($btih . ",ci")) die("Error:" . $kv->errno());//赋值运算表达式的值也就是所赋的值
 	$d_uid = intval($c_index[$cid][0]);
 	$sql = "SELECT * FROM `user` WHERE `uid` = ";

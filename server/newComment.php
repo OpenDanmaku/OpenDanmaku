@@ -64,10 +64,10 @@ $c_index = json_encode($c_index);	//array->json
 //修改表`video`[vid,uid,btih,time,view,reply,comment,c_index,linkage,l_index,dislike,d_index]
 $blackhole=NULL;
 $count=safe_query("UPDATE `video` SET `reply` = ?, `comment` = CONCAT(`comment`, ?), `c_index` = ? WHERE `btih` = UNHEX(?);",
-		$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
+		&$blackhole, array('isss', $c_count, $new_comment, $c_index, $bith));
 //提高积分并暂时硬直[uid,key,time,point,status]
 $blackhole=NULL;
-$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", $blackhole, 
+$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", &$blackhole, 
 		array('iii', $const_ScoreNewComment, $const_DelayNewComment, $uid));
 //返回成功页面
 exit("Video Created Successfully!");

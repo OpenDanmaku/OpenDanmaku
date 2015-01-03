@@ -64,6 +64,7 @@ function normalFreeze($uid,$ScoreNewComment,$DelayNewComment){
 	$blackhole=NULL;
 	$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", &$blackhole, 
 			array('iii', $ScoreNewComment, $DelayNewComment, $uid));
+	if($count!=1) die(json_err('freezing_error',-1,'Error: Freezing Failed'));//返回空
 	return true;
 }
 ?>

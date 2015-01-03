@@ -1,5 +1,5 @@
 <?php
-require_once('libMysqli.php');//php5.2以上都优化过,不再考虑效率损失
+require_once 'libMysqli.php';//php5.2以上都优化过,不再考虑效率损失
 //获取uid
 //int getUid(void){}
 function getUid(){

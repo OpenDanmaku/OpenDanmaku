@@ -1,5 +1,5 @@
 <?php
-require_once('libMysqli.php');
+require_once('libMysqli.php');//php5.2以上都优化过,不再考虑效率损失
 function checkCookie (){
 	if(!isset($_COOKIE['uid']))
 		die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空

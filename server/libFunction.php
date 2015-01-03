@@ -20,14 +20,27 @@ function getBtih(){//string getBtih(void){}
 		die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
 	return $btih;
 }
-function checkUid ($uid=NULL){//boolean checkUid(int uid){}
-if is_null($uid){
+//检查uid是否存在
+function checkUid($uid){
+	$result=NULL;
+	$count=safe_query('SELECT `uid` FROM `user` WHERE `btih` = ?;', &$result, array('i',$uid));
+	if($count===1) return true;
+	else return false;	
+}
+//检查btih是否存在
+function checkBtih($btih){
+	$result=NULL;
+	$count=safe_query('SELECT `uid` FROM `video` WHERE `btih` = unhex(?);', &$result, array('s',$btih));
+	if($count===1) return true;
+	else return false;
+}
+//检验cookie是否正确
+function checkCookie(){//boolean checkUid(void){}
 	$uid=getUid();
 	//获取Cookie对应用户数据,如果key不符合,退出
 	$result=NULL;
 	$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',$uid));
 	if($count!=1) die(json_err('cookie_invalid',-1,'Error: Invalid Cookie'));//返回空
-
 	//!= == >= 代表作为数字比较
 	if($result[0]['key']!=intval($_COOKIE['key']) 
 		die(json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key'));//key不符合
@@ -35,16 +48,8 @@ if is_null($uid){
 		die(json_err('cookie_deleted',-1,'Error: Deleted Cookie'));//status禁用
 	if($result[0]['time']>=time()) 
 		die(json_err('cookie_inactive',-1,'Error: Not Yet Active'));//time还在硬直中
-	return TRUE;
-}else {
-	
+	return true;
 }
-function checkBtih($btih){
-	
-}
-
-
-
 function normalFreeze($uid,$ScoreNewComment,$DelayNewCommen){
 	//提高积分并暂时硬直[uid,key,time,point,status]
 	$blackhole=NULL;

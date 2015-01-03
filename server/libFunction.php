@@ -5,9 +5,10 @@ function getUid(){//int getUid(void){}
 		die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));
 	return intval($_COOKIE['uid']);
 }
-function getBtih(){//string getBtih(void){}
+function getBtih($btih=NULL){//string getBtih([string $btih=NULL]){}
 	//读取参数btih,并字符串化,小写化
-	$btih=trim(strtolower(strval($_REQUEST['btih'])));
+	if (is_null($btih)) $btih=$_REQUEST['btih'];
+	$btih=trim(strtolower(strval($btih)));
 	
 	//如果是完整磁链,截取btih,btih长度为40
 	$pos=strpos($btih,"btih:");//len('btih:')===5

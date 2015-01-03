@@ -1,6 +1,6 @@
 <?php
-require('libMysqli.php');
-require('libFunction.php');
+require 'libMysqli.php';
+require 'libFunction.php';
 header("Access-Control-Allow-Origin: *");//无限制
 
 //获取任务

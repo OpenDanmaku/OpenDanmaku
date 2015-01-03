@@ -7,7 +7,7 @@
 	$DB_PORT=      3306;	//database port
 	/* be aware 'const' works ONLY INSIDE of a class definition */
 	
-	/* class BindParam: bind parameters for mysqli_stmt::bind_param 
+/* class BindParam: bind parameters for mysqli_stmt::bind_param 
 	class BindParam {
 		private $values = array(), $types = '';
 		public function add( $type, &$value ) {

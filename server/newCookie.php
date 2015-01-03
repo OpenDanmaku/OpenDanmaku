@@ -13,7 +13,7 @@ if($_SESSION['vcode'] != $_REQUEST['vcode']) {
 }
 
 //如果有旧Cookie
-if(isset($_COOKIE['uid'])) {
+if(isset($_COOKIE['uid'])) {//不能使用getCookie或者checkCookie来判断有无cookie!!!
 	//获取Cookie对应用户数据,如果key不符合,退出
 	checkCookie();
 	$uid=getUid();

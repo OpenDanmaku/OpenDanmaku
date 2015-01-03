@@ -1,4 +1,5 @@
 <?php
+//affected_rows works like num_rows on SELECT statements
 include 'libConfig.php';
 /* configuration, common classes and functions
 
@@ -24,7 +25,7 @@ function json_err($err_type=0, $err_num=0, $err_msg=0){
 		&$result        = reference of $result;
 		$bind_params    = array('idsb', $i, $d, $s, $b);//stop using class BindParam
 	Return:
-		num_rows
+		affected_rows
 		&$result        = return NULL or array();
 	Procedure:	
 		connect -> prepare -> bind_param -> execute -> store_result -> bind_result-> fetch	
@@ -92,7 +93,7 @@ function safe_query($query, &$result, $bind_params=NULL){//stop using class Bind
 	$rc = $stmt->field_count;//int $mysqli_stmt->field_count;
 	/* check field_count */
 	if ($rc<1) //no columns bounded
-		return $stmt->num_rows;
+		return $stmt->affected_rows;
 	/* 
 	RETURN 0;
 	
@@ -148,13 +149,13 @@ function safe_query($query, &$result, $bind_params=NULL){//stop using class Bind
 	}
 
 	/* exit */
-	$count_rows = $stmt->num_rows;
+	$count_rows = $stmt->affected_rows;
 	$stmt->free_result();
 	$stmt->close();
 	$mysqli->close();
 	return $count_rows;
 	/* 
-	RETURN $stmt->num_rows;
+	RETURN $stmt->affected_rows;
 	*/
 }
 ?>

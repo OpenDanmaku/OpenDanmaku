@@ -1,7 +1,8 @@
 <?php
 /* require_once('libMysqli.php');//php5.2以上都优化过,不再考虑效率损失 */
 function getUid(){//int getUid(void){}
-	if(!isset($_COOKIE['uid'])) die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));//返回空
+	if(!isset($_COOKIE['uid'])) 
+		die(json_encode(array("err_type"=>'cookie_empty',"err_num"=>-1,"err_msg"=>'Error: No Cookie Submitted')));
 	return intval($_COOKIE['uid']);
 }
 function getBtih(){//string getBtih(void){}
@@ -15,7 +16,8 @@ function getBtih(){//string getBtih(void){}
 	
 	//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,
 	//见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
-	if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
+	if(strlen($btih)!==40 or !ctype_xdigit($btih)) 
+		die(json_encode(array("err_type"=>'btih_incorrect',"err_num"=>-1,"err_msg"=>'Error: Link Not Correct')));
 	return $btih;
 }
 ?>

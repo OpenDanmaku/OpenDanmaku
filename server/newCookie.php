@@ -39,7 +39,7 @@ if(isset($_COOKIE['uid'])) {//不能使用getCookie或者checkCookie来判断有
 }
 
 //然后获取下一个Cookie
-$uid   = $result[0]['uid']+1;//无论如何都要取最近user的原因,因为封装我不能访问last_affected_id
+$uid   = $result[0]['uid']+1;//无论如何都要取最近user的原因,因为封装我不能访问last_affected_id,而我需要向cookie写入uid
 $key   = rand(0, 4294967295);
 $time  = time()+ 0;//观察期,暂定为新Cookie立刻可以发言
 $point = 100; 

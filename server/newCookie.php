@@ -54,5 +54,5 @@ if($count!=1)
 //设置Cookie
 setcookie("uid", $uid, 2147483647);//Cookie永不过期
 setcookie("key", $key, 2147483647);//Cookie永不过期
-exit(json_err('cookie_create',0,'New Cookie Begotten!'));// 用不着关闭MySQL
+exit(json_err('newCookie',0,'New Cookie Begotten!'));// 用不着关闭MySQL
 ?>

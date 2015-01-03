@@ -33,8 +33,13 @@ function checkBtih(){
 	//检验btih长度(应该<=40)与有效性,即使btih仅由0-9组成也没关系,
 	//见http://www.cnblogs.com/mincyw/archive/2011/02/10/1950733.html
 	if(strlen($btih)!==40 or !ctype_xdigit($btih)) die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
-	return $btih
+	return $btih;
 }
-
+function normalFreeze($uid,$ScoreNewComment,$DelayNewCommen){
+	//提高积分并暂时硬直[uid,key,time,point,status]
+	$blackhole=NULL;
+	$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", &$blackhole, 
+			array('iii', $ScoreNewComment, $DelayNewComment, $uid));
+}
 
 ?>

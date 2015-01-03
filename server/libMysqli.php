@@ -1,6 +1,6 @@
 <?php
 //affected_rows works like num_rows on SELECT statements
-include 'libConfig.php';
+require 'libConfig.php';
 /* configuration, common classes and functions
 
 	database consts;

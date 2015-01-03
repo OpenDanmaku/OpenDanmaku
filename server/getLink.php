@@ -1,6 +1,6 @@
 <?php
-require('libMysqli.php');
-require('libFunction.php');
+require 'libMysqli.php';
+require 'libFunction.php';
 header("Access-Control-Allow-Origin: *");//无限制
 	
 //读取参数btih,并字符串化,小写化

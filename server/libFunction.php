@@ -1,11 +1,15 @@
 <?php
 require_once('libMysqli.php');//php5.2以上都优化过,不再考虑效率损失
-function getUid(){//int getUid(void){}
+//获取uid
+//int getUid(void){}
+function getUid(){
 	if(!isset($_COOKIE['uid'])) 
 		die(json_err('cookie_empty',-1,'Error: No Cookie Submitted'));
 	return intval($_COOKIE['uid']);
 }
-function getBtih($btih=NULL){//string getBtih([string $btih=NULL]){}
+//获取btih
+//string getBtih([string $btih=NULL]){}
+function getBtih($btih=NULL){
 	//读取参数btih,并字符串化,小写化
 	if (is_null($btih)) $btih=$_REQUEST['btih'];
 	$btih=trim(strtolower(strval($btih)));
@@ -21,14 +25,16 @@ function getBtih($btih=NULL){//string getBtih([string $btih=NULL]){}
 		die(json_err('btih_incorrect',-1,'Error: Link Not Correct'));
 	return $btih;
 }
-//检查uid是否存在
+//检查uid是否在数据库中存在
+//boolean checkUid(int $uid){}
 function checkUid($uid){
 	$result=NULL;
 	$count=safe_query('SELECT `uid` FROM `user` WHERE `btih` = ?;', &$result, array('i',$uid));
 	if($count===1) return true;
 	else return false;	
 }
-//检查btih是否存在
+//检查btih是否在数据库中存在
+//boolean checkBtih(string $uid){}
 function checkBtih($btih){
 	$result=NULL;
 	$count=safe_query('SELECT `uid` FROM `video` WHERE `btih` = unhex(?);', &$result, array('s',$btih));
@@ -36,7 +42,8 @@ function checkBtih($btih){
 	else return false;
 }
 //检验cookie是否正确
-function checkCookie(){//boolean checkUid(void){}
+//boolean checkUid(void){}
+function checkCookie(){
 	$uid=getUid();
 	//获取Cookie对应用户数据,如果key不符合,退出
 	$result=NULL;
@@ -51,10 +58,12 @@ function checkCookie(){//boolean checkUid(void){}
 		die(json_err('cookie_inactive',-1,'Error: Not Yet Active'));//time还在硬直中
 	return true;
 }
-function normalFreeze($uid,$ScoreNewComment,$DelayNewCommen){
-	//提高积分并暂时硬直[uid,key,time,point,status]
+//提高积分并暂时硬直,字段[uid,key,time,point,status]
+//boolean normalFreeze(int $uid,int $ScoreNewComment,int $DelayNewComment){}
+function normalFreeze($uid,$ScoreNewComment,$DelayNewComment){
 	$blackhole=NULL;
 	$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;", &$blackhole, 
 			array('iii', $ScoreNewComment, $DelayNewComment, $uid));
+	return true;
 }
 ?>

@@ -19,16 +19,17 @@ $btih_2=getBtih($head[1]);
 $count =intval ($head[2]);
 if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: First Video is Not Available.'));//返回空
 if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: Second Video is Not Available.'));//返回空
-$linkage_1=array(array(implode$btih_1,$btih_2,strval($count)))
+$linkage_1=array(implode(',',array($btih_1,$btih_2,strval($count))));//反正不用来索引,都是$btih_1开头又如何
+$linkage_2=array(implode(',',array($btih_2,$btih_1,strval($count))));//反正不用来索引,都是$btih_2开头又如何
 
+//其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
 foreach ($linkage as $semicolon){//去掉头部的linkage
 	$comma=explode(',',trim($semicolon));
 	if (count($comma)<3 ) die(json_err('btih_incorrect',-1,'Error: Link is Not Valid'));
-	$offset=array[];
-	$offset[]=intval
-	
-}$element
-
+	$linkage_1[]=implode(',',array(intval($comma[0]),intval($comma[1]),intval($comma[2])));//012
+	$linkage_2[]=implode(',',array(intval($comma[1]),intval($comma[0]),intval($comma[2])));//102
+	//其实都应该用intval(preg_replace('/[^0-9]/', '', $input)),或者[^0-9A-F],暂时不管了
+}
 //KV读取
 	if(!$link_1   = $kv->get($btih1 . ",l" )) die("Error:" . $kv->errno());//array,赋值运算表达式的值也就是所赋的值
 	if(!$l_1_index= $kv->get($btih1 . ",li")) die("Error:" . $kv->errno());//json, 赋值运算表达式的值也就是所赋的值

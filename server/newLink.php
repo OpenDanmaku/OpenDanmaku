@@ -12,8 +12,16 @@ $const_DelayNewLink = 60;//60秒硬直
 	$uid=getUid();
 
 //$_GET和$_REQUEST已经urldecode()了！
-$linkage=explode(';',trim($_REQUEST['linkage']);
-foreach ($linkage as $semicolon){
+$linkage=explode(';',trim($_REQUEST['linkage']);//元素都是字符串
+$head=trim(array_shift($linkage));
+$btih_1=getBtih($head[0]);
+$btih_2=getBtih($head[1]);
+$count =intval ($head[2]);
+if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: First Video is Not Available.'));//返回空
+if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: Second Video is Not Available.'));//返回空
+$linkage_1=array(array(implode$btih_1,$btih_2,strval($count)))
+
+foreach ($linkage as $semicolon){//去掉头部的linkage
 	$comma=explode(',',trim($semicolon));
 	if (count($comma)<3 ) die(json_err('btih_incorrect',-1,'Error: Link is Not Valid'));
 	$offset=array[];
@@ -21,47 +29,6 @@ foreach ($linkage as $semicolon){
 	
 }$element
 
-
-
-
-//读取参数: BTIH1,BTIH2,time
-	//检验BTIH有效性并小写化,"magnet:?xt=urn:btih:"长度为20,btih长度为40
-	//即使btih仅由0-9组成也没关系,因为代码中不存在hex与unhex
-	//btih1
-	$btih1=(string)$_REQUEST['btih1'];//字符串
-	if(strlen($btih1)>=60 and strpos($btih1,"magnet:?xt=urn:btih:")===0)	//如果是完整磁链
-		$btih1=substr($btih1,20,40);										//截取btih
-	if(strlen($btih1)!==40 or !ctype_xdigit($btih1))//防注入
-		die("Error: Link Not Valid.");
-	$btih1= strtolower($btih1);
-	//btih2
-	$btih2=(string)$_REQUEST['btih2'];//字符串
-	if(strlen($btih2)>=60 and strpos($btih2,"magnet:?xt=urn:btih:")===0)
-		$btih2=substr($btih2,20,40);
-	if(strlen($btih2)!==40 or !ctype_xdigit($btih2))//防注入
-		die("Error: Link Not Valid.");
-	$btih2= strtolower($btih2);
-	//禁止自引用
-	if($btih1==$btih2)die("You Should NOT Link It with Itself");
-	//time
-	$btih1_time1=$btih1 . "," . strval( (int)$_REQUEST['time']);//字符串,注意并不一定是正的,赋给btih1
-	$btih2_time2=$btih2 . "," . strval(-(int)$_REQUEST['time']);//相反数,注意并不一定是负的,赋给btih2
-
-//查询btih是否还不存在
-	//查询视频是否已经存在,如BTIH1不存在,退出
-	$sql = "SELECT * FROM `video` WHERE `btih` = x'" . $btih1 . "';";
-	$check1 = $mysql->getLine($sql);
-	if($mysql->errno()!= 0)
-		die("Error:" . $mysql->errmsg());	//出错
-	if($mysql->affectedRows()!=1)			
-		die("Error: Not Exists " . $btih1); //为空(或太多)
-	//查询视频是否已经存在,如BTIH2不存在,退出
-	$sql = "SELECT * FROM `video` WHERE `btih` = x'" . $btih2 . "';";
-	$check2 = $mysql->getLine($sql);
-	if($mysql->errno()!= 0)
-		die("Error:" . $mysql->errmsg());	//出错
-	if($mysql->affectedRows()!=1)			
-		die("Error: Not Exists " . $btih2); //为空(或太多)
 //KV读取
 	if(!$link_1   = $kv->get($btih1 . ",l" )) die("Error:" . $kv->errno());//array,赋值运算表达式的值也就是所赋的值
 	if(!$l_1_index= $kv->get($btih1 . ",li")) die("Error:" . $kv->errno());//json, 赋值运算表达式的值也就是所赋的值

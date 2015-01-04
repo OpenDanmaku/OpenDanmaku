@@ -30,7 +30,7 @@ if($count!=1)
 	die(json_err('video_notcreated',-1,'Error: Failed to Create New Video'));//返回空
 
 //提高积分并暂时硬直
-normalFreeze($uid, $const_ScoreNewComment, $const_DelayNewComment);
+normalFreeze($uid, $const_ScoreNewVideo, $const_DelayNewVideo);
 //返回成功页面
 exit(json_err('newVideo',0,"Video Created Successfully!"));
 ?>

@@ -61,7 +61,12 @@
 	*	[getVideo.php?btih=BTIH&amp;action=time](#getvideophpbtihbtihactiontime)
 		*	[[Parameters](#parameters-12)]
 		*	[[Data Returned](#data-returned-13)]
-	*	[getVideo.php?btih=BTIH&amp;action=](#getvideophpbtihbtihaction)
+	*	[getVideo.php?btih=BTIH&amp;action=view](#getvideophpbtihbtihactionview)
+		*	[[Parameters](#parameters-13)]
+		*	[[Data Returned](#data-returned-14)]
+	*	[getVideo.php?btih=BTIH&amp;action=view](#getvideophpbtihbtihactionreply)
+		*	[[Parameters](#parameters-14)]
+		*	[[Data Returned](#data-returned-15)]
 
 ## INFORMATION  
 ### TYPE  
@@ -166,6 +171,7 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 ```
 #### [Side Effect]
 `reply` auto-increases by 1.
+
 |Score|Delay|Punishment|
 | --: | --: | -------: |
 |    1|    3|        No|
@@ -290,6 +296,7 @@ E.g. getComment.php?btih=BTIH&action=recent&start=3
 ```
 #### [Side Effect]
 **New Cookies**
+
 |Key Name|Value Type| Overdue  |
 | :----- | -------: | :------- |
 |uid     |   integer|2147483647|

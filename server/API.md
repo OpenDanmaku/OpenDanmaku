@@ -76,14 +76,14 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 #### [Data Returned]  
 ```json
 [
-{"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid":0},
-{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid":1},
-{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":2},
-{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":3},
-{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid":4},
-{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid":5},
-{"c":"163.913,16777215,1,25,5740,1420098752","m":"量子物理的既视感~@虐猫狂人薛定谔","cid":6},
-{"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid":7}
+{"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid":0},
+{"c":"163.913,16777215,1,25,5740,1420098752","m":"量子物理的既视感~@虐猫狂人薛定谔","cid":1},
+{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid":2},
+{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid":3},
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":4},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":5},
+{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid":6},
+{"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid":7}
 ]
 ```
 ## WHEN PLAYING  
@@ -102,6 +102,7 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 }
 ```
 #### [Side Effect]
+`reply` auto-increases by 1.
 |Score|Delay|Punishment|
 | --: | --: | -------: |
 |    1|    3|        No|
@@ -125,27 +126,89 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 | --: | --: | -------------------------: |
 |  -20|   30|4 more hours when score is 0|
 ### getComment.php?btih=BTIH&action=cid
-[Optional Parameters]
-	start = default 0
-	end   = default `reply` - 1
-[Data Returned]
-
+#### [Parameters]  
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|time         |
+|start   | Optional|   integer|0            |
+|end     | Optional|   integer|`reply` - 1  |
+#### [Data Returned]  
+E.g. getComment.php?btih=BTIH&action=cid&start=2&end=5
+```json
+[
+{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid":2},
+{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid":3},
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":4},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":5}
+]
+```
+#### [Side Effect]
+`view` auto-increases by 1.
 ### getComment.php?btih=BTIH&action=time
-[Optional Parameters]
-	start = timestamp default 0
-	end   = timestamp default now()
-[Data Returned]
-
+#### [Parameters]  
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|time         |
+|start   | Optional|   integer|0            |
+|end     | Optional|   integer|now()        |
+#### [Data Returned]  
+E.g. getComment.php?btih=BTIH&action=time&start=1420098750&end=1420100120
+```json
+[
+{"c":"163.913,16777215,1,25,5740,1420098752","m":"量子物理的既视感~@虐猫狂人薛定谔","cid":1},
+{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid":2},
+{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid":3},
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":4},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":5},
+{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid":6}
+]
+```
+#### [Side Effect]
+`view` auto-increases by 1.
 ### getComment.php?btih=BTIH&action=recent
-[Optional Parameters]
-	start = default 0
-[Data Returned]
-
+#### [Parameters]  
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|time         |
+|start   | Optional|   integer|0            |
+#### [Data Returned]  
+E.g. getComment.php?btih=BTIH&action=recent&start=3
+```json
+[
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":4},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":5},
+{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid":6},
+{"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid":7}
+]
+```
+#### [Side Effect]
+**`view` does NOT auto-increase!!!**
 ### getComment.php?btih=BTIH&action=last
-[Optional Parameters]
-	count = default `reply`
-[Data Returned]
-
+#### [Parameters]  
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|time         |
+|start   | Optional|   integer|0            |
+|end     | Optional|   integer|now()        |
+#### [Data Returned]  
+```json
+[
+{"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid":0},
+{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid":1},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid":2},
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid":3},
+{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid":4},
+{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid":5},
+{"c":"163.913,16777215,1,25,5740,1420098752","m":"量子物理的既视感~@虐猫狂人薛定谔","cid":6},
+{"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid":7}
+]
+```
+#### [Side Effect]
+`view` auto-increases by 1.
 ## GETTING COOKIES
 ### getVcode.php
 #### [Parameters]  

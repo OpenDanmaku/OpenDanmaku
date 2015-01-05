@@ -1,17 +1,14 @@
 ### EXAMPLE
-*	【RH字幕組x傲嬌零字幕組】憑物語[01-04][v2][BIG5][720P][MP4]  
-	URL: http://bt.ktxp.com/html/2015/0105/391659.html  
-	magnet:?xt=urn:btih:99df93b28299fa02335e0194595bc567fbee9386
-*	【極影字幕社】 ★ 物語系列 憑物語 01-04 BIG5 MP4_720P
-	URL: http://bt.ktxp.com/html/2015/0103/391537.html
-	magnet:?xt=urn:btih:54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108
-*	【极影字幕社】 ★ 物语系列 凭物语 01-04 GB MP4_720P
-	URL: http://bt.ktxp.com/html/2015/0103/391534.html
-	magnet:?xt=urn:btih:588d1fb8530b6f2452dfd8bd658c184f65e95d2a
-*	[Leopard-Raws] 憑物語 (凭物语) Tsukimonogatari 01 ~ 04 END (BS11 1280x720 x264 AAC).mp4
-	URL: http://bt.ktxp.com/html/2015/0102/391524.html
-	magnet:?xt=urn:btih:c8000e819cce54f3ea284c9c6604c0e5d71ad2ba
+
+|Name                                                       |Magnet Link                                                 |
+| :-------------------------------------------------------- | :--------------------------------------------------------- |
+|【RH字幕組x傲嬌零字幕組】憑物語[01-04][v2][BIG5][720P][MP4]|magnet:?xt=urn:btih:99df93b28299fa02335e0194595bc567fbee9386|
+|【極影字幕社】 ★ 物語系列 憑物語 01-04 BIG5 MP4_720P      |magnet:?xt=urn:btih:54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108|
+|【极影字幕社】 ★ 物语系列 凭物语 01-04 GB MP4_720P        |magnet:?xt=urn:btih:588d1fb8530b6f2452dfd8bd658c184f65e95d2a|
+|【Leopard-Raws】  憑物語 (凭物语) 01 ~ 04 END .mp4         |magnet:?xt=urn:btih:c8000e819cce54f3ea284c9c6604c0e5d71ad2ba|
+
 ### TYPE  
+
 |Name  |Information                                                                               |
 | :--- | :--------------------------------------------------------------------------------------- |
 |bith  |160 bit Binary Value, submitted as 40 character HEX string.                               |

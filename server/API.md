@@ -1,22 +1,21 @@
-# TYPE  
+### TYPE  
 **bith**  
-	160 bit Binary Value, submitted as 40 character HEX string.
+	160 bit Binary Value, submitted as 40 character HEX string.  
 **time**  
-	UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.
+	UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.  
 **json**  
-	Standard JSON string. Clearing whitespace character is encouraged.
+	Standard JSON string. Clearing whitespace character is encouraged.  
 **option**  
-	Keys and values should be submitted in lower case. Whitespace character is not allowed
-# Usage  
-## Loading Danmaku  
-### getVideo.php?action=find  
-*	[Parameters]  
+	Keys and values should be submitted in lower case. Whitespace character is not allowed  
+### Loading Danmaku  
+#### getVideo.php?action=find  
+**[Parameters]**
 
 |Key Name|Request |Value Type|Default Value|
 |:-------|-------:|---------:|:------------|
 |btih    |  Forced|      btih|x Return Err |
 |action  |Optional|    option|find         |
-*	[Data Returned]  
+**[Data Returned]**
 ```
 {"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420440845,"view":100,"reply":30}
 ```

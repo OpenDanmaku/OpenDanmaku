@@ -1,12 +1,13 @@
 # README  
 ## INFORMATION  
 ### TYPE  
-|Name  |Information                                                                               |
-| :--- | :--------------------------------------------------------------------------------------- |
-|bith  |160 bit Binary Value, submitted as 40 character HEX string.                               |
-|time  |UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.  |
-|json  |Standard JSON string. Clearing whitespace character is encouraged.                        |
-|option|Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
+|Name   |Information                                                                               |
+| :---- | :--------------------------------------------------------------------------------------- |
+|bith   |160 bit Binary Value, submitted as 40 character HEX string.                               |
+|time   |UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.  |
+|json   |Standard JSON string. Clearing whitespace character is encouraged.                        |
+|option |Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
+|linkage|btihA,btih2,offset_count[;offset1A,offset1B,duration1[;offset2A,offset2B,duration2[;...]]]|
 ### ERROR
 When key `err_num` exists and its value is not 0, some error happens.  
 **You Should Check Error Info from Source Files.**  
@@ -52,12 +53,12 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 "reply":30
 }
 ```
-### getLink.php
-#### [Parameters]
+### getLink.php  
+#### [Parameters]  
 |Key Name|Request |Value Type|Default Value|
 |:-------|-------:|---------:|:------------|
 |btih    |  Forced|      btih|x Return Err |
-##### [Data Returned]
+#### [Data Returned]  
 ```json
 {
 "99df93b28299fa02335e0194595bc567fbee9386,54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108,0":25,
@@ -65,13 +66,13 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 "99df93b28299fa02335e0194595bc567fbee9386,c8000e819cce54f3ea284c9c6604c0e5d71ad2ba,2;0,1000,60000;60000,76000,7200000":45
 }
 ```
-###	getComment.php?btih=BTIH&action=all
-#### [Parameters]
+### getComment.php?btih=BTIH&action=all  
+#### [Parameters]  
 |Key Name|Request |Value Type|Default Value|
 | :----- | -----: | -------: | :---------- |
 |btih    |  Forced|      btih|x RETURN ERR |
 |action  |Optional|    option|all          |
-#### [Data Returned]
+#### [Data Returned]  
 ```json
 [
 {"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid":0},
@@ -84,44 +85,105 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 {"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid":7}
 ]
 ```
-# When Playing
-*	newComment.php
-[Optional Parameters]
+## WHEN PLAYING  
+### newComment.php  
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|btih    |  Forced|      btih|x RETURN ERR |
+|comment |  Forced|      json|x RETURN ERR |
+#### [Data Returned]
+```json
+{
+"err_type":"newComment",
+"err_num":0,
+"err_msg":"Comment Created Successfully!"
+}
+```
+#### [Side Effect]
+|Score|Delay|Punishment|
+| --: | --: | -------: |
+|    1|    3|        No|
+### newDislike.php
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|btih    |  Forced|      btih|x RETURN ERR |
+|cid     |  Forced|   integer|x RETURN ERR |
 [Data Returned]
-
-*	newDislike.php
-[Optional Parameters]
-[Data Returned]
-
-*	getComment.php?btih=BTIH&action=cid
+#### [Data Returned]
+```json
+{
+"err_type":"newDislike",
+"err_num":0,
+"err_msg":"Dislike Created Successfully!"
+}
+```
+#### [Side Effect]
+|Score|Delay|Punishment                  |
+| --: | --: | -------------------------: |
+|  -20|   30|4 more hours when score is 0|
+### getComment.php?btih=BTIH&action=cid
 [Optional Parameters]
 	start = default 0
 	end   = default `reply` - 1
 [Data Returned]
 
-*	getComment.php?btih=BTIH&action=time
+### getComment.php?btih=BTIH&action=time
 [Optional Parameters]
 	start = timestamp default 0
 	end   = timestamp default now()
 [Data Returned]
 
-*	getComment.php?btih=BTIH&action=recent
+### getComment.php?btih=BTIH&action=recent
 [Optional Parameters]
 	start = default 0
 [Data Returned]
 
-*	getComment.php?btih=BTIH&action=last
+### getComment.php?btih=BTIH&action=last
 [Optional Parameters]
 	count = default `reply`
 [Data Returned]
 
-获取饼干
+## GETTING COOKIES
 getVcode.php
 newCookie.php
-创建视频与引用
-newVideo.php
-newLink.php
-## GETTING VIDEO  
+## CREATING NEW VIDEO AND LINK
+###newVideo.php
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|btih    |  Forced|      btih|x RETURN ERR |
+#### [Data Returned]
+```json
+{
+"err_type":"newVideo",
+"err_num":0,
+"err_msg":"Video Created Successfully!"
+}
+```
+#### [Side Effect]
+|Score|Delay|Punishment|
+| --: | --: | -------: |
+|   10|   60|        No|
+###newLink.php
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|linkage |  Forced|   linkage|x RETURN ERR |
+#### [Data Returned]
+```json
+{
+"err_type":"newLink",
+"err_num":0,
+"err_msg":"Links Created Successfully!"
+}
+```
+#### [Side Effect]
+|Score|Delay|Punishment|
+| --: | --: | -------: |
+|   10|   60|        No|
+## GETTING VIDEO LIST  
 You can check its info from sites like:  
 	http://www.btspread.com/magnet/detail/hash/99df93b28299fa02335e0194595bc567fbee9386  
 	http://bt.ktxp.com/search.php?keyword=99df93b28299fa02335e0194595bc567fbee9386  

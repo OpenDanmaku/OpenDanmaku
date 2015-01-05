@@ -20,7 +20,7 @@ $cid=intval(trim($_REQUEST['cid']));//注意cid始终是字符串
 	//checkBtih();//用不着,下面语句解决了
 
 $result=NULL;//d_index出错不会有严重影响,只要更新就好
-$count=safe_query("SELECT `c_index` `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",
+$count=safe_query("SELECT `c_index`, `dislike`, `d_index` FROM `video` WHERE `btih` = UNHEX(?);",
 		&$result, array('s',$btih));//http://stackoverflow.com/questions/1747894/
 if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//返回空
 
@@ -48,14 +48,14 @@ $count=safe_query("UPDATE `video` SET `dislike` = ?, `d_index` = ? WHERE `btih` 
 
 $now=time();
 //差评对方$this_uid,对方uid必然存在，是由newComment.php保证的
-$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END) 
+$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END), 
 `time`  = (CASE WHEN `score` + ? > 0 THEN `time` ELSE (CASE WHEN `time` > ? THEN `time` ELSE ? END) + ? END) 
 WHERE `uid` = ?;",//只有积分扣光才会禁言,不硬直,`time`与当前时间孰大者
 &$blackhole,array('iiiiiii',$const_ScoreNewDislike,$const_ScoreNewDislike,
 $const_ScoreNewDislike,$now,$now,$const_DelayRate,$this_uid));
 
 //减少我方$uid并暂时硬直	
-$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END) 
+$count=safe_query("UPDATE `user` SET `score` = (CASE WHEN `score` + ? > 0 THEN `score` + ? ELSE 0 END), 
 `time`  = (CASE WHEN `score` + ? > 0 THEN `time` + ? ELSE (CASE WHEN `time` > ? THEN `time` ELSE ? END) + ? END) 
 WHERE `uid` = ?;",//只有积分扣光才会禁言,要硬直,`time`与当前时间孰大者
 &$blackhole,array('iiiiiiii',$const_ScoreNewDislike,$const_ScoreNewDislike,

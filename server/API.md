@@ -1,10 +1,5 @@
-### EXAMPLE
-|Name                           |Magnet Link                                                 |
-| :---------------------------- | :--------------------------------------------------------- |
-|【RH字幕組x傲嬌零字幕組】憑物語|magnet:?xt=urn:btih:99df93b28299fa02335e0194595bc567fbee9386|
-|【極影字幕社】★物語系列 憑物語|magnet:?xt=urn:btih:54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108|
-|【极影字幕社】★物语系列 凭物语|magnet:?xt=urn:btih:588d1fb8530b6f2452dfd8bd658c184f65e95d2a|
-|【Leopard-Raws】憑物語 (凭物语)|magnet:?xt=urn:btih:c8000e819cce54f3ea284c9c6604c0e5d71ad2ba|
+# README  
+## INFORMATION  
 ### TYPE  
 |Name  |Information                                                                               |
 | :--- | :--------------------------------------------------------------------------------------- |
@@ -12,49 +7,62 @@
 |time  |UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.  |
 |json  |Standard JSON string. Clearing whitespace character is encouraged.                        |
 |option|Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
-### Loading Danmaku  
-#### getVideo.php?action=find  
-##### [Parameters]
+### EXAMPLE
+|Name                           |Magnet Link                                                 |
+| :---------------------------- | :--------------------------------------------------------- |
+|【RH字幕組x傲嬌零字幕組】憑物語|magnet:?xt=urn:btih:99df93b28299fa02335e0194595bc567fbee9386|
+|【極影字幕社】★物語系列 憑物語|magnet:?xt=urn:btih:54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108|
+|【极影字幕社】★物语系列 凭物语|magnet:?xt=urn:btih:588d1fb8530b6f2452dfd8bd658c184f65e95d2a|
+|【Leopard-Raws】憑物語 (凭物语)|magnet:?xt=urn:btih:c8000e819cce54f3ea284c9c6604c0e5d71ad2ba|
+## Loading Danmaku  
+### getVideo.php?action=find  
+#### [Parameters]
 |Key Name|Request |Value Type|Default Value|
 | :----- | -----: | -------: | :---------- |
-|btih    |  Forced|      btih|x Return Err |
+|btih    |  Forced|      btih|x RETURN ERR |
 |action  |Optional|    option|find         |
-##### [Data Returned]
-E.g. [RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/2015/0105/391659.html)
+#### [Data Returned]
+E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/2015/0105/391659.html)
 ```
-{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
+{
+"btih":"99df93b28299fa02335e0194595bc567fbee9386",
+"time":1420410963,
+"view":100,
+"reply":30
+}
 ```
-#### getLink.php
-##### [Parameters]
-
+### getLink.php
+#### [Parameters]
 |Key Name|Request |Value Type|Default Value|
 |:-------|-------:|---------:|:------------|
 |btih    |  Forced|      btih|x Return Err |
 ##### [Data Returned]
->	E.g. 【極影字幕社】 ★ 物語系列 憑物語 01-04 BIG5 MP4_720P
->	URL: http://bt.ktxp.com/html/2015/0103/391537.html
->	E.g. 【极影字幕社】 ★ 物语系列 凭物语 01-04 GB MP4_720P
->	URL: http://bt.ktxp.com/html/2015/0103/391534.html
->	[Leopard-Raws] 憑物語 (凭物语) Tsukimonogatari 01 ~ 04 END (BS11 1280x720 x264 AAC).mp4
->	URL: http://bt.ktxp.com/html/2015/0102/391524.html
-
-http://bt.ktxp.com/down/1420244427/54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108
-http://bt.ktxp.com/down/1420244427/54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108
-http://bt.ktxp.com/down/1420237201/588d1fb8530b6f2452dfd8bd658c184f65e95d2a
-http://bt.ktxp.com/down/1420203945/c8000e819cce54f3ea284c9c6604c0e5d71ad2ba
-
-
-
-[Data Returned]
-{}
-*	getComment.php?btih=BTIH&action=all
-[Optional Parameters]
-[Data Returned]
-
-*	getDislike.php?btih=BTIH
-[Optional Parameters]
-[Data Returned]
-
+```
+{
+"99df93b28299fa02335e0194595bc567fbee9386,54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108,0":25,
+"99df93b28299fa02335e0194595bc567fbee9386,588d1fb8530b6f2452dfd8bd658c184f65e95d2a,0":16,
+"99df93b28299fa02335e0194595bc567fbee9386,c8000e819cce54f3ea284c9c6604c0e5d71ad2ba,2;0,1000,60000;60000,76000,7200000":45
+}
+```
+###	getComment.php?btih=BTIH&action=all
+#### [Parameters]
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|btih    |  Forced|      btih|x RETURN ERR |
+|action  |Optional|    option|all          |
+##### [Data Returned]
+```
+[
+{"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid"=0},
+{"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid"=1},
+{"c":"120.576,16777215,1,25,2782,1420100083","m":"不不不，是返回好烦。。","cid"=2},
+{"c":"102.971,16777215,1,25,2782,1420100055","m":"男主是鬼吗？镜 子里都没影子。","cid"=3},
+{"c":"627.412,16711680,1,25,5602,1420099834","m":"这需要多少钱？","cid"=4},
+{"c":"102.531,16777215,1,25,6113,1420099663","m":"没人了吗？","cid"=5},
+{"c":"163.913,16777215,1,25,5740,1420098752","m":"量子物理的既视感~@虐猫狂人薛定谔","cid"=6},
+{"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid"=7}
+]
+```
 # When Playing
 *	newComment.php
 [Optional Parameters]

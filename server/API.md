@@ -146,9 +146,29 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 [Data Returned]
 
 ## GETTING COOKIES
-getVcode.php
-newCookie.php
+### getVcode.php
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|random  |Pseudo  |  anything|      nothing|
+#### [Data Returned]
+**Content-type: image/png**
+###newCookie.php
 ## CREATING NEW VIDEO AND LINK
+#### [Data Returned]
+```json
+{
+"err_type":"newCookie",
+"err_num":0,
+"err_msg":"New Cookie Begotten!"
+}
+```
+#### [Side Effect]
+**New Cookies**
+|Key Name|Value Type| Overdue  |
+| :----- | -------: | :------- |
+|uid     |   integer|2147483647|
+|key     |   integer|2147483647|
 ###newVideo.php
 #### [Parameters]  
 |Key Name|Request |Value Type|Default Value|

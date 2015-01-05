@@ -16,24 +16,37 @@ $linkage=explode(';',trim($_REQUEST['linkage']);//元素都是字符串
 $head=trim(array_shift($linkage));
 $btih_1=getBtih($head[0]);
 $btih_2=getBtih($head[1]);
-$count =intval ($head[2]);//偏移量的计数,不是数组有几个元素
-if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: First Video is Not Available.'));//返回空
-if (!checkBtih($btih_1)) die(json_err('btih_unavailable',-1,'Error: Second Video is Not Available.'));//返回空
+$count =intval ($head[2]);//偏移量的计数,下面与shift过后的数组$linkage的元素数比较
+if (count($linkage)<$count)die(json_err('link_incomplete',-1,'Error: Linkage is Not Complete.'));//正常应该相等,允许大于
+//if (!checkBtih($btih_1))  die(json_err('btih_unavailable',-1,'Error: First Video is Not Available.'));//返回空
+//if (!checkBtih($btih_1))  die(json_err('btih_unavailable',-1,'Error: Second Video is Not Available.'));//返回空
+//直接在下面取l_index时检测好了,不要额外消耗sql资源
 $linkage_1=array(implode(',',array($btih_1,$btih_2,strval($count))));//反正不用来索引,都是$btih_1开头又如何
 $linkage_2=array(implode(',',array($btih_2,$btih_1,strval($count))));//反正不用来索引,都是$btih_2开头又如何
+//其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
 
 $i=1;//一、接下来处理偏移量No.1
-//其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
 foreach ($linkage as $semicolon){//去掉头部的linkage
-	if ($i>$count) break;//三、如果下一个偏移量超过计数,退出循环
 	$comma=explode(',',trim($semicolon));
 	if (count($comma)<3 ) die(json_err('btih_incorrect',-1,'Error: Link is Not Valid'));
 	$linkage_1[]=implode(',',array(intval($comma[0]),intval($comma[1]),intval($comma[2])));//012
 	$linkage_2[]=implode(',',array(intval($comma[1]),intval($comma[0]),intval($comma[2])));//102
-	//其实都应该用intval(preg_replace('/[^0-9]/', '', $input)),或者[^0-9A-F],暂时不管了
-	$i++;//二、下一个偏移量;
-}
-if($i<=$count) die(json_err('link_incorrect',-1,'Error: Link is Not Correct'));//$i此时正常应该是$count+1,无论是正好还是多了
+	//其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
+	//其实都应该用strval(intval(preg_replace('/[^0-9]/', '', $input))),暂时不管了
+	//btih倒是不用[^0-9A-F],有xdigit在,而且要小心把magnet头当做数字处理的bug
+	if ((++$i)>$count) break;//二、如果下一个偏移量超过计数,退出循环
+}	//$i此时正常应该是$count+1,无论是正好还是多了
+$linkage_1=implode(';',$linkage_1);
+$linkage_2=implode(';',$linkage_2);
+
+$result_1=NULL;
+$count=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
+if($count!=1) 
+	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
+$result_2=NULL;
+$count=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
+if($count!=1) 
+	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
 
 //KV读取
 	if(!$link_1   = $kv->get($btih1 . ",l" )) die("Error:" . $kv->errno());//array,赋值运算表达式的值也就是所赋的值

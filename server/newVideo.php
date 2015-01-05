@@ -16,7 +16,7 @@ $const_DelayNewVideo = 60;//60秒硬直
 	
 //查询视频是否已经存在,如btih不存在,退出
 $result=NULL;//d_index出错不会有严重影响,只要更新就好
-$count=safe_query("SELECT `c_index` `dislike` `d_index` FROM `video` WHERE `btih` = UNHEX(?);",
+$count=safe_query("SELECT `c_index`, `dislike`, `d_index` FROM `video` WHERE `btih` = UNHEX(?);",
 		&$result, array('s',$btih));//http://stackoverflow.com/questions/1747894/
 if($count!=0) die(json_err('btih_created',-1,'Error: Video Already Exists'));//返回空
 

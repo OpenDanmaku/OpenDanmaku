@@ -1,6 +1,8 @@
 bith：160bit二进制数,表示成40位16进制数
 装载视频
 getVideo.php?btih=BTIH&[action=find]
+返回
+{`btih`:###, `time`:1420440845, `view`, `reply` 
 getLink.php?btih=BTIH
 getComment.php?btih=BTIH&[action=all]
 getDislike.php?btih=BTIH
@@ -19,3 +21,4 @@ newVideo.php
 newLink.php
 获取视频列表
 getVideo
+http://www.btspread.com/magnet/detail/hash/

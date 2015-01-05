@@ -13,7 +13,7 @@ When key `err_num` exists and its value is not 0, some error happens.
 `err_num` is not been asigned specifically yet, though 0 means, of course, no error.  
 **When Data are Transmitted, Error Info is Replaced by Data!**  
 #### WHEN ERR
-```
+```json
 {
 "err_type":"btih_unavailable",
 "err_num":-1,
@@ -21,7 +21,7 @@ When key `err_num` exists and its value is not 0, some error happens.
 }
 ```
 #### WHEN NO ERR AND NO DATA
-```
+```json
 {
 "err_type":"newComment",
 "err_num":0,
@@ -44,7 +44,7 @@ When key `err_num` exists and its value is not 0, some error happens.
 |action  |Optional|    option|find         |
 #### [Data Returned]
 E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/2015/0105/391659.html)
-```
+```json
 {
 "btih":"99df93b28299fa02335e0194595bc567fbee9386",
 "time":1420410963,
@@ -58,7 +58,7 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 |:-------|-------:|---------:|:------------|
 |btih    |  Forced|      btih|x Return Err |
 ##### [Data Returned]
-```
+```json
 {
 "99df93b28299fa02335e0194595bc567fbee9386,54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108,0":25,
 "99df93b28299fa02335e0194595bc567fbee9386,588d1fb8530b6f2452dfd8bd658c184f65e95d2a,0":16,
@@ -72,7 +72,7 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 |btih    |  Forced|      btih|x RETURN ERR |
 |action  |Optional|    option|all          |
 ##### [Data Returned]
-```
+```json
 [
 {"c":"269.241,16777215,1,25,2782,1420100231","m":"这得几何原理多好才能看懂？","cid"=0},
 {"c":"151.506,16777215,1,25,2782,1420100114","m":"吸血鬼？","cid"=1},
@@ -133,11 +133,11 @@ You can check its info from sites like:
 |action  |Specified|    option|time         |
 #### [Data Returned]
 Last 7 Days' Video Info Ordered Descendingly By Time
-```
+```json
 [
-{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
-{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
-{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
+{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30},
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70},
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50},
 {"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
 ]
 ```
@@ -149,11 +149,11 @@ Last 7 Days' Video Info Ordered Descendingly By Time
 |action  |Specified|    option|view         |
 #### [Data Returned]
 Last 7 Days' Video Info Ordered Descendingly By View
-```
+```json
 [
-{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
-{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
-{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
+{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90},
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50},
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70},
 {"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
 ]
 ```
@@ -165,11 +165,11 @@ Last 7 Days' Video Info Ordered Descendingly By View
 |action  |Specified|    option|view         |
 #### [Data Returned]
 Last 7 Days' Video Info Ordered Descendingly By Reply
-```
+```json
 [
-{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
-{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
-{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
+{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90},
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70},
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50},
 {"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
 ]
 ```

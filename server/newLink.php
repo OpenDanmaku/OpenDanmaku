@@ -21,48 +21,49 @@ if (count($linkage)<$count)die(json_err('link_incomplete',-1,'Error: Linkage is 
 //if (!checkBtih($btih_1))  die(json_err('btih_unavailable',-1,'Error: First Video is Not Available.'));//返回空
 //if (!checkBtih($btih_1))  die(json_err('btih_unavailable',-1,'Error: Second Video is Not Available.'));//返回空
 //直接在下面取l_index时检测好了,不要额外消耗sql资源
-$linkage_1=array(implode(',',array($btih_1,$btih_2,strval($count))));//反正不用来索引,都是$btih_1开头又如何
-$linkage_2=array(implode(',',array($btih_2,$btih_1,strval($count))));//反正不用来索引,都是$btih_2开头又如何
+$key_1=array(implode(',',array($btih_1,$btih_2,strval($count))));//反正不用来索引,都是$btih_1开头又如何
+$key_2=array(implode(',',array($btih_2,$btih_1,strval($count))));//反正不用来索引,都是$btih_2开头又如何
 //其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
 
 $i=1;//一、接下来处理偏移量No.1
 foreach ($linkage as $semicolon){//去掉头部的linkage
 	$comma=explode(',',trim($semicolon));
 	if (count($comma)<3 ) die(json_err('btih_incorrect',-1,'Error: Link is Not Valid'));
-	$linkage_1[]=implode(',',array(intval($comma[0]),intval($comma[1]),intval($comma[2])));//012
-	$linkage_2[]=implode(',',array(intval($comma[1]),intval($comma[0]),intval($comma[2])));//102
+	$key_1[]=implode(',',array(intval($comma[0]),intval($comma[1]),intval($comma[2])));//012
+	$key_2[]=implode(',',array(intval($comma[1]),intval($comma[0]),intval($comma[2])));//102
 	//其实数值会被implode自动转化成字符串的,http://php.net/manual/zh/function.implode.php#109916
 	//其实都应该用strval(intval(preg_replace('/[^0-9]/', '', $input))),暂时不管了
 	//btih倒是不用[^0-9A-F],有xdigit在,而且要小心把magnet头当做数字处理的bug
 	if ((++$i)>$count) break;//二、如果下一个偏移量超过计数,退出循环
 }	//$i此时正常应该是$count+1,无论是正好还是多了
-$linkage_1=implode(';',$linkage_1);
-$linkage_2=implode(';',$linkage_2);
+$key_1=implode(';',$key_1);
+$key_2=implode(';',$key_2);
 
+//获取linkage和l_index
 $result_1=NULL;
-$count=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
-if($count!=1) 
+if(1!=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih))) 
 	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
-$result_2=NULL;
-$count=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
-if($count!=1) 
-	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
+$linkage_1 = json_decode($result_1[0]['1_index']);//json->array
+$l_index_1 = json_decode($result_1[0]['1_index']);//json->array
 
-//KV读取
-	if(!$link_1   = $kv->get($btih1 . ",l" )) die("Error:" . $kv->errno());//array,赋值运算表达式的值也就是所赋的值
-	if(!$l_1_index= $kv->get($btih1 . ",li")) die("Error:" . $kv->errno());//json, 赋值运算表达式的值也就是所赋的值
-	if(!$link_2   = $kv->get($btih2 . ",l" )) die("Error:" . $kv->errno());//array,赋值运算表达式的值也就是所赋的值
-	if(!$l_2_index= $kv->get($btih2 . ",li")) die("Error:" . $kv->errno());//json, 赋值运算表达式的值也就是所赋的值
+$result_2=NULL;
+if(1!=safe_query("SELECT `linkage`, `l_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih))) 
+	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
+$linkage_2 = json_decode($result_2[0]['1_index']);//json->array
+$l_index_2 = json_decode($result_2[0]['1_index']);//json->array
 
 //编辑键值
-	$l_1_index = json_decode($l_1_index);//json->array
-	$l_2_index = json_decode($l_2_index);//json->array
-	if(!isset($link_1[$btih2_time2])) //当然,对应的另一个link也不存在
-		$link_1[$btih2_time2]=array();//强制储存为一个数组,防止作为一个值储存
-	if(!isset($link_2[$btih1_time1])) //但是我还是要独立处理
-		$link_2[$btih1_time1]=array();//强制储存为一个数组,防止作为一个值储存
-	
-	$this_link1=$link_1[$btih2_time2];
+//如果有先例,不加分,但仍硬直
+if(isset($link_1[$key_1])) $const_ScoreNewLink = 0;
+//如果没有先例,强制储存为一个数组,防止作为一个值储存
+if(!isset($link_1[$key_1])) $link_1[$key_1]=array();//如果不存在btih,强制储存为一个数组,防止作为一个值储存
+if(!isset($link_2[$key_2])) $link_2[$key_2]=array();//当然,对应的另一个link也不存在,但是我还是要独立处理
+//如果已经提交
+if(in_array(
+	if(in_array(
+$link_1[$key_1][]=$uid;
+$link_2[$key_2][]=$uid;
+$this_link1=$link_1[$btih2_time2];
 	$this_link1[]=$userC['uid'];
 	$this_link2=$link_2[$btih1_time1];
 	$this_link2[]=$userC['uid'];

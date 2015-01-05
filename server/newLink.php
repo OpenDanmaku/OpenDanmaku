@@ -54,43 +54,38 @@ $l_index_2 = json_decode($result_2[0]['1_index']);//json->array
 
 //编辑键值
 //如果有先例,不加分,但仍硬直
-if(isset($link_1[$key_1])) $const_ScoreNewLink = 0;
+if(isset($linkage_1[$key_1]) and isset($linkage_2[$key_2])) $const_ScoreNewLink = 0;
 //如果没有先例,强制储存为一个数组,防止作为一个值储存
-if(!isset($link_1[$key_1])) $link_1[$key_1]=array();//如果不存在btih,强制储存为一个数组,防止作为一个值储存
-if(!isset($link_2[$key_2])) $link_2[$key_2]=array();//当然,对应的另一个link也不存在,但是我还是要独立处理
+if(!isset($linkage_1[$key_1])) $linkage_1[$key_1]=array();//如果不存在btih,强制储存为一个数组,防止作为一个值储存
+if(!isset($linkage_2[$key_2])) $linkage_2[$key_2]=array();//当然,对应的另一个link也不存在,但是我还是要独立处理
 //如果已经提交
-if(in_array(
-	if(in_array(
-$link_1[$key_1][]=$uid;
-$link_2[$key_2][]=$uid;
-$this_link1=$link_1[$btih2_time2];
-	$this_link1[]=$userC['uid'];
-	$this_link2=$link_2[$btih1_time1];
-	$this_link2[]=$userC['uid'];
-	
-	if(in_array($uid,$this_link1)) die("Error: You Have Already Submitted the Cross Link!");
-	if(in_array($uid,$this_link2)) die("Error: You Have Already Submitted the Cross Link!");
+if(in_array($uid,$linkage_1[$key_1]) and in_array($uid,$linkage_2[$key_2]))//By Val
+	die(json_err('link_resubmit',-1,'Error: You Have Already Submitted This Link'))
+//任意一个没提交
+if(!in_array($uid,$linkage_1[$key_1])) $linkage_1[$key_1][]=$uid;//Add Elements to Multidimensional Array
+if(!in_array($uid,$linkage_2[$key_2])) $linkage_2[$key_2][]=$uid;//http://stackoverflow.com/a/16308305
 
-	$link_1[$btih2_time2]=$this_link1;
-	$link_2[$btih1_time1]=$this_link2;
-	if(count($this_link1)!=count($this_link2)) die("Fatal Error.");//但愿不会出现,也许这句话反而会制造麻烦
-	$l_1_index[$btih2_time2]=count($this_link1);//这个自然是一个值,所以无所谓
-	$l_2_index[$btih1_time1]=count($this_link2);//这个自然是一个值,所以无所谓
-	$l_1_index = json_encode($l_1_index);//array->json
-	$l_2_index = json_encode($l_2_index);//array->json
+//if(count($linkage_1[$key_1])!=count($linkage_1[$key_1]))//但愿不会出现,也许这句话反而会制造麻烦
+//	die(json_err('link_count_not_match',-1,'Fatal Error: Link Not Match!'))
+$l_index_1[$key_1]=count($linkage_1[$key_1]);//这个自然是一个值,所以无所谓
+$l_index_2[$key_1]=count($linkage_2[$key_2]);//这个自然是一个值,所以无所谓
 
-//KV赋值
-	if(!$kv->set($btih1 . ",l", $link_1)) die("Error:" . $kv->errno());
-	if(!$kv->set($btih1 . ",li",$l_1_index)) die("Error:" . $kv->errno());
-	if(!$kv->set($btih2 . ",l", $link_2)) die("Error:" . $kv->errno());
-	if(!$kv->set($btih2 . ",li",$l_2_index)) die("Error:" . $kv->errno());
-	
-	
-	
-
+//保存linkage和l_index
+$linkage_1 = json_encode($linkage_1);//array->json
+$l_index_1 = json_encode($l_index_1);//array->json
+$linkage_2 = json_encode($linkage_2);//array->json
+$l_index_2 = json_encode($l_index_2);//array->json
+//我没办法在这里检查update成功，但失败lib_Mysqli必然报错退出
+//修改表`video`[vid,uid,btih,time,view,reply,comment,c_index,linkage,l_index,dislike,d_index]
+$blackhole=NULL;
+$count=safe_query("UPDATE `video` SET `linkage` = ?, `l_index` = ? WHERE `btih` = UNHEX(?);",
+		&$blackhole, array('sss', $linkage_1, $l_index_1, $bith_1));
+$blackhole=NULL;
+$count=safe_query("UPDATE `video` SET `linkage` = ?, `l_index` = ? WHERE `btih` = UNHEX(?);",
+		&$blackhole, array('sss', $linkage_2, $l_index_2, $bith_2));
 
 //提高积分并暂时硬直
 normalFreeze($uid, $const_ScoreNewLink, $const_DelayNewLink);
 //返回成功页面
-exit(json_err('newVideo',0,"Video Created Successfully!"));
+exit(json_err('newLink',0,"Links Created Successfully!"));
 ?>

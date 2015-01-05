@@ -7,6 +7,27 @@
 |time  |UNIX timestamp, '2015-01-01 00:00:00 UTC+8' is submitted as 32 bit integer '1420041600'.  |
 |json  |Standard JSON string. Clearing whitespace character is encouraged.                        |
 |option|Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
+### ERROR
+When key `err_num` exists and its value is not 0, some error happens.
+**You Should Check Error Info from Source Files.**
+`err_num` is not been asigned specifically yet, though 0 means, of course, no error.
+**When Data are Transmitted, Error Info is Replaced by Data!**
+#### WHEN ERR
+```
+{
+"err_type":"btih_unavailable",
+"err_num":-1,
+"err_msg":'Error: Video Not Yet Exists, Do You Want to Create It?"
+}
+```
+#### WHEN NO ERR AND NO DATA
+```
+{
+"err_type":"newComment",
+"err_num":0,
+"err_msg":"Comment Created Successfully!"
+}
+```
 ### EXAMPLE
 |Name                           |Magnet Link                                                 |
 | :---------------------------- | :--------------------------------------------------------- |

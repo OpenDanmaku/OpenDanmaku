@@ -68,6 +68,7 @@
 	*	[getVideo.php?btih=BTIH&amp;action=reply](#getvideophpbtihbtihactionreply)
 		*	[[Parameters]](#parameters-10)
 		*	[[Data Returned]](#data-returned-11)
+
 ## INFORMATION  
 ### TYPE  
 |Name   |Information                                                                               |

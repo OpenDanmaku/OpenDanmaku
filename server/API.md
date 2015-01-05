@@ -8,10 +8,10 @@
 |json  |Standard JSON string. Clearing whitespace character is encouraged.                        |
 |option|Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
 ### ERROR
-When key `err_num` exists and its value is not 0, some error happens.
-**You Should Check Error Info from Source Files.**
-`err_num` is not been asigned specifically yet, though 0 means, of course, no error.
-**When Data are Transmitted, Error Info is Replaced by Data!**
+When key `err_num` exists and its value is not 0, some error happens.  
+**You Should Check Error Info from Source Files.**  
+`err_num` is not been asigned specifically yet, though 0 means, of course, no error.  
+**When Data are Transmitted, Error Info is Replaced by Data!**  
 #### WHEN ERR
 ```
 {
@@ -121,16 +121,56 @@ newCookie.php
 创建视频与引用
 newVideo.php
 newLink.php
-### 获取视频列表
-
-#### getVideo.php?btih=BTIH&action=time
-getVideo.php?btih=BTIH&action=view
-getVideo.php?btih=BTIH&action=reply
-
-http://www.btspread.com/magnet/detail/hash/
+## 获取视频列表
+You can check its info from sites like: 
+	http://www.btspread.com/magnet/detail/hash/99df93b28299fa02335e0194595bc567fbee9386
+	http://bt.ktxp.com/search.php?keyword=99df93b28299fa02335e0194595bc567fbee9386
+### getVideo.php?btih=BTIH&action=time
+#### [Parameters]
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|time         |
+#### [Data Returned]
+Last 7 Days' Video Info Ordered Descendingly By Time
+```
 [
-	{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
-	{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":100,"reply":30}
-	{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":100,"reply":30}
-	{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":100,"reply":30}
+{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
+{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
 ]
+```
+### getVideo.php?btih=BTIH&action=view
+#### [Parameters]
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|view         |
+#### [Data Returned]
+Last 7 Days' Video Info Ordered Descendingly By View
+```
+[
+{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
+{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
+]
+```
+### getVideo.php?btih=BTIH&action=reply
+#### [Parameters]
+|Key Name| Request |Value Type|Default Value|
+| :----- | :-----: | -------: | :---------- |
+|btih    |   Forced|      btih|x RETURN ERR |
+|action  |Specified|    option|view         |
+#### [Data Returned]
+Last 7 Days' Video Info Ordered Descendingly By Reply
+```
+[
+{"btih":"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba","time":1420203945,"view":400,"reply":90}
+{"btih":"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108","time":1420244427,"view":200,"reply":70}
+{"btih":"588d1fb8530b6f2452dfd8bd658c184f65e95d2a","time":1420237201,"view":300,"reply":50}
+{"btih":"99df93b28299fa02335e0194595bc567fbee9386","time":1420410963,"view":100,"reply":30}
+]
+```
+

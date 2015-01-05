@@ -8,8 +8,16 @@
 -- PHP 版本: 5.2.9-2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
+--
+-- 如果将0保存到表的AUTO_INCREMENT列，该模式会很有用。
+--
+
+SET time_zone = "+08:00";
+
+--
+-- 时区改成北京了
+--
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;

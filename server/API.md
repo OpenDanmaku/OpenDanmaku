@@ -1,5 +1,126 @@
 # README  
-[TOC]
+
+
+[README](#readme)
+[INFORMATION](#information)
+[TYPE](#type)
+[ERROR](#error)
+[WHEN ERR](#when-err)
+[WHEN NO ERR AND NO DATA](#when-no-err-and-no-data)
+
+
+[EXAMPLE](#example)
+
+
+[LOADING DANMAKU](#loading-danmaku)
+[getVideo.php?action=find](#getvideophpactionfind)
+[[Parameters]](#parameters)
+[[Data Returned]](#data-returned)
+
+
+[getLink.php](#getlinkphp)
+[[Parameters]](#parameters-1)
+[[Data Returned]](#data-returned-1)
+
+
+[getComment.php?btih=BTIH&amp;action=all](#getcommentphpbtihbtihactionall)
+[[Parameters]](#parameters-2)
+[[Data Returned]](#data-returned-2)
+
+
+
+
+[WHEN PLAYING](#when-playing)
+[newComment.php](#newcommentphp)
+[[Parameters]](#parameters-3)
+[[Data Returned]](#data-returned-3)
+[[Side Effect]](#side-effect)
+
+
+[newDislike.php](#newdislikephp)
+[[Parameters]](#parameters-4)
+[[Data Returned]](#data-returned-4)
+[[Side Effect]](#side-effect-1)
+
+
+[getComment.php?btih=BTIH&amp;action=cid](#getcommentphpbtihbtihactioncid)
+[[Parameters]](#parameters-5)
+[[Data Returned]](#data-returned-5)
+[[Side Effect]](#side-effect-2)
+
+
+[getComment.php?btih=BTIH&amp;action=time](#getcommentphpbtihbtihactiontime)
+[[Parameters]](#parameters-6)
+[[Data Returned]](#data-returned-6)
+[[Side Effect]](#side-effect-3)
+
+
+[getComment.php?btih=BTIH&amp;action=recent](#getcommentphpbtihbtihactionrecent)
+[[Parameters]](#parameters-7)
+[[Data Returned]](#data-returned-7)
+[[Side Effect]](#side-effect-4)
+
+
+[getComment.php?btih=BTIH&amp;action=last](#getcommentphpbtihbtihactionlast)
+[[Parameters]](#parameters-8)
+[[Data Returned]](#data-returned-8)
+[[Side Effect]](#side-effect-5)
+
+
+
+
+[GETTING COOKIES](#getting-cookies)
+[getVcode.php](#getvcodephp)
+[[Parameters]](#parameters-5-1)
+[[Data Returned]](#data-returned-5-1)
+
+
+[newCookie.php](#newcookiephp)
+
+
+[CREATING NEW VIDEO AND LINK](#creating-new-video-and-link)
+
+[[Data Returned]](#data-returned-6-1)
+[[Side Effect]](#side-effect-2-1)
+
+
+[newVideo.php](#newvideophp)
+[[Parameters]](#parameters-6-1)
+[[Data Returned]](#data-returned-7-1)
+[[Side Effect]](#side-effect-3-1)
+
+
+[newLink.php](#newlinkphp)
+[[Parameters]](#parameters-7-1)
+[[Data Returned]](#data-returned-8-1)
+[[Side Effect]](#side-effect-4-1)
+
+
+
+
+[GETTING VIDEO LIST](#getting-video-list)
+[getVideo.php?btih=BTIH&amp;action=time](#getvideophpbtihbtihactiontime)
+[[Parameters]](#parameters-8-1)
+[[Data Returned]](#data-returned-9)
+
+
+[getVideo.php?btih=BTIH&amp;action=view](#getvideophpbtihbtihactionview)
+[[Parameters]](#parameters-9)
+[[Data Returned]](#data-returned-10)
+
+
+[getVideo.php?btih=BTIH&amp;action=reply](#getvideophpbtihbtihactionreply)
+[[Parameters]](#parameters-10)
+[[Data Returned]](#data-returned-11)
+
+
+
+
+
+
+
+
+
 ## INFORMATION  
 ### TYPE  
 |Name   |Information                                                                               |
@@ -112,7 +233,6 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 | :----- | -----: | -------: | :---------- |
 |btih    |  Forced|      btih|x RETURN ERR |
 |cid     |  Forced|   integer|x RETURN ERR |
-[Data Returned]
 #### [Data Returned]
 ```json
 {

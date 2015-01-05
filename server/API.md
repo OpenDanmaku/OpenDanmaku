@@ -162,7 +162,7 @@ E.g. [【RH字幕組x傲嬌零字幕組】憑物語](http://bt.ktxp.com/html/201
 |btih    |  Forced|      btih|x RETURN ERR |
 |comment |  Forced|      json|x RETURN ERR |
 
-example of comment, should be possessed with encodeURIComponent ()：
+example of comment, should be processed with encodeURIComponent ()：
 ```
 {"c":"101.719,16777215,1,25,6854,1420098741","m":"新房风，试试","cid":0}
 ```

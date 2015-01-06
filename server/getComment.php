@@ -7,17 +7,9 @@ header("Access-Control-Allow-Origin: *");//无限制
 $btih=getBtih();
 $result=NULL;
 $count=safe_query("SELECT `comment`, `c_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
-if($count!=1) 
-	die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));//无返回值
-exit(return[0]['d_index']);//返回字段d_index,该字段是json字符串
-
-	//获取弹幕和定位表
-	if(!($c_index = $kv->get($btih . ",ci"))) die("Error:" . $kv->errno());//先查询,宁缺勿错
-	if(!($comment = $kv->get($btih . ",c")) ) die("Error:" . $kv->errno());//赋值运算表达式的值也就是所赋的值
-	$c_index=json_decode($c_index);
-	$count = count($c_index);
-	$latest= $c_index[$count-1][1];//数组最后一条,第二个元素:time
-
+if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
+$c_index=json_decode($result[0]['c_index']);
+$comment=$result[0]['comment'];
 
 //获取任务
 if(isset($_REQUEST['action'])){

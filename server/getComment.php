@@ -38,24 +38,25 @@ case "cid":{//********按弹幕号[start,end]获取,计入view,参数为start,en
 	exit;
 	}
 break;//其实无用
-case "time":{		//********按时间[start,end]来获取,计入view,参数为start,end
-
-			//获取time起终点参数
-				//获取起点
-				$time_start = 0;												//假设起点为0
-				if(isset($_REQUEST['start'])) $temp=(int)$_REQUEST['start'];	//如果提交起点
-				if($temp >= 0 and $temp <= $count-1) $time_start = $temp;		//且居于[0,count-1]则重设起点
-				//获取终点
-				$time_end = $count-1;										//假设终点为$count-1
-				if(isset($_REQUEST['end']))   $temp=(int)$_REQUEST['end'];  	//如果提交终点
-				if($temp >= 0 and $temp <= $count-1) $time_end   = $temp;		//且居于[0,count-1]则重设起点
-				//如果start/end错位交换顺序,当然start/end任意一个为空不会有此问题
-				if($time_end < $time_start) {$temp=$time_start;$time_start=$time_end;$time_end=$temp;}
-				//以上三个步骤$temp因为先被赋值所以不会串味
-		//查找右边界
-int last = size - 1;
-int len  = size;
-int middle, half, len;
+case "time":{//********按时间[start,end]来获取,计入view,参数为start,end
+	//有效化start/end参数,time范围[0,now]
+	$time_start = 0;	//设定起终点默认值
+	$time_end   = time();
+	//如果参数存在且有效,更新起终点
+	if(isset($_REQUEST['start'])){
+		$temp_start= intval(trim($_REQUEST['start']));
+		if (0 <= $temp_start and $temp_start <= $time_end) $time_start = $temp_start;
+	} 
+	if(isset($_REQUEST['end'])){
+		$temp_end  = intval(trim($_REQUEST['end']));
+		if (0 <= $temp_end   and $temp_end   <= $time_end) $time_end   = $temp_end  ;//赋值前$cid_end仍等于上限
+	} 	
+	if($time_end < $time_start) {$temp=$time_start; $time_start=$time_end; $time_end=$temp;}
+	//获取定位,借鉴STL算法http://www.it165.net/pro/html/201404/11813.html
+	//查找右边界
+	int last = size - 1;
+	int len  = size;
+	int middle, half, len;
 	len = size;
 
 	while(len > 0) {

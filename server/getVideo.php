@@ -12,7 +12,7 @@ case "time":{//按时间的倒序获取最近7天视频
 			&$result, array('i',time()-7*24*60*60));
 	if($count!=1) //无返回值
 		die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
-	exit(json_encode(return));
+	exit(json_encode($result));
 	}
 break;//其实无用
 case "view":{//按播放量倒序获取最近7天视频
@@ -22,7 +22,7 @@ case "view":{//按播放量倒序获取最近7天视频
 			&$result, array('i',time()-7*24*60*60));
 	if($count!=1) //无返回值
 		die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
-	exit(json_encode(return));
+	exit(json_encode($result));
 	}
 break;//其实无用
 case "reply":{//按播放量倒序获取最近7天视频
@@ -32,7 +32,7 @@ case "reply":{//按播放量倒序获取最近7天视频
 			&$result, array('i',time()-7*24*60*60));
 	if($count!=1) //无返回值
 		die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
-	exit(json_encode(return));
+	exit(json_encode($result));
 	}
 break;//其实无用
 
@@ -47,7 +47,7 @@ default:{	//执行下面的代码
 			&$result, array('s',$btih));
 	if($count!=1) //无返回值
 		die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
-	exit(json_encode(return[0]));//既然只返回这一条,我想不应该再套一层数组
+	exit(json_encode($result[0]));//既然只返回这一条,我想不应该再套一层数组
 	}
 }
 die(json_err('process_flow',-1,'Fatal Error: Unexpected Process Flow!'));

@@ -54,34 +54,34 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	if($time_end < $time_start) {$temp=$time_start; $time_start=$time_end; $time_end=$temp;}
 	//获取定位,借鉴STL算法http://www.it165.net/pro/html/201404/11813.html
 	//查找右边界
-	$len  = count($c_index);
+	$len  = count($c_index);//在[0,count-1]中搜索
 	$last = $len - 1;
 	//int $middle, $half;
-	while(len > 0) {
-		$half	= $len >> 1;
-		$middle	= $last - $half;
+	while($len > 0) {
+		$half   = $len >> 1;
+		$middle	= $last - $half;//此时$last,$half初始化完成
 		if($c_index[middle][1] > $time_end) {$last = $middle - 1; $len = $len - $half - 1;}//在左边子序列中查找
-		else len = half;//在右边子序列（包含middle）中查找
+		else $len = $half;//在右边子序列（包含middle）中查找
 	}
 	//return $last;	//此时len=0,last=[-1,count-1],last为右边界元素的下标
+	//当last=-1时,即所有弹幕发布时间都晚于$time_end,那么返回空值(而非报错)
+	
 
 	//查找左边界
-	int first = 0;
-	int middle, half, len;
-	len = last + 1;
-
-	while(len > 0) {
-		half	= len >> 1;
-		middle	= first + half;
-		if(array[middle] < key) {	 
-			first	= middle + 1;		  
-			len	= len - half - 1;	//在右边子序列中查找
-		}
-		else
-			len	= half;			//在左边子序列（包含middle）中查找
+	$len = $last + 1;//在[0,last]中搜索
+	$first = 0;
+	//int $middle, $half;
+	while($len > 0) {
+		$half   = $len >> 1;
+		$middle	= $first + $half;//此时$last,$half二次初始化完成
+		if($c_index[middle][1] < > $time_start) {$first = $middle + 1; $len = $len - $half - 1;}//在右边子序列中查找
+		else $len = $half;//在左边子序列（包含middle）中查找
 	}
-	return first;
-}
+	//return $first; //此时len=0，first=[0,last],但是(而且只有)当last=count-1的时候first可能等于last+1,即count
+	//当first=count=last+1时,即所有弹幕发布时间都早于$time_start,那么返回空值(而非报错)
+
+
+
 
 			//获取定位,借鉴STL算法http://www.cnblogs.com/cobbliu/archive/2012/05/21/2512249.html
 			//首先从[0,count-1]获得终点(小于等于某时间的第一个),-1表示不存在

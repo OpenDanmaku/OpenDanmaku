@@ -13,51 +13,33 @@ $c_index=json_decode($result[0]['c_index']);
 $comment=$result[0]['comment'];
 
 //获取任务
-if(isset($_REQUEST['action'])){
-	switch (strtolower(trim($_REQUEST['action']))){
-	case "cid":{//********按弹幕号[start,end]获取,计入view,参数为start,end
-		//有效化start/end参数,cid范围[0,count-1]
-		//设定起终点默认值
-		$cid_start = 0;
-		$cid_end   = count($c_index)-1;
-		//如果参数存在且有效,更新起终点
-		if(isset($_REQUEST['start'])){
-			$temp_start= intval(trim($_REQUEST['start']));
-			if (0 <= $temp_start and $temp_start <= $cid_end) $cid_start = $temp_start;
-		} 
-		if(isset($_REQUEST['end'])){
-			$temp_end  = intval(trim($_REQUEST['end']));
-			if (0 <= $temp_end   and $temp_end   <= $cid_end) $cid_end   = $temp_end  ;//赋值前$cid_end仍等于上限
-		} 	
-		if($cid_end < $cid_start) {$temp=$cid_start; $cid_start=$cid_end; $cid_end=$temp;}
+switch (isset($_REQUEST['action'])?strtolower(trim($_REQUEST['action'])):'all'){
+case "cid":{//********按弹幕号[start,end]获取,计入view,参数为start,end
+	//有效化start/end参数,cid范围[0,count-1]
+	$cid_start = 0;	//设定起终点默认值
+	$cid_end   = count($c_index)-1;
+	//如果参数存在且有效,更新起终点
+	if(isset($_REQUEST['start'])){
+		$temp_start= intval(trim($_REQUEST['start']));
+		if (0 <= $temp_start and $temp_start <= $cid_end) $cid_start = $temp_start;
+	} 
+	if(isset($_REQUEST['end'])){
 		$temp_end  = intval(trim($_REQUEST['end']));
-		
-			$cid_start = ?
-		
-		$temp=i;//如果提交起点则更新
-		
-				if($temp >= 0 and $temp <= $count-1) $cid_start = $temp;		//且居于[0,count-1]则重设起点
-				//获取终点
-				$cid_end = $count-1;										//假设终点为$count-1
-				if(isset($_REQUEST['end']))   $temp=(int)$_REQUEST['end'];  	//如果提交终点
-				if($temp >= 0 and $temp <= $count-1) $cid_end   = $temp;		//且居于[0,count-1]则重设起点
-				//如果start/end错位交换顺序,当然start/end任意一个为空不会有此问题
-				
-				//以上三个步骤$temp因为先被赋值所以不会串味
-			//定位并输出弹幕
-				$str_start = ($cid_start == 0) ? 0 : ($c_index[$cid_start-1][2]);//省去的开头部分的长度,即剩余串第一个字符的下标
-				$str_end  =$c_index[$cid_end][2];          						//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
-				echo "[" . substr($comment,$str_start,$str_end-$str_start-1) . "]";//结尾逗号要去掉
-				//substr(字符串,截取掉的开头字符数,输出的剩余字符数)
-			//计入view
-				$mysql = new SaeMysql();//打开数据库
-				$sql ="UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = x'" . $btih . "';";
-				$mysql->closeDb();// 关闭数据库
-				exit;
-			}
-	        break;//其实无用
-	    case "time":		//********按时间[start,end]来获取,计入view,参数为start,end
-	        {
+		if (0 <= $temp_end   and $temp_end   <= $cid_end) $cid_end   = $temp_end  ;//赋值前$cid_end仍等于上限
+	} 	
+	if($cid_end < $cid_start) {$temp=$cid_start; $cid_start=$cid_end; $cid_end=$temp;}
+	//定位并输出弹幕,function substr(字符串,截取掉的开头字符数,输出的剩余字符数)
+	$str_start = ($cid_start == 0)? 0 :($c_index[$cid_start-1][2]);	//省去的开头部分的长度,即剩余串第一个字符的下标
+	$str_end  =$c_index[$cid_end][2]				//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
+	echo "[",substr($comment,$str_start,$str_end-$str_start-1),"]";	//结尾逗号要去掉,echo接受多参数,且不会补充空格
+	//计入view
+	$blackhole=NULL;
+	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
+	exit;
+	}
+break;//其实无用
+case "time":{		//********按时间[start,end]来获取,计入view,参数为start,end
+
 			//获取time起终点参数
 				//获取起点
 				$time_start = 0;												//假设起点为0

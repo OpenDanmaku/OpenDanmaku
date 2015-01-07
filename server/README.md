@@ -1,5 +1,7 @@
 ReadMe
 ========
+详细的API在API.md中，如有冲突，以API.md为准
+========
 #	服务器接口
 --------
 ##	饼干
@@ -45,19 +47,19 @@ ReadMe
 --------
 *	按时间倒序取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=time`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=time
 ```
 *	按播放排行取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=view`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=view
 ```
 *	按弹幕排行取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=reply`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=reply
 ```
 *	取某视频:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=find
 ```
 *	暂不支持jsonP,视需求决定添加
 
@@ -66,23 +68,23 @@ ReadMe
 --------
 *	按序号获取:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end
 ```
 *	按时间获取:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=time&start=time_start&end=time_end`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=time&start=time_start&end=time_end
 ```
 *	某号及以后:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=recent&start=cid_start`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=recent&start=cid_start
 ```
 *	最后多少条:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=time&count=count`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=time&count=count
 ```
 *	获取全弹幕:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=all
 ```
 *	暂不支持jsonP,视需求决定添加
 

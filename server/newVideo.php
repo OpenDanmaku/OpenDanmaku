@@ -26,6 +26,13 @@ $count=safe_query("INSERT INTO `video` (uid`, `time`, `view`, `reply`, `btih`,
 		`comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) 
 		VALUES (?, ?, 0, 0, ?, '', '[]', '[]', '[]', '[]', '[]');",
 		&$blackhole, array('iis', $uid, time(), $bith));//主键自增,comment赋空字符串,其余元素赋空数组
+
+//startup.sql有一句SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+//NO_AUTO_VALUE_ON_ZERO禁用0，但我事实上传递的是NULL(其实是没传递),可以生成下一个序列号
+//为一个NOT NULL的整型赋NULL值，结果是0，它并不会出错,参见http://niutuku.com/tech/Mysql/237698.shtml
+//MySQL会自动将NULL值转化为该字段的默认值,哪怕是你在表定义时没有明确地为该字段设置默认值
+//newCookie.php因为已经获取了最新uid所以无须担心
+
 if($count!=1)
 	die(json_err('video_notcreated',-1,'Error: Failed to Create New Video'));//返回空
 

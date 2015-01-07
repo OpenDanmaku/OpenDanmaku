@@ -40,7 +40,7 @@ case "cid":{//********按弹幕号[start,end]获取,计入view,参数为start,en
 	$str_end   = $c_index[$cid_end][2];				//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
 	exit ("[" . substr($comment,$str_start,$str_end-$str_start-1) . "]");//结尾逗号要去掉,echo接受多参数,且不会补充空格
 	//因为$cid_start<=$cid_end,所以至少输出1项;又因为项长不为零,所以$str_end-$str_start-1不为负
-	}
+}
 break;//其实无用
 case "time":{//********按时间[start,end]来获取,计入view,参数为start,end
 	//计入view
@@ -99,7 +99,7 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	$str_end   = $c_index[$last][2];			//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
 	exit ("[" . substr($comment,$str_start,$str_end-$str_start-1) . "]");//结尾逗号要去掉,echo接受多参数,且不会补充空格
 	//因为first<=last,所以至少输出1项;又因为项长不为零,所以$str_end-$str_start-1不为负
-	}
+}
 break;//其实无用
 case "recent":{//********获取下一条到最后一条,不计入view,参数为start
 	//如果弹幕数少于1
@@ -119,7 +119,7 @@ case "recent":{//********获取下一条到最后一条,不计入view,参数为s
 	$str_end   = $c_index[$cid_end][2];				//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
 	exit ("[" . substr($comment,$str_start,$str_end-$str_start-1) . "]");//结尾逗号要去掉,echo接受多参数,且不会补充空格
 	//因为$cid_start<=$cid_end,所以至少输出1项;又因为项长不为零,所以$str_end-$str_start-1不为负
-	}
+}
 break;//其实无用
 case "last":{//********获取最后count条,计入view,参数为count
 	//计入view
@@ -133,41 +133,30 @@ case "last":{//********获取最后count条,计入view,参数为count
 	$cid_start = 0;	//设定起终点默认值
 	$cid_end   = count($c_index)-1;
 	if(isset($_REQUEST['count'])){
-		$c_count = intval(trim($_REQUEST['count']));
-		$c_count 
-		$cid_start = ($c_count > $cid_end)? 0 :$cid_end + 1 - $c_count;//
-		//比如有012三条,c_count=1则cid_start=2;c_count=2则cid_start=1;c_count=3则cid_start=0;c_count=4则cid_start=0
-		$temp_start= intval(trim($_REQUEST['start']));
-		if (0 <= $temp_start and $temp_start <= $cid_end) $cid_start = $temp_start;//当然start/end不需要交换了
+		$counter = intval(trim($_REQUEST['count']));//取多少弹幕?
+		$counter = ($counter<1)? $c_count :$counter;//至少1条,否则视为全取
+		$cid_start = ($counter<$c_count) ? ($cid_end + 1 - $counter): 0;//少于弹幕总数则取end-(counter-1),否则全取
+		//比如有012三条,c_count=0则cid_start=0;c_count=2则cid_start=1;c_count=3则cid_start=0;c_count=4则cid_start=0
 	} 
-    if(isset($_REQUEST['count']) and (int)$_REQUEST['count']>0){//如果存在count参数并且参数为正(只有count不接受负值)
-	//获取cid起终点参数
-		//获取起点
-		$cid_start =((int)$_REQUEST['count'] > $count) ? 0 :($count-(int)$_REQUEST['count']);//如果count参数大于$count,从头取
-		//否则做减法,比如[0,1,2,3,4,5]这6条中取后4条就是从编号(6-4)=2开始取,取到(6-1)=5
-		//获取终点
-		$cid_end = $count-1;
-	//定位并输出弹幕
-		$str_start = ($cid_start == 0) ? 0 : ($c_index[$cid_start-1][2]);//省去的开头部分的长度,即剩余串第一个字符的下标
-		$str_end  =$c_index[$cid_end][2];          						//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
-		echo "[" . substr($comment,$str_start,$str_end-$str_start-1) . "]";//结尾逗号要去掉
-		//substr(字符串,截取掉的开头字符数,输出的剩余字符数)
-	//计入view
-		$mysql = new SaeMysql();//打开数据库
-		$sql ="UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = x'" . $btih . "';";
-		$mysql->closeDb();// 关闭数据库
-		exit;
-	}else exit("{}");
+	//定位并输出弹幕,function substr(字符串,截取掉的开头字符数,输出的剩余字符数)
+	$str_start = ($cid_start == 0)? 0 :($c_index[$cid_start-1][2]);	//省去的开头部分的长度,即剩余串第一个字符的下标
+	$str_end   = $c_index[$cid_end][2];				//剩余串最后字符的下标,差值是剩余串长(含结尾逗号)
+	exit ("[" . substr($comment,$str_start,$str_end-$str_start-1) . "]");//结尾逗号要去掉,echo接受多参数,且不会补充空格
+	//因为$cid_start<=$cid_end,所以至少输出1项;又因为项长不为零,所以$str_end-$str_start-1不为负
 }
 break;//其实无用
-	}
-}else{	//********都不是则视为获取全部,计入view	
-	echo "[" . substr($comment,0,strlen($comment)-1) . "]";//结尾逗号要去掉
+//以上都不是则视为取全部弹幕,形式上建议用参数action=all
+case "all";	//当没给出action,action给出空,action值不合法,action值为all时
+default:{	//执行下面的代码
+		//********都不是则视为获取全部,计入view	
 	//计入view
-	$mysql = new SaeMysql();//打开数据库
-	$sql ="UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = x'" . $btih . "';";
-	$mysql->closeDb();// 关闭数据库
-	exit;
+	$blackhole=NULL;
+	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
+	//如果弹幕数少于1
+	$c_count=count($c_index);//int count()不返回boolean
+	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	//一般情况
+	exit ("[" . substr($comment,0,strlen($comment)-1) . "]");//结尾逗号要去掉
 }
-
+die(json_err('process_flow',-1,'Fatal Error: Unexpected Process Flow!'));
 ?>

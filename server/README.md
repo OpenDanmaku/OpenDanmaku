@@ -1,6 +1,6 @@
 ReadMe
 ========
-详细的API在API.md中，如有冲突，以API.md为准
+详细的API在[API.md](API.md)中，如有冲突，以[API.md](API.md)为准
 ========
 #	服务器接口
 --------

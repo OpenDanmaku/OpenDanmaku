@@ -20,7 +20,7 @@ case "cid":{//********按弹幕号[start,end]获取,计入view,参数为start,en
 	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
-	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里
 
 	//有效化start/end参数,cid范围[0,count-1]
 	$cid_start = 0;	//设定起终点默认值
@@ -48,7 +48,7 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
-	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里
 
 	//有效化start/end参数,time范围[0,now]
 	$time_start = 0;	//设定起终点默认值
@@ -82,7 +82,7 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	while($len > 0) {
 		$half   = $len >> 1;
 		$middle	= $first + $half;//此时$last,$half二次初始化完成
-		if($c_index[$middle][1] < > $time_start) {$first = $middle + 1; $len = $len - $half - 1;}//在右边子序列中查找
+		if($c_index[$middle][1] <$time_start) {$first = $middle + 1; $len = $len - $half - 1;}//在右边子序列中查找
 		else $len = $half;//在左边子序列（包含middle）中查找
 	}
 	//return $first; //此时len=0，first=[0,last],但是(而且只有)当last=count-1的时候first可能等于last+1,即count
@@ -104,7 +104,7 @@ break;//其实无用
 case "recent":{//********获取下一条到最后一条,不计入view,参数为start
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
-	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里
 
 	//有效化start/end参数,cid范围[0,count-1]
 	$cid_start = 0;	//设定起终点默认值
@@ -127,7 +127,7 @@ case "last":{//********获取最后count条,计入view,参数为count
 	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
-	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里
 
 	//有效化start/end参数,cid范围[0,count-1]
 	$cid_start = 0;	//设定起终点默认值
@@ -154,9 +154,10 @@ default:{	//执行下面的代码
 	$count=safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
-	if($c_count<1)) exit '[]';//是否计入view应取决于action的参数,因此代码应放在case里
+	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里
 	//一般情况
 	exit ("[" . substr($comment,0,strlen($comment)-1) . "]");//结尾逗号要去掉
 }
 die(json_err('process_flow',-1,'Fatal Error: Unexpected Process Flow!'));
+}
 ?>

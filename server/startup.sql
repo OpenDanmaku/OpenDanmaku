@@ -16,7 +16,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+08:00";
 
 --
--- 时区改成北京了
+-- 【SET time_zone = "+08:00";】没必要
+-- 【时区改成北京了】没必要
 --
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;

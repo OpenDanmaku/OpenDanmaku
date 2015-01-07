@@ -46,26 +46,27 @@
 		*	[[Parameters](#parameters-9)]
 		*	[[Data Returned](#data-returned-9)]
 	*	[newCookie.php](#newcookiephp)
+		*	[[Parameters](#parameters-10)]
 		*	[[Data Returned](#data-returned-10)]
 		*	[[Side Effect](#side-effect-6)]
 *	[CREATING NEW VIDEO AND LINK](#creating-new-video-and-link)
 	*	[newVideo.php](#newvideophp)
-		*	[[Parameters](#parameters-10)]
+		*	[[Parameters](#parameters-11)]
 		*	[[Data Returned](#data-returned-11)]
 		*	[[Side Effect](#side-effect-7)]
 	*	[newLink.php](#newlinkphp)
-		*	[[Parameters](#parameters-11)]
+		*	[[Parameters](#parameters-12)]
 		*	[[Data Returned](#data-returned-12)]
 		*	[[Side Effect](#side-effect-8)]
 *	[GETTING VIDEO LIST](#getting-video-list)
 	*	[getVideo.php?btih=BTIH&amp;action=time](#getvideophpbtihbtihactiontime)
-		*	[[Parameters](#parameters-12)]
+		*	[[Parameters](#parameters-13)]
 		*	[[Data Returned](#data-returned-13)]
 	*	[getVideo.php?btih=BTIH&amp;action=view](#getvideophpbtihbtihactionview)
-		*	[[Parameters](#parameters-13)]
+		*	[[Parameters](#parameters-14)]
 		*	[[Data Returned](#data-returned-14)]
 	*	[getVideo.php?btih=BTIH&amp;action=view](#getvideophpbtihbtihactionreply)
-		*	[[Parameters](#parameters-14)]
+		*	[[Parameters](#parameters-15)]
 		*	[[Data Returned](#data-returned-15)]
 
 ## INFORMATION  
@@ -77,6 +78,7 @@
 |json   |Standard JSON string. Clearing whitespace character is encouraged.                        |
 |option |Keys and values should be submitted in lower case. Whitespace character is not allowed.   |
 |linkage|btihA,btih2,offset_count[;offset1A,offset1B,duration1[;offset2A,offset2B,duration2[;...]]]|
+|integer|A DECIMAL-BASED number WITHOUT decimal fraction.                                          |
 ### ERROR
 When key `err_num` exists and its value is not 0, some error happens.  
 **You Should Check Error Info from Source Files.**  
@@ -291,6 +293,10 @@ E.g. getComment.php?btih=BTIH&action=recent&start=3
 #### [Data Returned]
 **Content-type: image/png**
 ###newCookie.php
+#### [Parameters]  
+|Key Name|Request |Value Type|Default Value|
+| :----- | -----: | -------: | :---------- |
+|vcode   |  Forced|  interger|x RETURN ERR |
 #### [Data Returned]
 ```json
 {

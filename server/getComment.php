@@ -54,22 +54,16 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	if($time_end < $time_start) {$temp=$time_start; $time_start=$time_end; $time_end=$temp;}
 	//获取定位,借鉴STL算法http://www.it165.net/pro/html/201404/11813.html
 	//查找右边界
-	int last = size - 1;
-	int len  = size;
-	int middle, half, len;
-	len = size;
-
+	$len  = count($c_index);
+	$last = $len - 1;
+	//int $middle, $half;
 	while(len > 0) {
-		half	= len >> 1;
-		middle	= last - half;
-		if(array[middle] > key) {	 
-			last	= middle - 1;		  
-			len	= len - half - 1;	//在左边子序列中查找
-		}
-		else
-			len	= half;			//在右边子序列（包含middle）中查找
+		$half	= $len >> 1;
+		$middle	= $last - $half;
+		if($c_index[middle][1] > $time_end) {$last = $middle - 1; $len = $len - $half - 1;}//在左边子序列中查找
+		else len = half;//在右边子序列（包含middle）中查找
 	}
-	return last;
+	//return $last;	//此时len=0,last=[-1,count-1],last为右边界元素的下标
 
 	//查找左边界
 	int first = 0;

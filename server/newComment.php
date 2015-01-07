@@ -22,15 +22,19 @@ $the_time_now=time();
 
 //编辑弹幕{"c":"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp","m":"text","cid":1},
 $new_comment = json_decode($new_comment);		//json->array
-if(JSON_ERROR_NONE!=json_last_error())			//只有这里需要查错,因为只有这里输入json
-	die(son_err('json_parsing',-1,'Error: Comment is Not Valid, Please Check Again'));//要防止病从口入
+if(JSON_ERROR_NONE==json_last_error() and is_array($new_comment) and isset($new_comment['c']) and isset($new_comment['m'])){
+//只有这里需要查错,因为只有这里输入json,要求必须是合法json,是数组(词典),有c和m两项
 	$array_comment = explode(",",$new_comment['c']);
+	if(4>count($array_comment)) die(son_err('json_parsing',-1,'Error: Comment is Not Valid, Please Check Again'));
+		//元素数应>=4,即有sec.000,color=FFFFFF,type(1),size(25)四条,这四条我就不检查啦~~~
 		$array_comment[4]=strval($uid);			//strval是因为要合并字符串
 		$array_comment[5]=strval($the_time_now);	//strval是因为要合并字符串,注意不需要乘以1000
 	$new_comment['c']=implode(",",$array_comment);
 	$new_comment['cid']=intval($result[0]['reply']);	//reply为弹幕总数,即最大下标+1
+}else die(son_err('json_parsing',-1,'Error: Comment is Not Valid, Please Check Again'));//要防止病从口入
 $new_comment = json_encode($new_comment);		//array->json
 $new_comment.= ',';					//结尾添加逗号
+
 
 //编辑索引[uid,time,size]
 $c_index = json_decode($result[0]['c_index']);	//json->array

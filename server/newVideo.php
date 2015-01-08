@@ -22,7 +22,7 @@ if($count!=0) die(json_err('btih_created',-1,'Error: Video Already Exists'));//�
 
 //添加到`video`
 $blackhole=NULL;
-$count=safe_query("INSERT INTO `video` (uid`, `time`, `view`, `reply`, `btih`,
+$count=safe_query("INSERT INTO `video` (`uid`, `time`, `view`, `reply`, `btih`,
 		`comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) 
 		VALUES (?, ?, 0, 0, ?, '', '[]', '[]', '[]', '[]', '[]');",
 		&$blackhole, array('iis', $uid, time(), $bith));//主键自增,comment赋空字符串,其余元素赋空数组

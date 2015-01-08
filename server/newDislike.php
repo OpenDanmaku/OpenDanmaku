@@ -28,12 +28,12 @@ if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, D
 $c_index = json_decode($result[0]['c_index']);//json->array
 $dislike = json_decode($result[0]['dislike']);//json->array
 $d_index = json_decode($result[0]['d_index']);//json->array
-if(!isset($c_index[$cid])) die(json_err('cid_unavailable',-1,'Error: Comment Item Not Yet Exists');//那条弹幕不存在
+if(!isset($c_index[$cid])) die(json_err('cid_unavailable',-1,'Error: Comment Item Not Yet Exists'));//那条弹幕不存在
 if(!isset($dislike[$cid])) $dislike[$cid]=array();//强制储存为一个数组,防止作为一个值储存,$cid始终是字符串
 //取键值
 $this_uid=$c_index[$cid][0];
 $this_dislike=$dislike[$cid];		//$cid始终是字符串
-if(in_array($uid,$this_dislike)) die(json_err('dislike_resubmit',-1,'Error: You Have Already Submitted a Dislike!');
+if(in_array($uid,$this_dislike)) die(json_err('dislike_resubmit',-1,'Error: You Have Already Submitted a Dislike!'));
 $this_dislike[]= $uid;			//$cid始终是字符串
 $dislike[$cid] = $this_dislike;
 $d_index[$cid] = count($this_dislike);	//这个自然是一个值,所以无所谓

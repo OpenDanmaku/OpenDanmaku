@@ -23,7 +23,7 @@ if(isset($_COOKIE['uid'])) {//不能使用getCookie或者checkCookie来判断有
 	//SELECT * FROM `USER` WHERE `uid` IN (SELECT max(id) FROM `USER`);
 	if($count!=1) 
 		die(json_err('user_notexist',-1,'Error: No Users in Database at All'));//必须先导入startup.sql
-	if(($result[0]['uid']===$uid) 
+	if(($result[0]['uid']===$uid)) 
 		die(json_err('cookie_lastuser',-1,'Error: You Already Have the Latest Cookie'));//已经最新
 	//以上通过,则关闭当前Cookie对应用户数据
 	$blackhole=NULL;
@@ -47,9 +47,9 @@ $status= 1;
 	
 //保存新账号到数据库
 $blackhole=NULL;
-$count=safe_query('INSERT INTO `user` VALUES (?, ?, ?, ?, ?);', &$blackhole, array('iiiii',$uid,$key,$time,$point,$status);
+$count=safe_query('INSERT INTO `user` VALUES (?, ?, ?, ?, ?);', &$blackhole, array('iiiii',$uid,$key,$time,$point,$status));
 if($count!=1)
-	die(json_err('user_notcreated',-1,'Error: Failed to Create New Cookie')_;//返回空
+	die(json_err('user_notcreated',-1,'Error: Failed to Create New Cookie'));//返回空
 
 //设置Cookie
 setcookie("uid", $uid, 2147483647);//Cookie永不过期

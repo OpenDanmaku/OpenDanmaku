@@ -50,7 +50,7 @@ function checkCookie(){
 	$count=safe_query('SELECT * FROM `user` WHERE `uid` = ?;', &$result, array('i',$uid));
 	if($count!=1) die(json_err('cookie_invalid',-1,'Error: Invalid Cookie'));//返回空
 	//!= == >= 代表作为数字比较
-	if($result[0]['key']!=intval($_COOKIE['key']) 
+	if($result[0]['key']!=intval($_COOKIE['key'])) 
 		die(json_err('cookie_wrongkey',-1,'Error: Cookie with Wrong Key'));//key不符合
 	if($result[0]['status']==0) 
 		die(json_err('cookie_deleted',-1,'Error: Deleted Cookie'));//status禁用

@@ -42,7 +42,7 @@ $c_index = json_decode($result[0]['c_index']);	//json->array
 $c_count = count($c_index);
 if($result[0]['reply']         !=$c_count)
 	die(json_err('reply_countnotmatch',-1,'Error: Fatal Error! Counting Does not Match. Please Report to Admin!'));
-if($result[0]['LEN(`comment`)']!=$c_index[$c_count-1]['size']){
+if($result[0]['LEN(`comment`)']!=$c_index[$c_count-1]['size'])
 	die(json_err('reply_lengthnotmatch',-1,'Error: Fatal Error! Length Does not Match. Please Report to Admin!'));
 //编辑索引[uid,time,size]
 $c_index[]=array($uid,$the_time_now,$result[0]['LENGTH(`comment`)']+strlen($new_comment));

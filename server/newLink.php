@@ -12,7 +12,7 @@ $const_DelayNewLink = 60;//60秒硬直
 	$uid=getUid();
 
 //$_GET和$_REQUEST已经urldecode()了！
-$linkage=explode(';',trim($_REQUEST['linkage']);//元素都是字符串
+$linkage=explode(';',trim($_REQUEST['linkage']));//元素都是字符串
 $head=trim(array_shift($linkage));
 $btih_1=getBtih($head[0]);
 $btih_2=getBtih($head[1]);
@@ -60,7 +60,7 @@ if(!isset($linkage_1[$key_1])) $linkage_1[$key_1]=array();//如果不存在btih,
 if(!isset($linkage_2[$key_2])) $linkage_2[$key_2]=array();//当然,对应的另一个link也不存在,但是我还是要独立处理
 //如果已经提交
 if(in_array($uid,$linkage_1[$key_1]) and in_array($uid,$linkage_2[$key_2]))//By Val
-	die(json_err('link_resubmit',-1,'Error: You Have Already Submitted This Link'))
+	die(json_err('link_resubmit',-1,'Error: You Have Already Submitted This Link'));
 //任意一个没提交
 if(!in_array($uid,$linkage_1[$key_1])) $linkage_1[$key_1][]=$uid;//Add Elements to Multidimensional Array
 if(!in_array($uid,$linkage_2[$key_2])) $linkage_2[$key_2][]=$uid;//http://stackoverflow.com/a/16308305

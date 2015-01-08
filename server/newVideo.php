@@ -24,7 +24,7 @@ if($count!=0) die(json_err('btih_created',-1,'Error: Video Already Exists'));//�
 $blackhole=NULL;
 $count=safe_query("INSERT INTO `video` (`uid`, `time`, `view`, `reply`, `btih`,
 		`comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) 
-		VALUES (?, ?, 0, 0, ?, '', '[]', '[]', '[]', '[]', '[]');",
+		VALUES (?, ?, 0, 0, UNHEX(?), '', '[]', '[]', '[]', '[]', '[]');",
 		&$blackhole, array('iis', $uid, time(), $bith));//主键自增,comment赋空字符串,其余元素赋空数组
 
 //startup.sql有一句SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";

@@ -1,6 +1,7 @@
 ReadMe
 ========
-详细的API在[API.md](API.md)中，如有冲突，以[API.md](API.md)为准
+详细的API在[API.md](API.md)中，如有冲突，以[API.md](API.md)为准  
+开始删档测试,下一步考虑硬直是否保存在session,以及utf-8避免转码中文节省空间的问题  
 ========
 #	服务器接口
 --------

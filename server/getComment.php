@@ -9,7 +9,7 @@ $btih=getBtih();
 $result=NULL;
 $count=safe_query("SELECT `comment`, `c_index` FROM `video` WHERE `btih` = UNHEX(?);",&$result, array('s',$btih));
 if($count!=1) die(json_err('btih_unavailable',-1,'Error: Video Not Yet Exists, Do You Want to Create It?'));
-$c_index=json_decode($result[0]['c_index']);
+$c_index=json_decode($result[0]['c_index'],true);//json->array(rather than object)
 $comment=$result[0]['comment'];
 
 //获取任务
@@ -101,7 +101,7 @@ case "time":{//********按时间[start,end]来获取,计入view,参数为start,e
 	//因为first<=last,所以至少输出1项;又因为项长不为零,所以$str_end-$str_start-1不为负
 }
 break;//其实无用
-case "recent":{//********获取下一条到最后一条,不计入view,参数为start
+case "recent":{//********获取指定cid开始到最后一条,不计入view,参数为start
 	//如果弹幕数少于1
 	$c_count=count($c_index);//int count()不返回boolean
 	if($c_count<1) exit ('[]');//是否计入view应取决于action的参数,因此代码应放在case里

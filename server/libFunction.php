@@ -59,11 +59,11 @@ function checkCookie(){
 	return true;
 }
 //提高积分并暂时硬直,字段[uid,key,time,point,status]
-//boolean normalFreeze(int $uid,int $ScoreNewComment,int $DelayNewComment){}
-function normalFreeze($uid,$score,$delay){
+//boolean normalFreeze(int $uid,int $pointNewComment,int $DelayNewComment){}
+function normalFreeze($uid,$point,$delay){
 	$blackhole=NULL;
-	$count=safe_query("UPDATE `user` SET `score` = `score` + ?, `time` = `time` + ? WHERE `uid` = ?;",
-			&$blackhole, array('iii', $score, $delay, $uid));
+	$count=safe_query("UPDATE `user` SET `point` = `point` + ?, `time` = `time` + ? WHERE `uid` = ?;",
+			&$blackhole, array('iii', $point, $delay, $uid));
 	if($count!=1) die(json_err('freezing_error',-1,'Error: Freezing Failed'));//返回空
 	return true;
 }

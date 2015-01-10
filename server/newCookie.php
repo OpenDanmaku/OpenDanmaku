@@ -3,17 +3,18 @@ require 'libMysqli.php';
 require 'libFunction.php';
 header("Access-Control-Allow-Origin: *");//无限制
 
+//只有这里因为需要写cookie和session涉及延迟html输出
+//getVcode.php也不涉及,因为用imagepng输出
+//而这里除非出错退出,否则在session操作和setcookie()之前,没有echo或var_dump输出
+
 //$_GET和$_REQUEST已经urldecode()了！
 //检查验证码,解释器会视必要性决定是否转换为数字
 session_start();
-if($_SESSION['vcode'] = $_REQUEST['vcode']) {
-//	srand(time());//php 4.2+ done automatically
-	$_SESSION['vcode']=rand(0,2147483647);//清除vcode
-}else{
-//	srand(time());//php 4.2+ done automatically
+if($_SESSION['vcode'] != $_REQUEST['vcode']) {
 	$_SESSION['vcode']=rand(0,2147483647);//清除vcode
 	$error_info=json_err('session_vcode',-1,'Vcode error');
 	die($error_info);
+}else{	$_SESSION['vcode']=rand(0,2147483647);//清除vcode
 }
 
 //如果有旧Cookie
@@ -43,7 +44,6 @@ if(isset($_COOKIE['uid'])) {//不能使用getCookie或者checkCookie来判断有
 }
 
 //然后获取下一个Cookie
-//	srand(time());//php 4.2+ done automatically
 $uid   = $result[0]['uid']+1;//无论如何都要取最近user的原因,因为封装我不能访问last_affected_id,而我需要向cookie写入uid
 $key   = rand(0,2147483647);
 $time  = time()+ 0;//观察期,暂定为新Cookie立刻可以发言

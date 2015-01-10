@@ -1,9 +1,9 @@
 <?php
 	/* database const */
 	$DB_HOST="localhost";	//database address
-	$DB_USER="zjwdb_290659";	//database username
-	$DB_PSWD="3WWZBGNR5";	//database password
-	$DB_NAME="zjwdb_290659";	//databese name
+	$DB_USER="UserName";	//database username
+	$DB_PSWD="PassWord";	//database password
+	$DB_NAME="NameOfDB";	//databese name
 	$DB_PORT=      3306;	//database port
 	/* be aware 'const' works ONLY INSIDE of a class definition */
 	

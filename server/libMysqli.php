@@ -61,12 +61,10 @@ function safe_query($query, &$result, $bind_params=NULL){//stop using class Bind
 	/* you can set up valuse of the parameters bounded, e.g.
 	$emp_id=4;
 	*/
-	//$bind_param is transferred byVal, so don't worry.
-	$bind_param_by_reference=array(array_shift($bind_params) );
-	foreach($bind_params as &$arg) $bind_param_by_reference[] = &$arg; 
+	
 	/* binding parameters */
 	if (false===is_null($bind_params)){//need binding parameters? yes! bool is-null()
-		$rc=call_user_func_array(array(&$stmt, 'bind_param'), $bind_param_by_reference);//stop using class BindParam
+		$rc=call_user_func_array(array(&$stmt, 'bind_param'), $bind_params);//stop using class BindParam
 		//call_user_func_array() binds parameters either byRef or byVal, whilst $stmt->bind_param() needs first parameter byVal and others by Ref.
 		/* check binding */
 		if (false===$rc) {//bool mysqli_stmt::bind_param

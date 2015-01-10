@@ -1,5 +1,8 @@
 ReadMe
 ========
+详细的API在[API.md](API.md)中，如有冲突，以[API.md](API.md)为准  
+开始删档测试,下一步考虑硬直是否保存在session,以及utf-8避免转码中文节省空间的问题  
+========
 #	服务器接口
 --------
 ##	饼干
@@ -45,19 +48,19 @@ ReadMe
 --------
 *	按时间倒序取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=time`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=time
 ```
 *	按播放排行取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=view`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=view
 ```
 *	按弹幕排行取最近七天数据:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000&action=reply`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=reply
 ```
 *	取某视频:
 ```
-	getVideo.php?bith=0000000000000000000000000000000000000000`
+	getVideo.php?bith=0000000000000000000000000000000000000000&action=find
 ```
 *	暂不支持jsonP,视需求决定添加
 
@@ -66,23 +69,23 @@ ReadMe
 --------
 *	按序号获取:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=cid&start=cid_start&end=cid_end
 ```
 *	按时间获取:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=time&start=time_start&end=time_end`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=time&start=time_start&end=time_end
 ```
 *	某号及以后:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=recent&start=cid_start`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=recent&start=cid_start
 ```
 *	最后多少条:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000&action=time&count=count`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=time&count=count
 ```
 *	获取全弹幕:
 ```
-	getComment.php?bith=0000000000000000000000000000000000000000`
+	getComment.php?bith=0000000000000000000000000000000000000000&action=all
 ```
 *	暂不支持jsonP,视需求决定添加
 
@@ -120,6 +123,7 @@ ReadMe
 ```
 INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 (0000000000, FLOOR(2147483647*RAND()), 0, 0, 0);
+ALTER TABLE `user` AUTO_INCREMENT=1;
 ```
 
 --------
@@ -128,17 +132,21 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 ###	列名
 --------
 
-|  vid |  uid |       btih | time | view | reply |  comment |  c_index |  linkage |  l_index |  dislike |  d_index | 
-| ---: | ---: | ---------: | ---: | ---: | ----: | -------: | -------: | -------: | -------: | -------: | -------: | 
-| uint | uint | binary(20) | sint | sint |  sint | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | 
+|  vid |  uid |       btih | time | view | reply | --> |
+| ---: | ---: | ---------: | ---: | ---: | ----: | :-: |
+| uint | uint | binary(20) | sint | sint |  sint | --> |
+
+| <-- |  comment |  c_index |  linkage |  l_index |  dislike |  d_index |
+| :-: | -------: | -------: | -------: | -------: | -------: | -------: | 
+| <-- | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | LONGTEXT | 
 
 --------
 ###	表属性
 --------
 
- | ENGINE | CHARSET |         COLLATE | NOT NULL | ZEROFILL | PRIMARY | AUTO_INCREMENT | UNIQUE | 
- | -----: | ------: | --------------: | -------: | -------: | ------: | -------------: | -----: | 
- | InnoDB |    utf8 | utf8_unicode_ci |      all | all uint |     uid |            uid |   btih | 
+| ENGINE | CHARSET |         COLLATE | NOT NULL | ZEROFILL | PRIMARY | AUTO_INCREMENT | UNIQUE | 
+| -----: | ------: | --------------: | -------: | -------: | ------: | -------------: | -----: | 
+| InnoDB |    utf8 | utf8_unicode_ci |      all | all uint |     uid |            uid |   btih | 
 
 --------
 ###	初始化
@@ -146,6 +154,7 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 ```
 INSERT INTO `video` (`vid`, `uid`, `btih`, `time`, `view`, `reply`, `comment`, `c_index`, `linkage`, `l_index`, `dislike`, `d_index`) VALUES
 (0000000000, 0000000000, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 0, 0, 1, '{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},', '[[0,0,45]]', '{}', '{}', '{"0":[0]}', '{"0":1}');
+ALTER TABLE `video` AUTO_INCREMENT=1;
 ```
 
 --------
@@ -209,17 +218,17 @@ JSON格式,视频交叉链接,注意提防自我引用和引用不存在,注意b
 key被分号分隔开,再被逗号分隔开,uid为数组,除btih外所有元素都是无符号整数
 ```
 {
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
     ],
-    "btih1,btih2;start_1,start_2,duration;start_1,start_2,duration;": [
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": [
         uid,
         uid,
         ...
@@ -236,10 +245,10 @@ key的第一段是引用对象:btih1属于本视频,btih2为引用视频
 JSON格式,与`linkage`相似,但对用户只计数
 ```
 {
-    "btih,ms": count,
-    "btih,ms": count,
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count,
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count,
     ...,
-    "btih,ms": count
+    "btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;": count
 }
 ```
 
@@ -259,7 +268,8 @@ JSON格式,不要为cid做JSON_FORCE_OBJECT,要作为字符串读写
         uid,
         ...
     ],
-    ..."cid": [
+    ...,
+    "cid": [
         uid,
         uid,
         ...

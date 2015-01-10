@@ -8,8 +8,17 @@
 -- PHP 版本: 5.2.9-2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
+--
+-- 如果将0保存到表的AUTO_INCREMENT列，该模式会很有用。
+--
+
+SET time_zone = "+08:00";
+
+--
+-- 【SET time_zone = "+08:00";】没必要
+-- 【时区改成北京了】没必要
+--
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,10 +52,11 @@ INSERT INTO `user` (`uid`, `key`, `time`, `point`, `status`) VALUES
 (0000000000, FLOOR(2147483647*RAND()), 0, 0, 0);
 
 --
--- 注意导入后要把AUTO_INCREAMENT重置为1
+-- 【注意导入后要把AUTO_INCREAMENT重置为1】没必要
+-- 【ALTER TABLE `user` AUTO_INCREMENT=1;】没必要
+-- NO_AUTO_VALUE_ON_ZERO禁用0，因此只有NULL可以生成下一个序列号。
 --
 
-ALTER TABLE `user` AUTO_INCREMENT=1;
 -- --------------------------------------------------------
 
 --
@@ -78,10 +88,11 @@ INSERT INTO `video` (`vid`, `uid`, `btih`, `time`, `view`, `reply`, `comment`, `
 (0000000000, 0000000000, x'0000000000000000000000000000000000000000', 0, 0, 1, '{"c":"0,FFFFFF,1,25,0,0","m":"Test","cid":1},', '[[0,0,45]]', '{}', '{}', '{"0":[0]}', '{"0":1}');
 
 --
--- 注意导入后要把AUTO_INCREAMENT重置为1
+-- 【注意导入后要把AUTO_INCREAMENT重置为1】没必要
+-- 【ALTER TABLE `user` AUTO_INCREMENT=1;】没必要
+-- NO_AUTO_VALUE_ON_ZERO禁用0，因此只有NULL可以生成下一个序列号。
 --
 
-ALTER TABLE `video` AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

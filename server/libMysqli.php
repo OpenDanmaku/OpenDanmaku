@@ -19,6 +19,18 @@ function json_err($err_type = 0, $err_num = 0, $err_msg = 0)
     ));
 }
 
+//http://php.net/manual/en/mysqli-stmt.bind-param.php#96770
+function refValues($arr){ 
+    if (strnatcmp(phpversion(),'5.3') >= 0) //Reference is required for PHP 5.3+ 
+    { 
+        $refs = array(); 
+        foreach($arr as $key => $value) 
+            $refs[$key] = &$arr[$key]; 
+        return $refs; 
+    } 
+    return $arr; 
+} //I have not yet used it, however, since I have wrote one by myself.
+
 /* function safe_query() 
 
 Parameters:

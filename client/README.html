@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="Shortcut Icon" href="src/16x16t.ico"><!--	local image	-->
+<title>OpenDanmaku - README</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h1 id="readme">ReadMe</h1>
+
+<p>详细的API在<a href="API.html">API.html</a>中，如有冲突，以<a href="API.html">API.html</a>为准 <br>
+开始删档测试,下一步考虑硬直是否保存在session,以及utf-8避免转码中文节省空间的问题  </p>
+
+<p>========</p>
+
+
+
+<h1 id="服务器接口">服务器接口</h1>
+
+<hr>
+
+
+
+<h2 id="饼干">饼干</h2>
+
+<hr>
+
+<ul>
+<li><p>newCookie.php</p>
+
+<blockquote>
+  <p>获取新Cookie，GET 方法，参数vcode</p>
+</blockquote></li>
+<li><p>getVcode.php</p>
+
+<blockquote>
+  <p>获取验证图片，GET 方法，建议加上伪参数rand</p>
+</blockquote></li>
+</ul>
+
+<hr>
+
+
+
+<h2 id="创建">创建</h2>
+
+<hr>
+
+<ul>
+<li><p>newVideo.php</p>
+
+<blockquote>
+  <p>创建视频信息，POST方法，参数btih</p>
+</blockquote></li>
+<li><p>newLink.php</p>
+
+<blockquote>
+  <p>创建链接信息，POST方法，参数linkage</p>
+</blockquote></li>
+<li><p>newComment.php</p>
+
+<blockquote>
+  <p>创建弹幕信息，POST方法，参数btih,comment</p>
+</blockquote></li>
+<li><p>newDislike.php</p>
+
+<blockquote>
+  <p>创建投诉信息，POST方法，参数btih,cid</p>
+</blockquote></li>
+</ul>
+
+<hr>
+
+
+
+<h2 id="获取">获取</h2>
+
+<hr>
+
+<ul>
+<li><p>getVideo.php</p>
+
+<blockquote>
+  <p>获取视频信息，GET 方法，参数btih,action</p>
+</blockquote></li>
+<li><p>getLink.pho</p>
+
+<blockquote>
+  <p>获取链接数据，GET 方法，参数btih</p>
+</blockquote></li>
+<li><p>getComment.php</p>
+
+<blockquote>
+  <p>获取弹幕数据，GET 方法，参数btih,action,start,end,count</p>
+</blockquote></li>
+<li><p>getDislike.php</p>
+
+<blockquote>
+  <p>获取投诉数据，GET 方法，参数btih</p>
+</blockquote></li>
+</ul>
+
+<hr>
+
+
+
+<h2 id="关于getvideo">关于getVideo</h2>
+
+<hr>
+
+<ul>
+<li>按时间倒序取最近七天数据:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getVideo.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=time</span></code></pre>
+
+<ul>
+<li>按播放排行取最近七天数据:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getVideo.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=view</span></code></pre>
+
+<ul>
+<li>按弹幕排行取最近七天数据:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getVideo.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=reply</span></code></pre>
+
+<ul>
+<li>取某视频:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getVideo.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=find</span></code></pre>
+
+<ul>
+<li>暂不支持jsonP,视需求决定添加</li>
+</ul>
+
+<hr>
+
+
+
+<h2 id="关于getcomment">关于getComment</h2>
+
+<hr>
+
+<ul>
+<li>按序号获取:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql">    getComment.php?bith=0000000000000000000000000000000000000000&amp;action=cid&amp;<span class="hljs-operator"><span class="hljs-keyword">start</span>=cid_start&amp;<span class="hljs-keyword">end</span>=cid_end</span></code></pre>
+
+<ul>
+<li>按时间获取:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">    getComment.php?bith=<span class="hljs-number">0000000000000000000000000000000000000000</span>&amp;action=<span class="hljs-built_in">time</span>&amp;start=time_start&amp;<span class="hljs-function"><span class="hljs-keyword">end</span>=<span class="hljs-title">time_end</span></span></code></pre>
+
+<ul>
+<li>某号及以后:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getComment.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=recent&amp;start=cid_start</span></code></pre>
+
+<ul>
+<li>最后多少条:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs applescript">    getComment.php?bith=<span class="hljs-number">0000000000000000000000000000000000000000</span>&amp;action=<span class="hljs-property">time</span>&amp;<span class="hljs-command">count</span>=<span class="hljs-command">count</span></code></pre>
+
+<ul>
+<li>获取全弹幕:</li>
+</ul>
+
+
+
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">    getComment.php?bith</span>=<span class="hljs-string">0000000000000000000000000000000000000000&amp;action=all</span></code></pre>
+
+<ul>
+<li>暂不支持jsonP,视需求决定添加</li>
+</ul>
+
+<hr>
+
+
+
+<h1 id="数据库存储格式">数据库存储格式</h1>
+
+<hr>
+
+
+
+<h2 id="注意事项">注意事项</h2>
+
+<hr>
+
+<ul>
+<li>初始化插入第0项之后可能要求重置AUTO_INCREMENT为1</li>
+<li>初始化user时key应为随机正整数(暂不考虑种子问题)</li>
+<li>\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0是不是20字节的二进制数</li>
+<li>mysqli会不会被另一个php进程调用使得last_affected_row破坏</li>
+</ul>
+
+<hr>
+
+
+
+<h2 id="table-user">TABLE <code>user</code></h2>
+
+<hr>
+
+
+
+<h3 id="列名">列名</h3>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+  <th align="right">uid</th>
+  <th align="right">key</th>
+  <th align="right">time</th>
+  <th align="right">point</th>
+  <th align="right">status</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">uint</td>
+  <td align="right">uint</td>
+  <td align="right">uint</td>
+  <td align="right">uint</td>
+  <td align="right">uint</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="表属性">表属性</h3>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+  <th align="right">ENGINE</th>
+  <th align="right">CHARSET</th>
+  <th align="right">COLLATE</th>
+  <th align="right">NOT NULL</th>
+  <th align="right">ZEROFILL</th>
+  <th align="right">PRIMARY</th>
+  <th align="right">AUTO_INCREMENT</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">InnoDB</td>
+  <td align="right">utf8</td>
+  <td align="right">utf8_unicode_ci</td>
+  <td align="right">all</td>
+  <td align="right">all uint</td>
+  <td align="right">uid</td>
+  <td align="right">uid</td>
+</tr>
+</tbody></table>
+
+
+
+<h3 id="初始化">初始化</h3>
+
+<hr>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql"><span class="hljs-operator"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`user`</span> (<span class="hljs-string">`uid`</span>, <span class="hljs-string">`key`</span>, <span class="hljs-string">`time`</span>, <span class="hljs-string">`point`</span>, <span class="hljs-string">`status`</span>) <span class="hljs-keyword">VALUES</span>
+(<span class="hljs-number">0000000000</span>, FLOOR(<span class="hljs-number">2147483647</span>*RAND()), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span>
+<span class="hljs-operator"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`user`</span> AUTO_INCREMENT=<span class="hljs-number">1</span>;</span></code></pre>
+
+<hr>
+
+
+
+<h2 id="table-video">TABLE <code>video</code></h2>
+
+<hr>
+
+
+
+<h3 id="列名-1">列名</h3>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+  <th align="right">vid</th>
+  <th align="right">uid</th>
+  <th align="right">btih</th>
+  <th align="right">time</th>
+  <th align="right">view</th>
+  <th align="right">reply</th>
+  <th align="center">–&gt;</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">uint</td>
+  <td align="right">uint</td>
+  <td align="right">binary(20)</td>
+  <td align="right">sint</td>
+  <td align="right">sint</td>
+  <td align="right">sint</td>
+  <td align="center">–&gt;</td>
+</tr>
+</tbody></table>
+
+
+<table>
+<thead>
+<tr>
+  <th align="center">&lt;–</th>
+  <th align="right">comment</th>
+  <th align="right">c_index</th>
+  <th align="right">linkage</th>
+  <th align="right">l_index</th>
+  <th align="right">dislike</th>
+  <th align="right">d_index</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="center">&lt;–</td>
+  <td align="right">LONGTEXT</td>
+  <td align="right">LONGTEXT</td>
+  <td align="right">LONGTEXT</td>
+  <td align="right">LONGTEXT</td>
+  <td align="right">LONGTEXT</td>
+  <td align="right">LONGTEXT</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="表属性-1">表属性</h3>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+  <th align="right">ENGINE</th>
+  <th align="right">CHARSET</th>
+  <th align="right">COLLATE</th>
+  <th align="right">NOT NULL</th>
+  <th align="right">ZEROFILL</th>
+  <th align="right">PRIMARY</th>
+  <th align="right">AUTO_INCREMENT</th>
+  <th align="right">UNIQUE</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">InnoDB</td>
+  <td align="right">utf8</td>
+  <td align="right">utf8_unicode_ci</td>
+  <td align="right">all</td>
+  <td align="right">all uint</td>
+  <td align="right">uid</td>
+  <td align="right">uid</td>
+  <td align="right">btih</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="初始化-1">初始化</h3>
+
+<hr>
+
+
+
+<pre class="prettyprint"><code class=" hljs autohotkey">INSERT INTO <span class="hljs-escape">`v</span>ideo<span class="hljs-escape">` </span>(<span class="hljs-escape">`v</span>id<span class="hljs-escape">`,</span> <span class="hljs-escape">`u</span>id<span class="hljs-escape">`,</span> <span class="hljs-escape">`b</span>tih<span class="hljs-escape">`,</span> <span class="hljs-escape">`t</span>ime<span class="hljs-escape">`,</span> <span class="hljs-escape">`v</span>iew<span class="hljs-escape">`,</span> <span class="hljs-escape">`r</span>eply<span class="hljs-escape">`,</span> <span class="hljs-escape">`c</span>omment<span class="hljs-escape">`,</span> <span class="hljs-escape">`c</span>_index<span class="hljs-escape">`,</span> <span class="hljs-escape">`l</span>inkage<span class="hljs-escape">`,</span> <span class="hljs-escape">`l</span>_index<span class="hljs-escape">`,</span> <span class="hljs-escape">`d</span>islike<span class="hljs-escape">`,</span> <span class="hljs-escape">`d</span>_index<span class="hljs-escape">`)</span> VALUES
+(<span class="hljs-number">0000000000</span>, <span class="hljs-number">0000000000</span>, '\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>', <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, '{<span class="hljs-string">"c"</span>:<span class="hljs-string">"0,FFFFFF,1,25,0,0"</span>,<span class="hljs-string">"m"</span>:<span class="hljs-string">"Test"</span>,<span class="hljs-string">"cid"</span>:<span class="hljs-number">1</span>},', '[[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">45</span>]]', '{}', '{}', '{<span class="hljs-string">"0"</span>:[<span class="hljs-number">0</span>]}', '{<span class="hljs-string">"0"</span>:<span class="hljs-number">1</span>}')<span class="hljs-comment">;</span>
+ALTER TABLE <span class="hljs-escape">`v</span>ideo<span class="hljs-escape">` </span>AUTO_INCREMENT=<span class="hljs-number">1</span><span class="hljs-comment">;</span></code></pre>
+
+<hr>
+
+
+
+<h3 id="初始化数据与解析">初始化数据与解析</h3>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+  <th align="left">列名</th>
+  <th align="left">初始数据</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">vid</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">uid</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">btih</td>
+  <td align="left">x’0000000000000000000000000000000000000000’</td>
+</tr>
+<tr>
+  <td align="left">time</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">view</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">reply</td>
+  <td align="left">1</td>
+</tr>
+<tr>
+  <td align="left">comment</td>
+  <td align="left">‘{“c”:”0,FFFFFF,1,25,0,0”,”m”:”Test”,”cid”:1},’</td>
+</tr>
+<tr>
+  <td align="left">c_index</td>
+  <td align="left">‘[[0,0,45]]’</td>
+</tr>
+<tr>
+  <td align="left">linkage</td>
+  <td align="left">‘{}’</td>
+</tr>
+<tr>
+  <td align="left">l_index</td>
+  <td align="left">‘{}’</td>
+</tr>
+<tr>
+  <td align="left">dislike</td>
+  <td align="left">‘{“0”:[0]}’</td>
+</tr>
+<tr>
+  <td align="left">d_index</td>
+  <td align="left">‘{“0”:1}’</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h1 id="字段储存格式">字段储存格式</h1>
+
+<hr>
+
+
+
+<h2 id="comment">comment</h2>
+
+<hr>
+
+<p>不标准的JSON格式,下标[0,reply-1],不标准的地方在于不储存”[]”,并在最后多储存一个逗号,不应有格式化的缩进和回车 <br>
+这个逗号浏览器引擎会忽略,但php会报错,所以代码中注意定位</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">{<span class="hljs-string">"c"</span>:<span class="hljs-string">"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp"</span>,<span class="hljs-string">"m"</span>:<span class="hljs-string">"text"</span>,<span class="hljs-string">"cid"</span>:<span class="hljs-number">1</span>},{<span class="hljs-string">"c"</span>:<span class="hljs-string">"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp"</span>,<span class="hljs-string">"m"</span>:<span class="hljs-string">"text"</span>,<span class="hljs-string">"cid"</span>:<span class="hljs-number">2</span>},<span class="hljs-keyword">...</span>,{<span class="hljs-string">"c"</span>:<span class="hljs-string">"sec.000,color=FFFFFF,type(1),size(25),uid,timestamp"</span>,<span class="hljs-string">"m"</span>:<span class="hljs-string">"text"</span>,<span class="hljs-string">"cid"</span>:cid},</code></pre>
+
+<hr>
+
+
+
+<h2 id="cindex">c_index</h2>
+
+<hr>
+
+<p>JSON格式,下标[0,reply-1],<code>comment</code>字段的索引,time为发表时间，size为弹幕池全长</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs json">[
+    [
+        uid,
+        time,
+        size
+    ],
+    [
+        uid,
+        time,
+        size
+    ],
+    ...,
+    [
+        uid,
+        time,
+        size
+    ]
+]</code></pre>
+
+<hr>
+
+
+
+<h2 id="linkage">linkage</h2>
+
+<hr>
+
+<p>JSON格式,视频交叉链接,注意提防自我引用和引用不存在,注意btih必须小写(json的key要以小写开头) <br>
+key被分号分隔开,再被逗号分隔开,uid为数组,除btih外所有元素都是无符号整数</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">{
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ],
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ],
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ]
+}</code></pre>
+
+<p>key的第一段是引用对象:btih1属于本视频,btih2为引用视频 <br>
+第二段是相同片段:start_1为片段在本视频的起始点(ms),start_2为片段在本视频的起始点(ms),duration为片段长度(ms) <br>
+第三段是下一个共同片段,与第二段表示方法一致,下同</p>
+
+<hr>
+
+
+
+<h2 id="lindex">l_index</h2>
+
+<hr>
+
+<p>JSON格式,与<code>linkage</code>相似,但对用户只计数</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">{
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: count,
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: count,
+    <span class="hljs-keyword">...</span>,
+    <span class="hljs-string">"btih1,btih2,offsets;start_1,start_2,duration;start_1,start_2,duration;"</span>: count
+}</code></pre>
+
+<hr>
+
+
+
+<h2 id="dislike">dislike</h2>
+
+<hr>
+
+<p>JSON格式,不要为cid做JSON_FORCE_OBJECT,要作为字符串读写</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">{
+    <span class="hljs-string">"cid"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ],
+    <span class="hljs-string">"cid"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ],
+    <span class="hljs-keyword">...</span>,
+    <span class="hljs-string">"cid"</span>: [
+        uid,
+        uid,
+        <span class="hljs-keyword">...</span>
+    ]
+}</code></pre>
+
+<hr>
+
+
+
+<h2 id="dindex">d_index</h2>
+
+<hr>
+
+<p>JSON格式,不要为cid做JSON_FORCE_OBJECT,要作为字符串读写</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">{
+    <span class="hljs-string">"cid"</span>: count,
+    <span class="hljs-string">"cid"</span>: count,
+    <span class="hljs-keyword">...</span>,
+    <span class="hljs-string">"cid"</span>: count
+}</code></pre></div>
+  <a href="#top" style="display:block; width:35px; height:42px; border:1px solid #000; position:fixed; right:20px; bottom:20px;">回到<br/>顶部</a>
+</body>
+</html>

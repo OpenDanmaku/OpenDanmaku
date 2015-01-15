@@ -1,0 +1,46 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>OpenDanmaku - 磁链弹幕</title>
+	<link rel="Shortcut Icon" href="src/16x16t.ico"><!--	local image	-->
+	<style>body{background-color:#000000;color:#FFFFFF;overflow:hidden}</style>
+
+	<style>h1{color:#FFFF00}button{color:#FF8000}strong{color:#FFFF00}</style>
+	<script>if(document.URL.indexOf("#")!=-1) window.location.href="onlypo.html" + document.location.hash;</script>
+</head>
+<body>
+<div align="center">
+	<img src="src/logo.png" alt="OpenDanmaku磁链弹幕" /><br /><h1 >欢迎访问磁链弹幕!</h1><!--	local image	-->
+	<p>
+		服务端API展示:<a href="test.html"  >欢迎大家的测试!</a><br /><!--	local URL	-->
+		服务端API简介:<a href="README.html">欢迎一般性测试!</a><br /><!--	local URL	-->
+		服务端API详解:<a href="API.html"   >欢迎破坏性测试!</a><br /><!--	local URL	-->
+	</p>
+
+	<strong>观看视频前请先获取饼干并确认视频已创建:</strong></p>
+	<form action="http://idanmu.tk/php/newCookie.php" method="get"><!--	http://server_host/php/newCookie.php	-->
+		<fieldset style="width:400px">
+			<legend>请在此获取饼干</legend>
+			<input type="text" name="vcode" style="width:200;" value="请输入验证信息："/>
+			<img src="http://idanmu.tk/php/getVcode.php" align="top" /><!--	http://server_host/php/getVcode.php	-->
+			<input type="submit" value="提交"/>
+		
+		</fieldset>
+	</form>
+
+	<form action="http://idanmu.tk/php/newVideo.php" method="get"><!--	http://server_host/php/newVideo.php	-->
+		<fieldset style="width:400px">
+			<legend>请在此创建视频</legend>
+			<input type="text" id="btih" name="btih" style="width:300;" value="请输入磁力链接：" />
+			<input type="submit" value="提交" />
+		</fieldset>
+	</form>
+
+	<form action="video.html" id="myform" method="get"><!--	local URL	-->
+		<input type="hidden" id="hidden" name="btih" value=""/>
+		<input type="submit" style="height=80px;width=200px;" onclick="openvideo()" value="点击观看视频"/>
+	</form>
+</div>
+<script>function openvideo(){document.getElementById("hidden").value=document.getElementById("btih").value;document.getElementById("myform").submit();}</script>
+</body>
+</html>

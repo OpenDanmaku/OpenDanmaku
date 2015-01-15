@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="Shortcut Icon" href="src/16x16t.ico"><!--	local image	-->
+<title>OpenDanmaku - API</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h1 id="readme">README</h1>
+
+<p><div class="toc">
+<ul>
+<li><a href="#readme">README</a><ul>
+<li><a href="#information">INFORMATION</a><ul>
+<li><a href="#type">TYPE</a></li>
+<li><a href="#error">ERROR</a><ul>
+<li><a href="#when-err">WHEN ERR</a></li>
+<li><a href="#when-no-err-and-no-data">WHEN NO ERR AND NO DATA</a></li>
+</ul>
+</li>
+<li><a href="#example">EXAMPLE</a></li>
+</ul>
+</li>
+<li><a href="#loading-danmaku">LOADING DANMAKU</a><ul>
+<li><a href="#getvideophpactionfind">getVideo.php?action=find</a><ul>
+<li><a href="#parameters">[Parameters]</a></li>
+<li><a href="#data-returned">[Data Returned]</a></li>
+</ul>
+</li>
+<li><a href="#getlinkphp">getLink.php</a><ul>
+<li><a href="#parameters-1">[Parameters]</a></li>
+<li><a href="#data-returned-1">[Data Returned]</a></li>
+</ul>
+</li>
+<li><a href="#getcommentphpbtihbtihactionall">getComment.php?btih=BTIH&amp;action=all</a><ul>
+<li><a href="#parameters-2">[Parameters]</a></li>
+<li><a href="#data-returned-2">[Data Returned]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#when-playing">WHEN PLAYING</a><ul>
+<li><a href="#newcommentphp">newComment.php</a><ul>
+<li><a href="#parameters-3">[Parameters]</a></li>
+<li><a href="#data-returned-3">[Data Returned]</a></li>
+<li><a href="#side-effect">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#newdislikephp">newDislike.php</a><ul>
+<li><a href="#parameters-4">[Parameters]</a></li>
+<li><a href="#data-returned-4">[Data Returned]</a></li>
+<li><a href="#side-effect-1">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#getcommentphpbtihbtihactioncid">getComment.php?btih=BTIH&amp;action=cid</a><ul>
+<li><a href="#parameters-5">[Parameters]</a></li>
+<li><a href="#data-returned-5">[Data Returned]</a></li>
+<li><a href="#side-effect-2">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#getcommentphpbtihbtihactiontime">getComment.php?btih=BTIH&amp;action=time</a><ul>
+<li><a href="#parameters-6">[Parameters]</a></li>
+<li><a href="#data-returned-6">[Data Returned]</a></li>
+<li><a href="#side-effect-3">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#getcommentphpbtihbtihactionrecent">getComment.php?btih=BTIH&amp;action=recent</a><ul>
+<li><a href="#parameters-7">[Parameters]</a></li>
+<li><a href="#data-returned-7">[Data Returned]</a></li>
+<li><a href="#side-effect-4">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#getcommentphpbtihbtihactionlast">getComment.php?btih=BTIH&amp;action=last</a><ul>
+<li><a href="#parameters-8">[Parameters]</a></li>
+<li><a href="#data-returned-8">[Data Returned]</a></li>
+<li><a href="#side-effect-5">[Side Effect]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#getting-cookies">GETTING COOKIES</a><ul>
+<li><a href="#getvcodephp">getVcode.php</a><ul>
+<li><a href="#parameters-9">[Parameters]</a></li>
+<li><a href="#data-returned-9">[Data Returned]</a></li>
+</ul>
+</li>
+<li><a href="#newcookiephp">newCookie.php</a><ul>
+<li><a href="#parameters-10">[Parameters]</a></li>
+<li><a href="#data-returned-10">[Data Returned]</a></li>
+<li><a href="#side-effect-6">[Side Effect]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#creating-new-video-and-link">CREATING NEW VIDEO AND LINK</a><ul>
+<li><a href="#newvideophp">newVideo.php</a><ul>
+<li><a href="#parameters-11">[Parameters]</a></li>
+<li><a href="#data-returned-11">[Data Returned]</a></li>
+<li><a href="#side-effect-7">[Side Effect]</a></li>
+</ul>
+</li>
+<li><a href="#newlinkphp">newLink.php</a><ul>
+<li><a href="#parameters-12">[Parameters]</a></li>
+<li><a href="#data-returned-12">[Data Returned]</a></li>
+<li><a href="#side-effect-8">[Side Effect]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#getting-video-list">GETTING VIDEO LIST</a><ul>
+<li><a href="#getvideophpbtihbtihactiontime">getVideo.php?btih=BTIH&amp;action=time</a><ul>
+<li><a href="#parameters-13">[Parameters]</a></li>
+<li><a href="#data-returned-13">[Data Returned]</a></li>
+</ul>
+</li>
+<li><a href="#getvideophpbtihbtihactionview">getVideo.php?btih=BTIH&amp;action=view</a><ul>
+<li><a href="#parameters-14">[Parameters]</a></li>
+<li><a href="#data-returned-14">[Data Returned]</a></li>
+</ul>
+</li>
+<li><a href="#getvideophpbtihbtihactionreply">getVideo.php?btih=BTIH&amp;action=reply</a><ul>
+<li><a href="#parameters-15">[Parameters]</a></li>
+<li><a href="#data-returned-15">[Data Returned]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+
+
+<h2 id="information">INFORMATION</h2>
+
+
+
+<h3 id="type">TYPE</h3>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Name</th>
+  <th align="left">Information</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">bith</td>
+  <td align="left">160 bit Binary Value, submitted as 40 character HEX string.</td>
+</tr>
+<tr>
+  <td align="left">time</td>
+  <td align="left">UNIX timestamp, ‘2015-01-01 00:00:00 UTC+8’ is submitted as 32 bit integer ‘1420041600’.</td>
+</tr>
+<tr>
+  <td align="left">json</td>
+  <td align="left">Standard JSON string. Clearing whitespace character is encouraged.</td>
+</tr>
+<tr>
+  <td align="left">option</td>
+  <td align="left">Keys and values should be submitted in lower case. Whitespace character is not allowed.</td>
+</tr>
+<tr>
+  <td align="left">linkage</td>
+  <td align="left">btihA,btih2,offset_count[;offset1A,offset1B,duration1[;offset2A,offset2B,duration2[;…]]]</td>
+</tr>
+<tr>
+  <td align="left">integer</td>
+  <td align="left">A DECIMAL-BASED number WITHOUT decimal fraction.</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="error">ERROR</h3>
+
+<p>When key <code>err_num</code> exists and its value is not 0, some error happens. <br>
+<strong>You Should Check Error Info from Source Files.</strong> <br>
+<code>err_num</code> is not been asigned specifically yet, though 0 means, of course, no error. <br>
+<strong>When Data are Transmitted, Error Info is Replaced by Data!</strong>  </p>
+
+
+
+<h4 id="when-err">WHEN ERR</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"btih_unavailable"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value">-<span class="hljs-number">1</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Error: Video Not Yet Exists, Do You Want to Create It?"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="when-no-err-and-no-data">WHEN NO ERR AND NO DATA</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newComment"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Comment Created Successfully!"</span>
+</span>}</code></pre>
+
+
+
+<h3 id="example">EXAMPLE</h3>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Name</th>
+  <th align="left">Magnet Link</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">【RH字幕組x傲嬌零字幕組】憑物語</td>
+  <td align="left">magnet:?xt=urn:btih:99df93b28299fa02335e0194595bc567fbee9386</td>
+</tr>
+<tr>
+  <td align="left">【極影字幕社】★物語系列 憑物語</td>
+  <td align="left">magnet:?xt=urn:btih:54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108</td>
+</tr>
+<tr>
+  <td align="left">【极影字幕社】★物语系列 凭物语</td>
+  <td align="left">magnet:?xt=urn:btih:588d1fb8530b6f2452dfd8bd658c184f65e95d2a</td>
+</tr>
+<tr>
+  <td align="left">【Leopard-Raws】憑物語 (凭物语)</td>
+  <td align="left">magnet:?xt=urn:btih:c8000e819cce54f3ea284c9c6604c0e5d71ad2ba</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="loading-danmaku">LOADING DANMAKU</h2>
+
+
+
+<h3 id="getvideophpactionfind">getVideo.php?action=find</h3>
+
+
+
+<h4 id="parameters">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="right">Optional</td>
+  <td align="right">option</td>
+  <td align="left">find</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned">[Data Returned]</h4>
+
+<p>E.g. <a href="http://bt.ktxp.com/html/2015/0105/391659.html">【RH字幕組x傲嬌零字幕組】憑物語</a></p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"99df93b28299fa02335e0194595bc567fbee9386"</span></span>,
+"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420410963</span></span>,
+"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">100</span></span>,
+"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">30</span>
+</span>}</code></pre>
+
+
+
+<h3 id="getlinkphp">getLink.php</h3>
+
+
+
+<h4 id="parameters-1">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x Return Err</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-1">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">99df93b28299fa02335e0194595bc567fbee9386,54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108,0</span>":<span class="hljs-value"><span class="hljs-number">25</span></span>,
+"<span class="hljs-attribute">99df93b28299fa02335e0194595bc567fbee9386,588d1fb8530b6f2452dfd8bd658c184f65e95d2a,0</span>":<span class="hljs-value"><span class="hljs-number">16</span></span>,
+"<span class="hljs-attribute">99df93b28299fa02335e0194595bc567fbee9386,c8000e819cce54f3ea284c9c6604c0e5d71ad2ba,2;0,1000,60000;60000,76000,7200000</span>":<span class="hljs-value"><span class="hljs-number">45</span>
+</span>}</code></pre>
+
+
+
+<h3 id="getcommentphpbtihbtihactionall">getComment.php?btih=BTIH&amp;action=all</h3>
+
+
+
+<h4 id="parameters-2">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="right">Optional</td>
+  <td align="right">option</td>
+  <td align="left">all</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-2">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"101.719,16777215,1,25,6854,1420098741"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"新房风，试试"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"163.913,16777215,1,25,5740,1420098752"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"量子物理的既视感~@虐猫狂人薛定谔"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">1</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.531,16777215,1,25,6113,1420099663"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"没人了吗？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">2</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"627.412,16711680,1,25,5602,1420099834"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这需要多少钱？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">3</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.971,16777215,1,25,2782,1420100055"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"男主是鬼吗？镜 子里都没影子。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">4</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"120.576,16777215,1,25,2782,1420100083"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"不不不，是返回好烦。。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">5</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"151.506,16777215,1,25,2782,1420100114"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"吸血鬼？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">6</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"269.241,16777215,1,25,2782,1420100231"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这得几何原理多好才能看懂？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">7</span></span>}
+]</code></pre>
+
+
+
+<h2 id="when-playing">WHEN PLAYING</h2>
+
+
+
+<h3 id="newcommentphp">newComment.php</h3>
+
+
+
+<h4 id="parameters-3">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">comment</td>
+  <td align="right">Forced</td>
+  <td align="right">json</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+</tbody></table>
+
+
+<p>example of comment, should be processed with encodeURIComponent ()：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs json">{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"101.719,16777215,1,25,6854,1420098741"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"新房风，试试"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>}</code></pre>
+
+
+
+<h4 id="data-returned-3">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newComment"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Comment Created Successfully!"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="side-effect">[Side Effect]</h4>
+
+<p><code>reply</code> auto-increases by 1.</p>
+
+<table>
+<thead>
+<tr>
+  <th align="right">Score</th>
+  <th align="right">Delay</th>
+  <th align="right">Punishment</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">1</td>
+  <td align="right">3</td>
+  <td align="right">No</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="newdislikephp">newDislike.php</h3>
+
+
+
+<h4 id="parameters-4">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">cid</td>
+  <td align="right">Forced</td>
+  <td align="right">integer</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-4">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newDislike"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Dislike Created Successfully!"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="side-effect-1">[Side Effect]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="right">Score</th>
+  <th align="right">Delay</th>
+  <th align="right">Punishment</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">-20</td>
+  <td align="right">30</td>
+  <td align="right">4 more hours when score is 0</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="getcommentphpbtihbtihactioncid">getComment.php?btih=BTIH&amp;action=cid</h3>
+
+
+
+<h4 id="parameters-5">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">time</td>
+</tr>
+<tr>
+  <td align="left">start</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">end</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left"><code>reply</code> - 1</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-5">[Data Returned]</h4>
+
+<p>E.g. getComment.php?btih=BTIH&amp;action=cid&amp;start=2&amp;end=5</p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.531,16777215,1,25,6113,1420099663"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"没人了吗？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">2</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"627.412,16711680,1,25,5602,1420099834"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这需要多少钱？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">3</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.971,16777215,1,25,2782,1420100055"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"男主是鬼吗？镜 子里都没影子。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">4</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"120.576,16777215,1,25,2782,1420100083"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"不不不，是返回好烦。。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">5</span></span>}
+]</code></pre>
+
+
+
+<h4 id="side-effect-2">[Side Effect]</h4>
+
+<p><code>view</code> auto-increases by 1.</p>
+
+
+
+<h3 id="getcommentphpbtihbtihactiontime">getComment.php?btih=BTIH&amp;action=time</h3>
+
+
+
+<h4 id="parameters-6">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">time</td>
+</tr>
+<tr>
+  <td align="left">start</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">end</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">now()</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-6">[Data Returned]</h4>
+
+<p>E.g. getComment.php?btih=BTIH&amp;action=time&amp;start=1420098750&amp;end=1420100120</p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"163.913,16777215,1,25,5740,1420098752"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"量子物理的既视感~@虐猫狂人薛定谔"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">1</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.531,16777215,1,25,6113,1420099663"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"没人了吗？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">2</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"627.412,16711680,1,25,5602,1420099834"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这需要多少钱？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">3</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.971,16777215,1,25,2782,1420100055"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"男主是鬼吗？镜 子里都没影子。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">4</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"120.576,16777215,1,25,2782,1420100083"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"不不不，是返回好烦。。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">5</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"151.506,16777215,1,25,2782,1420100114"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"吸血鬼？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">6</span></span>}
+]</code></pre>
+
+
+
+<h4 id="side-effect-3">[Side Effect]</h4>
+
+<p><code>view</code> auto-increases by 1.</p>
+
+
+
+<h3 id="getcommentphpbtihbtihactionrecent">getComment.php?btih=BTIH&amp;action=recent</h3>
+
+
+
+<h4 id="parameters-7">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">time</td>
+</tr>
+<tr>
+  <td align="left">start</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">0</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-7">[Data Returned]</h4>
+
+<p>E.g. getComment.php?btih=BTIH&amp;action=recent&amp;start=3</p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.971,16777215,1,25,2782,1420100055"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"男主是鬼吗？镜 子里都没影子。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">4</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"120.576,16777215,1,25,2782,1420100083"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"不不不，是返回好烦。。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">5</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"151.506,16777215,1,25,2782,1420100114"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"吸血鬼？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">6</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"269.241,16777215,1,25,2782,1420100231"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这得几何原理多好才能看懂？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">7</span></span>}
+]</code></pre>
+
+
+
+<h4 id="side-effect-4">[Side Effect]</h4>
+
+<p><strong><code>view</code> does NOT auto-increase!!!</strong></p>
+
+
+
+<h3 id="getcommentphpbtihbtihactionlast">getComment.php?btih=BTIH&amp;action=last</h3>
+
+
+
+<h4 id="parameters-8">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">time</td>
+</tr>
+<tr>
+  <td align="left">start</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">0</td>
+</tr>
+<tr>
+  <td align="left">end</td>
+  <td align="center">Optional</td>
+  <td align="right">integer</td>
+  <td align="left">now()</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-8">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"269.241,16777215,1,25,2782,1420100231"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这得几何原理多好才能看懂？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"151.506,16777215,1,25,2782,1420100114"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"吸血鬼？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">1</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"120.576,16777215,1,25,2782,1420100083"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"不不不，是返回好烦。。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">2</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.971,16777215,1,25,2782,1420100055"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"男主是鬼吗？镜 子里都没影子。"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">3</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"627.412,16711680,1,25,5602,1420099834"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"这需要多少钱？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">4</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"102.531,16777215,1,25,6113,1420099663"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"没人了吗？"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">5</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"163.913,16777215,1,25,5740,1420098752"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"量子物理的既视感~@虐猫狂人薛定谔"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">6</span></span>},
+{"<span class="hljs-attribute">c</span>":<span class="hljs-value"><span class="hljs-string">"101.719,16777215,1,25,6854,1420098741"</span></span>,"<span class="hljs-attribute">m</span>":<span class="hljs-value"><span class="hljs-string">"新房风，试试"</span></span>,"<span class="hljs-attribute">cid</span>":<span class="hljs-value"><span class="hljs-number">7</span></span>}
+]</code></pre>
+
+
+
+<h4 id="side-effect-5">[Side Effect]</h4>
+
+<p><code>view</code> auto-increases by 1.</p>
+
+
+
+<h2 id="getting-cookies">GETTING COOKIES</h2>
+
+
+
+<h3 id="getvcodephp">getVcode.php</h3>
+
+
+
+<h4 id="parameters-9">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">random</td>
+  <td align="right">Pseudo</td>
+  <td align="right">anything</td>
+  <td align="left">nothing</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-9">[Data Returned]</h4>
+
+<p><strong>Content-type: image/png</strong></p>
+
+
+
+<h3 id="newcookiephp">newCookie.php</h3>
+
+
+
+<h4 id="parameters-10">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">vcode</td>
+  <td align="right">Forced</td>
+  <td align="right">interger</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-10">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newCookie"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"New Cookie Begotten!"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="side-effect-6">[Side Effect]</h4>
+
+<p><strong>New Cookies</strong></p>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Value Type</th>
+  <th align="left">Overdue</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">uid</td>
+  <td align="right">integer</td>
+  <td align="left">2147483647</td>
+</tr>
+<tr>
+  <td align="left">key</td>
+  <td align="right">integer</td>
+  <td align="left">2147483647</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="creating-new-video-and-link">CREATING NEW VIDEO AND LINK</h2>
+
+
+
+<h3 id="newvideophp">newVideo.php</h3>
+
+
+
+<h4 id="parameters-11">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="right">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-11">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newVideo"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Video Created Successfully!"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="side-effect-7">[Side Effect]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="right">Score</th>
+  <th align="right">Delay</th>
+  <th align="right">Punishment</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">10</td>
+  <td align="right">60</td>
+  <td align="right">No</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h3 id="newlinkphp">newLink.php</h3>
+
+
+
+<h4 id="parameters-12">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="right">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">linkage</td>
+  <td align="right">Forced</td>
+  <td align="right">linkage</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-12">[Data Returned]</h4>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+"<span class="hljs-attribute">err_type</span>":<span class="hljs-value"><span class="hljs-string">"newLink"</span></span>,
+"<span class="hljs-attribute">err_num</span>":<span class="hljs-value"><span class="hljs-number">0</span></span>,
+"<span class="hljs-attribute">err_msg</span>":<span class="hljs-value"><span class="hljs-string">"Links Created Successfully!"</span>
+</span>}</code></pre>
+
+
+
+<h4 id="side-effect-8">[Side Effect]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="right">Score</th>
+  <th align="right">Delay</th>
+  <th align="right">Punishment</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="right">10</td>
+  <td align="right">60</td>
+  <td align="right">No</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="getting-video-list">GETTING VIDEO LIST</h2>
+
+<p>You can check its info from sites like: <br>
+    <a href="http://www.btspread.com/magnet/detail/hash/99df93b28299fa02335e0194595bc567fbee9386">http://www.btspread.com/magnet/detail/hash/99df93b28299fa02335e0194595bc567fbee9386</a> <br>
+    <a href="http://bt.ktxp.com/search.php?keyword=99df93b28299fa02335e0194595bc567fbee9386">http://bt.ktxp.com/search.php?keyword=99df93b28299fa02335e0194595bc567fbee9386</a>  </p>
+
+
+
+<h3 id="getvideophpbtihbtihactiontime">getVideo.php?btih=BTIH&amp;action=time</h3>
+
+
+
+<h4 id="parameters-13">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">time</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-13">[Data Returned]</h4>
+
+<p>Last 7 Days’ Video Info Ordered Descendingly By Time  </p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"99df93b28299fa02335e0194595bc567fbee9386"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420410963</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">100</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">30</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420244427</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">200</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">70</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"588d1fb8530b6f2452dfd8bd658c184f65e95d2a"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420237201</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">300</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">50</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420203945</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">400</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">90</span></span>}
+]</code></pre>
+
+
+
+<h3 id="getvideophpbtihbtihactionview">getVideo.php?btih=BTIH&amp;action=view</h3>
+
+
+
+<h4 id="parameters-14">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">view</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-14">[Data Returned]</h4>
+
+<p>Last 7 Days’ Video Info Ordered Descendingly By View  </p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420203945</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">400</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">90</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"588d1fb8530b6f2452dfd8bd658c184f65e95d2a"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420237201</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">300</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">50</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420244427</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">200</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">70</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"99df93b28299fa02335e0194595bc567fbee9386"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420410963</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">100</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">30</span></span>}
+]</code></pre>
+
+
+
+<h3 id="getvideophpbtihbtihactionreply">getVideo.php?btih=BTIH&amp;action=reply</h3>
+
+
+
+<h4 id="parameters-15">[Parameters]</h4>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Key Name</th>
+  <th align="center">Request</th>
+  <th align="right">Value Type</th>
+  <th align="left">Default Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">btih</td>
+  <td align="center">Forced</td>
+  <td align="right">btih</td>
+  <td align="left">x RETURN ERR</td>
+</tr>
+<tr>
+  <td align="left">action</td>
+  <td align="center">Specified</td>
+  <td align="right">option</td>
+  <td align="left">view</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h4 id="data-returned-15">[Data Returned]</h4>
+
+<p>Last 7 Days’ Video Info Ordered Descendingly By Reply  </p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">[
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"c8000e819cce54f3ea284c9c6604c0e5d71ad2ba"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420203945</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">400</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">90</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"54e3d5732b2dfd8a69354d5d5fb06fc0ae3f5108"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420244427</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">200</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">70</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"588d1fb8530b6f2452dfd8bd658c184f65e95d2a"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420237201</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">300</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">50</span></span>},
+{"<span class="hljs-attribute">btih</span>":<span class="hljs-value"><span class="hljs-string">"99df93b28299fa02335e0194595bc567fbee9386"</span></span>,"<span class="hljs-attribute">time</span>":<span class="hljs-value"><span class="hljs-number">1420410963</span></span>,"<span class="hljs-attribute">view</span>":<span class="hljs-value"><span class="hljs-number">100</span></span>,"<span class="hljs-attribute">reply</span>":<span class="hljs-value"><span class="hljs-number">30</span></span>}
+]</code></pre>
+
+<blockquote>
+  <p>Written by Schezuk at 2015-01-06 00:00:00</p>
+</blockquote></div>
+<a href="#top" style="display:block; width:35px; height:42px; border:1px solid #000; position:fixed; right:20px; bottom:20px;">回到<br/>顶部</a>
+</body>
+</html>

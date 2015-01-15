@@ -1,0 +1,233 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>OpenDanmaku - 播放测试</title>
+	<link rel="Shortcut Icon" href="src/16x16t.ico">
+	<style>body{background-color:#000000;color:#FFFFFF;overflow:hidden}</style>
+
+	<link rel="stylesheet" href="src/base.css?1" />
+	<link rel="stylesheet" href="src/style.css" />
+	<script src="src/CommentCoreLibrary.js"></script>
+	<script src="src/ABPlayer.js"></script>
+	<script src="src/ABPLibxml.js"></script>
+
+	<!--	定义全局变量,以下代码解释变量的作用域及var是否有影响,结果是提示值1和2	-->
+	<!--	<script>a=1;var b=2;</script>	<script>alert(a);alert(b);</script>	-->
+	<script>
+	var const_btih      = "magnet:?xt=urn:btih:d71730bb7f7d1506abd1c917ef13c47794580b87";
+	
+	var const_video     = "http://static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4";
+	var const_videoname = "オツキミリサイタル - じん(自然の敵Ｐ)";
+
+	//var api_get_vcode   = "http://idanmu.tk/php/getVcode.php";
+	//var api_get_cookie  = "http://idanmu.tk/php/newCookie.php";
+
+	var api_get_comment = "http://idanmu.tk/php/getComment.php";
+	var api_new_comment = "http://idanmu.tk/php/newComment.php";
+	
+	var api_get_search  = "http://bt.ktxp.com/search.php";
+	var api_new_report  = "http://idanmu.tk/php/report.php";
+	</script>
+	<!--	定义完毕	-->
+
+</head>
+<body>
+<table border="2px"><tr><td>
+	<!--	ABP播放器	-->
+	<video id="thisVideo" height="450" width="800" controls="controls" preload="auto">Your browser can't support HTML5 Video</video>
+	<div id="load-player"></div>
+	<hr />
+
+	<!--	发送弹幕而不跳转,参见http://www.jb51.net/web/138365.html	-->
+	<iframe id="blackholeComment" name="blackholeComment" style="display:none;"></iframe>
+	<form id="newComment" target="blackholeComment">
+		<input type="hidden" id="btih"    name="btih"    value="" />
+		<input type="hidden" id="comment" name="comment" value="" />
+		<input type="text"   id="message" size="96"      value="请输入弹幕,点击按钮提交,刷新页面可见新增弹幕" />
+		<input type="button" onclick="oncommentpost()"   value="提交弹幕" />
+	</form>
+	<script>document.getElementById("newComment").action = api_new_comment;/*设置提交评论的API*/ </script>
+	
+	<!--	发送弹幕时的处理	-->
+	<script>
+	function oncommentpost(){
+		var c = document.getElementById("thisVideo").currentTime.toString() + ",16777215,1,25,0,0";
+		var m = document.getElementById("message").value;
+		var comment = JSON.stringify({"c":c,"m":m});
+		var btih    = document.getElementById("link").value;
+		
+        	document.getElementById("btih"   ).value = btih;
+        	document.getElementById("comment").value = comment;
+        	
+		document.getElementById("newComment").submit();
+	       	document.getElementById("message").value = "";//不为submit作延时
+	       			        	
+        	document.getElementById("btih"   ).value = "";//清理现场
+        	document.getElementById("comment").value = "";//不过也许没什么必要
+	}
+	</script>
+
+</td><td valign="top">
+
+	<p>
+		<b><a style="color:#ffff00">您即将观看的视频所使用的弹幕池是：</a></b><br />
+		<input type="text" id="link" size="54" onblur="onblurSyncKeyword()" /><br />
+		<script>
+		document.getElementById("link").value = isNull(GetQueryString("btih")) ? const_btih : GetQueryString("btih");
+		//设置磁力链接,无btih参数或btih参数为空则取默认值,否则取参数btih的值
+
+		function isNull(arg1){return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;}
+		//在js中if条件为null/undefined/0/NaN/""表达式时，统统被解释为false,此外均为true
+		//参见http://blog.sina.com.cn/s/blog_68ead6830101cx3u.html或http://www.cnblogs.com/si-shaohua/p/3817914.html
+		//true :	isNull(null);	isNull('');	isNull();	var aa={}; isNull(aa.a);	isNull(undefined);
+		//false:	isNull(0);	isNull('0');	isNull(true);	isNull("undefined");	isNull([]);	isNull({});
+		
+		function GetQueryString(name){//获取参数内容
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if (r!=null) return unescape(r[2]); return null;
+		}
+		
+		//onblurSyncKeyword()不放在后面搜索栏处,要不然不认!!!!!!!!!!!!
+		function onblurSyncKeyword(){
+			var keyword = document.getElementById("link").value;
+			if (keyword.indexOf("btih:") != -1) keyword = keyword.split("btih:")[1].substr(0,40);
+			else keyword = keyword.substr[0,40];
+			if (keyword.length < 40 || keyword.search(/[^0-9A-Fa-f]/) != -1) keyword = "无效的磁力链接";
+			document.getElementById("keyword").value = keyword;
+		}
+
+		</script>
+
+		<a style="color:#ff0000">还未获取饼干？视频弹幕池未创建？</a><b><a href="index.html" style="color:#ffff00">请访问主页链接</a></b> <br />
+		<a style="color:#ff0000">后端内测！弹幕池更多功能与设置！</a><b><a href="test.html"  style="color:#ffff00">请访问API测试页</a></b><br />
+
+	</p>
+
+	<hr />
+	
+	<p>
+		<a style="color:#ff0000">点击播放默认线上测试视频</a>
+		<button type="button" id="load_default" onclick="onDefaultClick()"></button><br />
+		<script>
+		document.getElementById("load_default").innerHTML = const_videoname;/*设置默认视频的文件名*/ 
+		function onDefaultClick(){
+			onInputFileChange();
+			document.getElementById("thisVideo").src =const_video;
+			document.getElementById("link").value    =const_btih;
+			alert("您观看的是:" + document.getElementById("thisVideo").src);
+		}	
+		</script>
+		
+		<a style="color:#ff0000">或者选择本地视频文件播放</a>
+		<input  type="file"   id="file"         onchange="onInputFileChange()"   style="visibility:visible" /><br />
+
+		<!--	播放本地视频,装载弹幕,参见http://blog.csdn.net/yl02520/article/details/15029593	-->
+		<script>
+		function onInputFileChange() {
+		try {
+			//<video>装载视频
+			var thisVideo = document.getElementById("thisVideo").src;
+			if (thisVideo.indexOf("http://") == -1 &&  thisVideo.indexOf("https://") == -1) {//如果视频不来自http或https服务器(包括空字符串),那么视作本地的
+				var file =document.getElementById('file').files[0];
+				var url = URL.createObjectURL(file);
+				console.log(url);
+				document.getElementById("thisVideo").src = url;
+			} else {
+				alert("播放默认视频");//虽然不仅仅默认值符合条件,以后也可能是指定的链接,但是还是暂时这么处理吧
+			}
+
+			document.getElementById("thisVideo").pause();//其实我设过controls="controls" 应该不会自动播放吧
+
+			//ABP装载弹幕
+			var inst = ABP.create( document.getElementById('load-player'), {
+				"src":{
+					"playlist":[
+						{
+							"video":document.getElementById("thisVideo"),
+							"comments":api_get_comment + "?btih=" +document.getElementById('link').value //这里不能是默认值
+						}
+					]
+				},
+				"width":800,
+				"height":450
+			});
+
+			//把弹幕接口暴露出来
+			window.inst = inst;
+		
+		} catch( e ) {alert("不支持HTML5");}
+		}
+		</script>
+		
+		<b><a id="download" style="color:#ffff00">下载默认测试视频到本地</a></b>
+		<script>document.getElementById("download").href = const_video;/*设置下载链接的值*/ </script>
+	</p>
+
+	<hr />
+	
+	<p><form id="getSearch">
+		<input type="text" id="keyword" size="40" maxlength="40" name="keyword" value="搜索视频信息,请只保留40位16进制数" />
+		<input type="submit" value="搜索视频信息" />
+	</form></p>
+	<script>document.getElementById("getSearch").action = api_get_search;/*设置提交搜索的API*/
+		onblurSyncKeyword();//至少应该执行一遍
+	</script>
+
+	<p><form id="newReport">
+		<textarea rows="12" cols="56" name="info">请提交反馈信息</textarea><br />
+		<input type="submit" value="报告" />
+	</form>
+	<b><a href="mailto:schezuk@163.com" style="color:#ffff00">联系我! mailto:schezuk@163.com</a></b>
+	</p>
+	<script>document.getElementById("newReport" ).action = api_new_report;/*设置提交报告的API*/ </script>
+
+</td></tr></table>
+
+<script type="text/javascript" id="tc_3c6b1ff9a8">
+var _tcq = _tcq || []; _tcq.push(['flag', '3c6b1ff9a8', '000000', 'ffffff', 'ffffff', '1', '1', '0']); 
+(function() { var e = document.createElement('script'); e.type = 'text/javascript'; e.async = true; e.src = '//s.tcimg.com/w/v2/flag.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(e, s); })();
+</script>
+
+<!--	废弃代码	-->
+<!--	
+	<img src="http://idanmu.tk/getVcode.php" style="visibility:hidden" />	
+	<script>
+	function ajaxFunction( url ){
+		var xmlHttp;
+		// 实例化对象
+		try {xmlHttp = new XMLHttpRequest();}    // Firefox, Opera 8.0+, Safari
+		catch( e ) {
+			try {xmlHttp = new ActiveXObject( "Msxml2.XMLHTTP" );}// Internet Explorer
+			catch( e ) {
+				try {xmlHttp = new ActiveXObject( "Microsoft.XMLHTTP" );}
+				catch( e ) { alert("您的浏览器不支持AJAX！");return false;}
+			}
+		}
+		xmlHttp.onreadystatechange = function(){if( xmlHttp.readyState == 4  && xmlHttp.status == 200 ) alert(xmlHttp.responseText);};
+		xmlHttp.open( "GET", url, true );
+		xmlHttp.send( null );
+	}
+		
+	function state_Change(){
+		if (xmlhttp.readyState==4){// 4 = "loaded"
+			if (xmlhttp.status==200){// 200 = OK
+				document.getElementById("thisVideo").currentTime=0;
+				inst.load(xmlhttp.responseText.split("<!--Don't")[0]);
+				inst.start();
+				inst.time();
+				inst.display=true;
+			} else {
+				alert("Problem retrieving XML data");
+			}
+		}
+	}
+	
+	function onInputMagnetBlur() {
+		document.getElementById('file').style.visibility="visible";
+	}
+	</script>
+-->
+
+</body>
+</html>

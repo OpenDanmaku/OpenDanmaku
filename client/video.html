@@ -92,7 +92,7 @@
 		function onblurSyncKeyword(){
 			var keyword = document.getElementById("link").value;
 			if (keyword.indexOf("btih:") != -1) keyword = keyword.split("btih:")[1].substr(0,40);
-			else keyword = keyword.substr[0,40];
+			else keyword = keyword.substr(0,40);
 			if (keyword.length < 40 || keyword.search(/[^0-9A-Fa-f]/) != -1) keyword = "无效的磁力链接";
 			document.getElementById("keyword").value = keyword;
 		}

@@ -85,7 +85,7 @@
 		function GetQueryString(name){//获取参数内容
 			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 			var r = window.location.search.substr(1).match(reg);
-			if (r!=null) return unescape(r[2]); return null;
+			if (r!=null) return decodeURIComponent(r[2]); return null;
 		}
 		
 		//onblurSyncKeyword()不放在后面搜索栏处,要不然不认!!!!!!!!!!!!
@@ -112,10 +112,9 @@
 		<script>
 		document.getElementById("load_default").innerHTML = const_videoname;/*设置默认视频的文件名*/ 
 		function onDefaultClick(){
+			document.getElementById("thisVideo").src = const_video;
+			document.getElementById("link").value    = const_btih;
 			onInputFileChange();
-			document.getElementById("thisVideo").src =const_video;
-			document.getElementById("link").value    =const_btih;
-			alert("您观看的是:" + document.getElementById("thisVideo").src);
 		}	
 		</script>
 		
@@ -134,7 +133,8 @@
 				console.log(url);
 				document.getElementById("thisVideo").src = url;
 			} else {
-				alert("播放默认视频");//虽然不仅仅默认值符合条件,以后也可能是指定的链接,但是还是暂时这么处理吧
+				alert("播放默认视频，您观看的是：" + document.getElementById("thisVideo").src);
+				//虽然不仅仅默认值符合条件,以后也可能是指定的链接,但是还是暂时这么处理吧
 			}
 
 			document.getElementById("thisVideo").pause();//其实我设过controls="controls" 应该不会自动播放吧

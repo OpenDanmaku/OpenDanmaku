@@ -21,7 +21,7 @@ switch (isset($_REQUEST['action']) ? strtolower(trim($_REQUEST['action'])) : 'al
     case "cid": { //********按弹幕号[start,end]获取,计入view,参数为start,end
         //计入view
         $blackhole = NULL;
-        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$result, array(
+        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$blackhole, array(
             's',
             $btih
         ));
@@ -59,7 +59,7 @@ switch (isset($_REQUEST['action']) ? strtolower(trim($_REQUEST['action'])) : 'al
     case "time": { //********按时间[start,end]来获取,计入view,参数为start,end
         //计入view
         $blackhole = NULL;
-        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$result, array(
+        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$blackhole, array(
             's',
             $btih
         ));
@@ -159,7 +159,7 @@ switch (isset($_REQUEST['action']) ? strtolower(trim($_REQUEST['action'])) : 'al
     case "last": { //********获取最后count条,计入view,参数为count
         //计入view
         $blackhole = NULL;
-        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$result, array(
+        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$blackhole, array(
             's',
             $btih
         ));
@@ -190,7 +190,7 @@ switch (isset($_REQUEST['action']) ? strtolower(trim($_REQUEST['action'])) : 'al
         //********都不是则视为获取全部,计入view	
         //计入view
         $blackhole = NULL;
-        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$result, array(
+        $count     = safe_query("UPDATE `video` SET `view` =`view` + 1 WHERE `btih` = UNHEX(?);", &$blackhole, array(
             's',
             $btih
         ));

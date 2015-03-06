@@ -169,54 +169,54 @@ $db = new PDO($dsn, $username, $password, $options);
 刚开始学PDO，花了三天看PHP的Manual，然后我就DUANG了……
 下面是从php.net上总结的45个坑，求指教，求吐槽，求补充：
 ========以下总结错误重重，望方家指正========
-1.$driver_options手册不完整
-2.PDO::exec,PDOStatement却用execute
-3.PDO::exec对BLOB不适用
-4.SQLITE为防止transaction冲突需要在开启事务前prepare
-5.PDO::query接受手册里没有的参数
-6.prepare不接受表名/列名做placeholder，不替换引号内的placeholder(好吧这是好事)
-7.PDO::exec,PDOStatement返回被影响的列，而rowCount只对Delete和Insert有效，update和select不一定
-8.execute接受NULL做参数，但不接受空数组
-9.lastInsertId会在commit之后清除，要获取需要趁早
-10.commit DDL语句有的会导致事务错误，有的却自动提交事务
-11.PDO::errorInfo不返回prepare和query生成的错误，需要PDOStatement::errorInfo
-12.PDOStatement::errorInfo是否返回PDO::errorInfo的错误呢？不知道
-13.PDO::errorCode是mixed，PDOStatement::errorCode却是string，没有找到解释
-14.PDOException手册里没有解释属性和方法的返回值，一点也没有
-15.我到现在都不清楚当一个方法（比如$bool = $dbh->query ( $string );）抛出错误并且返回一个false时，返回值是否会赋给等号的左边，还是会导致等号左边未定义
+1. $driver_options手册不完整
+2. PDO::exec,PDOStatement却用execute
+3. PDO::exec对BLOB不适用
+4. SQLITE为防止transaction冲突需要在开启事务前prepare
+5. PDO::query接受手册里没有的参数
+6. prepare不接受表名/列名做placeholder，不替换引号内的placeholder(好吧这是好事)
+7. PDO::exec,PDOStatement返回被影响的列，而rowCount只对Delete和Insert有效，update和select不一定
+8. execute接受NULL做参数，但不接受空数组
+9. lastInsertId会在commit之后清除，要获取需要趁早
+10. commit DDL语句有的会导致事务错误，有的却自动提交事务
+11. PDO::errorInfo不返回prepare和query生成的错误，需要PDOStatement::errorInfo
+12. PDOStatement::errorInfo是否返回PDO::errorInfo的错误呢？不知道
+13. PDO::errorCode是mixed，PDOStatement::errorCode却是string，没有找到解释
+14. PDOException手册里没有解释属性和方法的返回值，一点也没有
+15. 我到现在都不清楚当一个方法（比如$bool = $dbh->query ( $string );）抛出错误并且返回一个false时，返回值是否会赋给等号的左边，还是会导致等号左边未定义
 如果是Error，那false返回值有什么用？如果有Warning，那多不一致
-16.errorInfo返回值是个数组，第1个元素（0,1,2三个元素）的类型没有解释
-17.Prepare Like语句不可以把%放在语句里面，要手动修改绑定值
-18.debugDumpParams据社区反馈无效
-19.setAttribute介绍的参数不完整，PDOStatement::setFetchMode也不系统
-20.getAttribute直接告诉你不存在通用的属性，只有驱动特定的属性
-21.prepare还区分在PHP的伪prepare和在SQL的真prepare
+16. errorInfo返回值是个数组，第1个元素（0,1,2三个元素）的类型没有解释
+17. Prepare Like语句不可以把%放在语句里面，要手动修改绑定值
+18. debugDumpParams据社区反馈无效
+19. setAttribute介绍的参数不完整，PDOStatement::setFetchMode也不系统
+20. getAttribute直接告诉你不存在通用的属性，只有驱动特定的属性
+21. prepare还区分在PHP的伪prepare和在SQL的真prepare
 由PDO::ATTR_EMULATE_PREPARES决定
 22. PDO::ATTR_CURSOR 只介绍了PDO::CURSOR_SCROLL没介绍PDO::CURSOR_FWDONLY
-23.给execute参数，会erase之前bind的值（如果评论用词准确，那么是erase而不是overwrite）
-24.bindValue的$data_type转换据说用起来不怎么安全
-25.locale设置会导致绑定的小数点使用逗号
-26.bindParam是引用绑定，因此有时会改变绑定的值（这好像是某些数据库的功能，而非故障）
-27.columnCount在未execute时返回0，这回你怎么不返回false了？
-28.rowCount对update返回0，但是可以设置PDO::MYSQL_ATTR_FOUND_ROWS => true
-29.这个手册上好像也没写
-30.这个写的是Mysql（MySQL限定？），还有某个名为Oracle的参数对所有数据库都有效的（忘了是什么）
-31.getColumnMeta是实验性的，手册告诉你我随时会变
-32.bindColumn没有Error只有Warning，你设置也没用
-33.fetch的时候先赋值后调用constructor，那么你的constructor中如果初始化这些属性会覆盖这些值
+23. 给execute参数，会erase之前bind的值（如果评论用词准确，那么是erase而不是overwrite）
+24. bindValue的$data_type转换据说用起来不怎么安全
+25. locale设置会导致绑定的小数点使用逗号
+26. bindParam是引用绑定，因此有时会改变绑定的值（这好像是某些数据库的功能，而非故障）
+27. columnCount在未execute时返回0，这回你怎么不返回false了？
+28. rowCount对update返回0，但是可以设置PDO::MYSQL_ATTR_FOUND_ROWS => true
+29. 这个手册上好像也没写
+30. 这个写的是Mysql（MySQL限定？），还有某个名为Oracle的参数对所有数据库都有效的（忘了是什么）
+31. getColumnMeta是实验性的，手册告诉你我随时会变
+32. bindColumn没有Error只有Warning，你设置也没用
+33. fetch的时候先赋值后调用constructor，那么你的constructor中如果初始化这些属性会覆盖这些值
 需要PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE
 不过如果你想在constructor里面处理变量（比如类型转换），那么不能加这个参数
-34.FETCH_CLASS|PDO::FETCH_CLASSTYPE把首行当作列名
-35.mysql/sqlite仅支持PDO::FETCH_ORI_NEXT，别的不清楚
-36.mysql忽略PDO::FETCH_ORI_NEXT之外的参数，sqlite不清楚
-37.当fetch到空值，有人说返回NULL，有人说返回false
-38.总之不会按SQL-92的要求返回errorcode 20
-39.fetch返回什么不知道，fetchAll返回空数组，又是一种新情况
-40.fetchAll非常heavy，不建议
-41.fetchAll的参数如何按位或导致什么结果手册解释不完整
-42.OUTER LEFT JOIN有坑，评论说是要多加一个字段才能正常PDO::FETCH_ASSOC，我是没看明白
-43.nextRowset意味不明，这个是我没看明白的问题
-44.fetch必须closeCursor，即使只有一行
-45.对于不返回数据的语句，需要替换closeCursor，改用unset object
+34. FETCH_CLASS|PDO::FETCH_CLASSTYPE把首行当作列名
+35. mysql/sqlite仅支持PDO::FETCH_ORI_NEXT，别的不清楚
+36. mysql忽略PDO::FETCH_ORI_NEXT之外的参数，sqlite不清楚
+37. 当fetch到空值，有人说返回NULL，有人说返回false
+38. 总之不会按SQL-92的要求返回errorcode 20
+39. fetch返回什么不知道，fetchAll返回空数组，又是一种新情况
+40. fetchAll非常heavy，不建议
+41. fetchAll的参数如何按位或导致什么结果手册解释不完整
+42. OUTER LEFT JOIN有坑，评论说是要多加一个字段才能正常PDO::FETCH_ASSOC，我是没看明白
+43. nextRowset意味不明，这个是我没看明白的问题
+44. fetch必须closeCursor，即使只有一行
+45. 对于不返回数据的语句，需要替换closeCursor，改用unset object
 
 ========以上理解错误重重，望方家指正========

@@ -169,6 +169,7 @@ $db = new PDO($dsn, $username, $password, $options);
 刚开始学PDO，花了三天看PHP的Manual，然后我就DUANG了……
 下面是从php.net上总结的45个坑，求指教，求吐槽，求补充：
 ========以下总结错误重重，望方家指正========
+
 1. $driver_options手册不完整
 2. PDO::exec,PDOStatement却用execute
 3. PDO::exec对BLOB不适用
